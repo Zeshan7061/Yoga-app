@@ -1,0 +1,64 @@
+<div class="content-wrapper mt-5">
+	<div class="container-fluid mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Users</li>
+		</ol>
+
+		<%- include('../partials/adminMessages') %>
+
+		<div class="mt-5">
+			<!-- <h2>Users</h2> -->
+			<table class="table table-bordered mt-4 text-center">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Email</th>
+						<th scope="col">Image</th>
+						<th scope="col">Status</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% users.forEach(user => { %>
+					<tr>
+						<td><%= user.name %></td>
+						<td><%= user.email %></td>
+						<td>
+							<% if (user.image == '') { %>
+							<img src="/images/user.jpg" alt="" width="40" />
+							<% } else { %>
+							<img width="60" src="/images/<%= user.image %>" alt="image" />
+							<% } %>
+						</td>
+						<td><%= user.status %></td>
+						<td>
+							<a
+								class="btn btn-success btn-sm"
+								href="/admin/users/enable/<%= user.id %>"
+								>Enable</a
+							>
+							<a
+								class="btn btn-warning btn-sm"
+								href="/admin/users/disable/<%= user.id %>"
+								>Disable</a
+							>
+							<form
+								action="/admin/users/remove/<%= user.id %>?_method=DELETE"
+								method="POST"
+								class="mt-2"
+							>
+								<button type="submit" class="btn btn-danger btn-sm">
+									Delete
+								</button>
+							</form>
+						</td>
+					</tr>
+					<% }) %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+<style>
+	p {
+		text-align: center;
+		margin-top: 1em;
+		font-weight: bold;
+	}
+
+	p.success {
+		color: green;
+	}
+
+	p.error {
+		color: red;
+	}
+</style>
+<!-- Error Message -->
+<% if(error_msg != ''){ %>
+<p class="error"><%= error_msg %></p>
+<% } %>
+
+<!-- Succes Message -->
+<% if(success_msg != ''){ %>
+<p class="success"><%= success_msg %></p>
+<% } %>
+
+<!-- Validation Errors -->
+<% if(error != ''){ %>
+<p class="error"><%= error %></p>
+<% } %>
+
+<script>
+	document.querySelector('.close').addEventListener('click', () => {
+		document.querySelector('.message').style.display = 'none';
+	});
+</script>

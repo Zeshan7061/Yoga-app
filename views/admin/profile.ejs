@@ -1,0 +1,58 @@
+<div class="content-wrapper mt-2">
+	<div class="row mt-5">
+		<div class="col-lg-12">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">Dashboard</a>
+				</li>
+				<li class="breadcrumb-item active">Manage Profile</li>
+			</ol>
+		</div>
+
+		<!-- <div class="col-lg-12"><h3>Manage Profile</h3></div> -->
+		<div class="col-lg-12">
+			<form action="/admin/user/profile/edit" method="POST">
+				<div class="form-group">
+					<label for="exampleInputEmail1">Name</label>
+					<input
+						type="text"
+						class="form-control"
+						name="name"
+						value="<%= typeof user != undefined?user.name:'' %>"
+						readonly
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="exampleInputEmail1">Email address</label>
+					<input
+						type="email"
+						class="form-control"
+						name="email"
+						value="<%= typeof user != undefined?user.email:'' %>"
+						readonly
+					/>
+				</div>
+
+				<div class="form-group">
+					<label class="col-lg-12 mr-5" for="exampleInputPassword1"
+						>Profile Picture</label
+					>
+					<% if (user.image == '') { %>
+					<img src="/images/user.jpg" alt="" width="200" />
+					<% } else { %>
+					<img
+						src="/images/<%= user.image %>"
+						class="rounded img img-responsive img-fluid"
+						width="300"
+					/>
+					<% } %>
+				</div>
+
+				<button type="submit" class="btn btn-primary mb-3 mt-2">
+					Edit Profile
+				</button>
+			</form>
+		</div>
+	</div>
+</div>

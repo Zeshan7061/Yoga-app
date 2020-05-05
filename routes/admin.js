@@ -10,7 +10,7 @@ const {
 	updateStatus,
 	profilePgae,
 } = require('../controllers/admin');
-const auth = require('../helpers/auth');
+const { auth } = require('../helpers/auth');
 
 router.all('/*', auth, (req, res, next) => {
 	req.app.set('layout', 'layouts/admin');

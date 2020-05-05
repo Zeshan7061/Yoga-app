@@ -8,15 +8,23 @@ module.exports = {
 	},
 
 	fetchUsers: (req, res) => {
-		User.find().then((users) => {
-			res.render('admin/users', {
-				users,
+		if (req.user.roles.includes('admin')) {
+			User.find().then((users) => {
+				res.render('admin/users', {
+					users,
+				});
 			});
-		});
+		} else {
+			res.redirect('/admin');
+		}
 	},
 
 	addUser: (req, res) => {
-		res.render('admin/addUser');
+		if (req.user.roles.includes('admin')) {
+			res.render('admin/addUser');
+		} else {
+			res.redirect('/admin');
+		}
 	},
 
 	updateStatus: (req, res) => {

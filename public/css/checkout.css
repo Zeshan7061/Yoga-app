@@ -1,0 +1,276 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	background: linear-gradient(lightgrey, grey, darkgrey) no-repeat center
+		center/cover;
+	margin-bottom: 5em;
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+	margin-bottom: 3em;
+}
+
+.logo,
+.login {
+	text-transform: uppercase;
+	color: white;
+	font-weight: bold;
+}
+
+main {
+	width: 70%;
+	margin: 10px auto;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+main .info,
+.payment {
+	flex: 1;
+	padding: 1em 2em;
+}
+
+.info h1 {
+	text-transform: uppercase;
+	color: #ffffff;
+	margin-bottom: 5px;
+	font-size: 2.3em;
+}
+
+.anuual,
+.monthly {
+	padding: 1em;
+	border-radius: 5px;
+	background: #ffffff;
+	margin: 5px 0;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.anuual:hover,
+.monthly:hover {
+	transform: scale(1.1);
+}
+
+.anuual span,
+.monthly span {
+	font-weight: normal;
+}
+
+select {
+	width: 100%;
+	padding: 0.9em;
+	font-size: 1.2em;
+	border-radius: 5px;
+	margin-top: 1rem;
+	outline: none !important;
+	background: lightgrey;
+	border: none;
+	color: rgb(77, 75, 75);
+}
+
+select:active {
+	background: white;
+	color: lightgrey;
+}
+
+.subscriptions {
+	width: 100%;
+	background: white;
+	border-radius: 5px;
+	margin-top: 1px;
+	height: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding: 0;
+	transition: height 0.3s;
+}
+
+.subscriptions p {
+	margin: 5px 0;
+	cursor: pointer;
+	padding: 7px;
+}
+
+.subscriptions p:hover {
+	background: rgb(230, 227, 227);
+}
+
+.trailerBtn {
+	margin-top: 3em;
+	padding: 1em 2em;
+	border-radius: 5px;
+	color: white;
+	background: rgb(110, 110, 110);
+	border: none;
+	transition: 0.3s;
+	font-weight: bold;
+}
+
+.trailerBtn:hover {
+	background: rgb(49, 49, 49);
+	cursor: pointer;
+}
+
+.payment {
+	border-radius: 5px;
+	background: white;
+}
+.payment .heading,
+.account {
+	text-align: center;
+	padding: 5px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	margin-top: 1em;
+}
+
+input {
+	width: 100%;
+	padding: 1em;
+	font-size: 1em;
+	border-radius: 5px;
+	border: 1px solid #cccccc;
+	margin: 3px 0;
+	outline: none;
+	transition: 0.3s;
+}
+
+input:focus {
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.pd {
+	text-align: center;
+	margin: 1rem;
+}
+
+.trailBtn {
+	text-decoration: none;
+	padding: 1em;
+	text-align: center;
+	background: skyblue;
+	color: white;
+	margin: 10px 0;
+	font-size: 1.1em;
+	border-radius: 5px;
+	display: inline-block;
+	width: 100%;
+	border: none;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.trailBtn:hover {
+	background-color: rgb(47, 180, 233);
+}
+
+.toggleDisplay {
+	height: 130px;
+	padding: 10px;
+}
+
+.total {
+	font-weight: 600;
+	font-size: 1.3em;
+}
+
+.total span {
+	float: right;
+}
+
+hr {
+	color: #cccccc !important;
+	height: 1px;
+	background-color: #cccccc;
+	border: none;
+}
+
+.rm {
+	color: white;
+	font-weight: bold;
+	display: block;
+}
+
+p {
+	font-weight: normal !important;
+	margin: 0;
+}
+
+p.text {
+	color: white;
+}
+
+input[type='checkbox']:checked,
+input[type='checkbox']:not(checked) {
+	box-shadow: none !important;
+}
+
+.terms {
+	margin: 1rem 0;
+	display: flex;
+	align-items: center;
+}
+
+.terms * {
+	flex: 1;
+}
+
+.terms label {
+	flex: 11;
+}
+
+.terms label * {
+	flex: 1;
+}
+
+@media (max-width: 800px) {
+	main {
+		width: 90%;
+		flex-direction: column;
+	}
+}
+
+.StripeElement {
+	box-sizing: border-box;
+	height: 50px;
+	padding: 15px;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	background-color: white;
+	margin-top: 2px;
+	/* 			box-shadow: 0 1px 3px 0 #e6ebf1;
+			-webkit-transition: box-shadow 150ms ease; */
+	transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+	box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+	border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+	background-color: #fefde5 !important;
+}
+
+input[type='radio'] {
+	appearance: none !important;
+	display: none;
+}

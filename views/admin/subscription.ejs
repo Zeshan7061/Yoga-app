@@ -1,0 +1,45 @@
+<style>
+	.video-fluid {
+		width: 100%;
+		height: auto;
+	}
+</style>
+
+<div class="container-fluid mt-5">
+	<div class="content-wrapper">
+		<div class="container-fluid mt-3">
+			<!-- Breadcrumbs-->
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">Dashboard</a>
+				</li>
+				<li class="breadcrumb-item active">Subscription Videos</li>
+			</ol>
+		</div>
+
+		<div class="row mt-5 ml-1 mr-1">
+			<div class="col-lg-4">
+				<video class="video-fluid z-depth-1" controls>
+					<source
+						src="https://mdbootstrap.com/img/video/Sail-Away.mp4"
+						type="video/mp4"
+					/>
+				</video>
+			</div>
+
+			<div class="col-lg-4">
+				<video class="video-fluid z-depth-1" controls>
+					<source src="/video.mkv" />
+				</video>
+			</div>
+
+			<div class="col-lg-4">
+				<video class="video-fluid z-depth-1" controls>
+					<source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" />
+				</video>
+			</div>
+		</div>
+
+		<%- include('../partials/adminMessages') %>
+	</div>
+</div>

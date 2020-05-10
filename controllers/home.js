@@ -3,6 +3,7 @@ const { Strategy } = require('passport-local');
 const passport = require('passport');
 const User = require('../models/User');
 const assert = require('assert');
+const payment = require('../helpers/payment');
 
 module.exports = {
 	home: (req, res) => {
@@ -19,7 +20,7 @@ module.exports = {
 
 			if (!req.body.name) {
 				errors.push({
-					message: 'Add fisrtName!',
+					message: 'Add name!',
 				});
 			}
 
@@ -79,6 +80,9 @@ module.exports = {
 										'success_msg',
 										'You are registered. Log in to continue.'
 									);
+
+									payment(req, res);
+
 									res.redirect('/login');
 								});
 							});
@@ -172,13 +176,14 @@ module.exports = {
 
 		(async () => {
 			const charge = await stripe.charges.create({
-				amount: 2000,
+				amount: req.body.duration,
 				currency: 'usd',
 				source: 'tok_amex',
 				description: 'My First Test Charge (created for API docs)',
 			});
 
 			if (charge.status == 'succeeded') {
+				console.log(charge);
 				res.send('Success');
 			}
 		})();

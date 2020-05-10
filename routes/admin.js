@@ -9,6 +9,7 @@ const {
 	updateProfile,
 	updateStatus,
 	profilePgae,
+	subscriptionPage,
 } = require('../controllers/admin');
 const { auth } = require('../helpers/auth');
 
@@ -30,6 +31,8 @@ router.get('/users/:status/:id', updateStatus);
 router.delete('/users/remove/:id', deleteUser);
 
 router.get('/user/profile/:id', profilePgae);
+
+router.get('/user/subscription', subscriptionPage);
 
 router.post('/user/profile/edit', editProfile);
 

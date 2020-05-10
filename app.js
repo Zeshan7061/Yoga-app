@@ -8,11 +8,14 @@ const methodOverride = require('method-override');
 const ejs = require('express-ejs-layouts');
 const path = require('path');
 const dbConnection = require('./config/db');
+const dotenv = require('dotenv');
 
 const app = express();
 
 const home = require('./routes/home');
 const admin = require('./routes/admin');
+
+dotenv.config({ path: './config/config.env' });
 
 app
 	.use(express.static(path.join(__dirname, 'public')))

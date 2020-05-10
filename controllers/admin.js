@@ -174,4 +174,8 @@ module.exports = {
 			console.log(error);
 		}
 	},
+
+	subscriptionPage: (req, res) => {
+		res.render('admin/subscription');
+	},
 };

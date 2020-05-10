@@ -1,467 +1,257 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Checkout Page</title>
-	</head>
+<link rel="stylesheet" href="/css/checkout.css" />
 
-	<style>
-		* {
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
-		}
+<script src="https://js.stripe.com/v3/"></script>
 
-		body {
-			font-family: sans-serif;
-			font-size: 16px;
-			line-height: 1.5;
-			background: linear-gradient(lightgrey, grey, darkgrey);
-			margin-bottom: 5em;
-		}
-
-		nav {
-			display: flex;
-			justify-content: space-between;
-			padding: 1em;
-			margin-bottom: 3em;
-		}
-
-		.logo,
-		.login {
-			text-transform: uppercase;
-			color: white;
-			font-weight: bold;
-		}
-
-		main {
-			width: 70%;
-			margin: 10px auto;
-			display: flex;
-			justify-content: space-between;
-			flex-wrap: wrap;
-		}
-
-		main .info,
-		.payment {
-			flex: 1;
-			padding: 1em 2em;
-		}
-
-		.info h1 {
-			text-transform: uppercase;
-			color: #ffffff;
-			margin-bottom: 5px;
-			font-size: 2.3em;
-		}
-
-		.anuual,
-		.monthly {
-			padding: 1em;
-			border-radius: 5px;
-			background: #ffffff;
-			margin: 5px 0;
-		}
-
-		.anuual span,
-		.monthly span {
-			font-weight: normal;
-		}
-
-		select {
-			width: 100%;
-			padding: 0.9em;
-			font-size: 1.2em;
-			border-radius: 5px;
-			margin-top: 1rem;
-			outline: none !important;
-			background: lightgrey;
-			border: none;
-			color: rgb(77, 75, 75);
-		}
-
-		select:active {
-			background: white;
-			color: lightgrey;
-		}
-
-		.subscriptions {
-			width: 100%;
-			background: white;
-			border-radius: 5px;
-			margin-top: 1px;
-			height: 0;
-			overflow-x: hidden;
-			overflow-y: scroll;
-			padding: 0;
-			transition: height 0.3s;
-		}
-
-		.subscriptions p {
-			margin: 5px 0;
-			cursor: pointer;
-			padding: 7px;
-		}
-
-		.subscriptions p:hover {
-			background: rgb(230, 227, 227);
-		}
-
-		.trailerBtn {
-			margin-top: 3em;
-			padding: 1em 2em;
-			border-radius: 5px;
-			color: white;
-			background: rgb(110, 110, 110);
-			border: none;
-			transition: 0.3s;
-			font-weight: bold;
-		}
-
-		.trailerBtn:hover {
-			background: rgb(49, 49, 49);
-			cursor: pointer;
-		}
-
-		.payment {
-			border-radius: 5px;
-			background: white;
-		}
-		.payment .heading,
-		.account {
-			text-align: center;
-			padding: 5px;
-		}
-
-		.form {
-			display: flex;
-			flex-direction: column;
-			margin-top: 1em;
-		}
-
-		input {
-			width: 100%;
-			padding: 1em;
-			font-size: 1em;
-			border-radius: 5px;
-			border: 1px solid #cccccc;
-			margin: 3px 0;
-			outline: none;
-			transition: 0.3s;
-		}
-
-		input:focus {
-			box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-		}
-
-		.pd {
-			text-align: center;
-			margin: 1rem;
-		}
-
-		.trailBtn {
-			text-decoration: none;
-			padding: 1em;
-			text-align: center;
-			background: skyblue;
-			color: white;
-			margin: 10px 0;
-			font-size: 1.1em;
-			border-radius: 5px;
-			display: inline-block;
-			width: 100%;
-			border: none;
-			cursor: pointer;
-			transition: 0.3s;
-		}
-
-		.trailBtn:hover {
-			background-color: rgb(47, 180, 233);
-		}
-
-		.toggleDisplay {
-			height: 130px;
-			padding: 10px;
-		}
-
-		.total {
-			font-weight: 600;
-			font-size: 1.3em;
-		}
-
-		.total span {
-			float: right;
-		}
-
-		hr {
-			color: #cccccc !important;
-			height: 1px;
-			background-color: #cccccc;
-			border: none;
-		}
-
-		.rm {
-			color: white;
-			font-weight: bold;
-			display: block;
-		}
-
-		p {
-			font-weight: normal !important;
-			margin: 0;
-		}
-
-		p.text {
-			color: white;
-		}
-
-		input[type='checkbox'] {
-			font-size: 20px;
-		}
-
-		input[type='checkbox']:checked,
-		input[type='checkbox']:not(checked) {
-			box-shadow: none !important;
-		}
-
-		.terms {
-			margin: 10px;
-		}
-
-		.terms label {
-			display: flex;
-		}
-		.terms label * {
-			flex: 1;
-		}
-
-		@media (max-width: 800px) {
-			main {
-				width: 90%;
-				flex-direction: column;
-			}
-		}
-
-		.StripeElement {
-			box-sizing: border-box;
-			height: 50px;
-			padding: 15px;
-			border: 1px solid #cccccc;
-			border-radius: 5px;
-			background-color: white;
-			margin-top: 2px;
-			/* 			box-shadow: 0 1px 3px 0 #e6ebf1;
-			-webkit-transition: box-shadow 150ms ease; */
-			transition: box-shadow 150ms ease;
-		}
-
-		.StripeElement--focus {
-			box-shadow: 0 1px 3px 0 #cfd7df;
-		}
-
-		.StripeElement--invalid {
-			border-color: #fa755a;
-		}
-
-		.StripeElement--webkit-autofill {
-			background-color: #fefde5 !important;
-		}
-	</style>
-
-	<body>
-		<script src="https://js.stripe.com/v3/"></script>
-
-		<div class="container" style="margin-top: 5em;">
-			<!-- <nav>
+<div class="container" style="margin-top: 5em;">
+	<!-- <nav>
 				<div class="logo">yoga app</div>
 				<div class="login">log in</div>
 			</nav> -->
 
-			<main>
-				<div class="info">
-					<h1>yoga online class membership</h1>
-					<div class="annual">
-						<h4 class="anuual">Anuual <span>- $199 / year</span></h4>
-						<h4 class="monthly">Monthly <span>- $19.99 / month</span></h4>
-						<select name="" id="" class="sub">
-							<option value="" hidden>Gift this subcription </option></select
-						>
-
-						<div class="subscriptions">
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-							<p>1-month subscription - $19.99</p>
-						</div>
-						<div>
-							<br /><br />
-							<hr />
-						</div>
-						<br />
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
-							vitae doloremque aliquid minus illum qui! Lorem ipsum dolor sit
-							amet.
-						</p>
-
-						<br />
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-							dolore, culpa commodi atque eaque nihil nisi quas totam
-							consectetur odio!
-							<a href="#" class="rm">Read More</a>
-						</p>
-
-						<button class="trailerBtn">
-							Watch Trailer
-						</button>
-					</div>
+	<main>
+		<div class="info">
+			<h1>yoga online class membership</h1>
+			<div class="annual">
+				<h4 class="anuual period" data-duration-value="199">
+					Anuual <span data-duration-value="199">- $199 / year</span>
+				</h4>
+				<h4 class="monthly period" data-duration-value="19.99">
+					Monthly
+					<span data-duration-value="19.99">- $19.99 / month</span>
+				</h4>
+				<select name="" id="" class="sub">
+					<option value="" hidden>Gift this subcription </option></select
+				>
+				<div class="subscriptions">
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
 				</div>
 
-				<div class="payment">
-					<h2 class="heading">Start your 7-day free trial</h2>
-					<p class="account">Already have an account? <a href="">Log in</a></p>
-
-					<div>
-						<form action="" class="form">
-							<div>
-								<input type="email" name="" id="" placeholder="Email" />
-							</div>
-							<div>
-								<input type="password" placeholder="Password" />
-							</div>
-							<div class="terms">
-								<label for=""
-									><input type="checkbox" /> I agree to recieve newsletter and
-									product updates</label
-								>
-							</div>
-						</form>
-
-						<br />
-						<br />
-						<hr />
-						<br />
-						<div>
-							<h3 class="pd">Payment details</h3>
-							<form
-								action="/charge"
-								class="payment-form"
-								method="POST"
-								autocomplete="on"
-							>
-								<input type="hidden" id="token" name="token" />
-								<input type="text" placeholder="Name on Card" name="username" />
-								<div class="form-row">
-									<!-- <label for="card-element">
-										Credit or debit card
-									</label> -->
-									<div id="card-element">
-										<!-- A Stripe Element will be inserted here. -->
-									</div>
-
-									<!-- Used to display form errors. -->
-									<div id="card-errors" role="alert"></div>
-								</div>
-								<br /><br /><br />
-								<hr />
-								<br />
-								<div class="total">Total: <span>$199</span></div>
-								<br />
-								<p>
-									Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos
-									repudiandae provident temporibus! Eius omnis aliquid quasi
-									animi impedit delectus, explicabo officia vel? Accusantium
-									tempore, sed perferendis illo amet enim sequi?
-								</p>
-								<br />
-								<button type="submit" class="trailBtn">
-									Start free trial
-								</button>
-								<br />
-								<br />
-								<p>
-									Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-									Possimus suscipit tempora sint dolores eaque, cupiditate nam
-									ipsam excepturi amet alias voluptates non laborum quam
-									aspernatur autem earum iste laboriosam totam inventore sed.
-									Qui eveniet, excepturi nemo at numquam porro commodi.
-								</p>
-							</form>
-						</div>
-					</div>
+				<div>
+					<br /><br />
+					<hr />
 				</div>
-			</main>
+				<br />
+				<p class="text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
+					vitae doloremque aliquid minus illum qui! Lorem ipsum dolor sit amet.
+				</p>
+
+				<br />
+				<p class="text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+					dolore, culpa commodi atque eaque nihil nisi quas totam consectetur
+					odio!
+					<a href="#" class="rm">Read More</a>
+				</p>
+
+				<button class="trailerBtn">
+					Watch Trailer
+				</button>
+			</div>
 		</div>
 
-		<script>
-			document.querySelector('.sub').addEventListener('click', () => {
-				document
-					.querySelector('.subscriptions')
-					.classList.toggle('toggleDisplay');
+		<div class="payment">
+			<h2 class="heading">Start your 7-day free trial</h2>
+			<p class="account">
+				Already have an account?<a
+					href="/login"
+					style="
+						display: inline-block;
+						background: none;
+						color: blue;
+						text-decoration: underline;
+					"
+					>Log in</a
+				>
+			</p>
+
+			<div>
+				<form
+					action="/register"
+					id="payment-form"
+					method="POST"
+					autocomplete="on"
+				>
+					<input type="text" placeholder="Name" name="name" required />
+					<input type="email" name="email" id="" placeholder="Email" required />
+
+					<input
+						type="password"
+						placeholder="Password"
+						name="password"
+						id="password"
+						required
+					/>
+					<input
+						type="password"
+						placeholder="Confirm Password"
+						name="confirmPassword"
+						id="confirmPassword"
+						style="display: none;"
+						required
+					/>
+
+					<div class="terms">
+						<input
+							type="checkbox"
+							class="css-checkbox regular-checkbox"
+							id="tor"
+						/>
+						<label for="tor" class="css-label">
+							I agree to recieve newsletter and product updates</label
+						>
+					</div>
+
+					<br />
+					<br />
+					<hr />
+					<br />
+
+					<h3 class="pd">Payment details</h3>
+
+					<input type="hidden" name="duration" id="duration" />
+
+					<input
+						type="text"
+						placeholder="Name on Card"
+						name="username"
+						required
+					/>
+					<div class="form-row">
+						<!-- <label for="card-element">
+										Credit or debit card
+									</label> -->
+						<div id="card-element">
+							<!-- A Stripe Element will be inserted here. -->
+						</div>
+
+						<!-- Used to display form errors. -->
+						<div id="card-errors" role="alert"></div>
+					</div>
+					<br /><br /><br />
+					<hr />
+					<br />
+					<div class="total">Total: <span class="totalValue">$199</span></div>
+					<br />
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos
+						repudiandae provident temporibus! Eius omnis aliquid quasi animi
+						impedit delectus, explicabo officia vel? Accusantium tempore, sed
+						perferendis illo amet enim sequi?
+					</p>
+					<br />
+					<button type="submit" class="trailBtn">
+						Start free trial
+					</button>
+					<br />
+					<br />
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus
+						suscipit tempora sint dolores eaque, cupiditate nam ipsam excepturi
+						amet alias voluptates non laborum quam aspernatur autem earum iste
+						laboriosam totam inventore sed. Qui eveniet, excepturi nemo at
+						numquam porro commodi.
+					</p>
+				</form>
+			</div>
+		</div>
+	</main>
+</div>
+
+<script>
+	document.querySelector('.sub').addEventListener('click', () => {
+		document.querySelector('.subscriptions').classList.toggle('toggleDisplay');
+	});
+
+	const elems = document.querySelectorAll('.period');
+	elems.forEach((el) => {
+		el.addEventListener('click', (event) => {
+			const val = event.target.getAttribute('data-duration-value');
+			const inputDuration = document.getElementById('duration');
+			inputDuration.value = +val;
+
+			elems.forEach((e) => {
+				e.style.background = 'white';
+				e.style.color = 'black';
 			});
 
-			var stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
-			var elements = stripe.elements();
-			var style = {
-				base: {
-					color: '#32325d',
-					fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-					fontSmoothing: 'antialiased',
-					fontSize: '16px',
-					'::placeholder': {
-						color: '#aab7c4',
-					},
-				},
-				invalid: {
-					color: '#fa755a',
-					iconColor: '#fa755a',
-				},
-			};
+			el.style.background = 'black';
+			el.style.color = 'white';
+			document.querySelector('.totalValue').innerHTML = '$' + val;
+		});
+	});
 
-			var card = elements.create('card', { style: style });
-			card.mount('#card-element');
+	document.getElementById('password').addEventListener('input', (e) => {
+		if (e.target.value.length > 0) {
+			document.getElementById('confirmPassword').style.display = 'block';
+		} else {
+			document.getElementById('confirmPassword').style.display = 'none';
+		}
+	});
 
-			card.addEventListener('change', function (event) {
-				var displayError = document.getElementById('card-errors');
+	var stripe = Stripe('pk_test_FPdDtebYH9OXk0J8oJu5KupC00TjxWfuzs');
+	var elements = stripe.elements();
+	var style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '16px',
+			'::placeholder': {
+				color: '#aab7c4',
+			},
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a',
+		},
+	};
 
-				event.error
-					? (displayError.textContent = event.error.message)
-					: (displayError.textContent = '');
-			});
+	var card = elements.create('card', { style: style });
+	card.mount('#card-element');
 
-			var form = document.getElementById('payment-form');
-			form.addEventListener('submit', function (event) {
-				event.preventDefault();
+	card.addEventListener('change', function (event) {
+		var displayError = document.getElementById('card-errors');
 
-				stripe.createToken(card).then(function (result) {
-					if (result.error) {
-						var errorElement = document.getElementById('card-errors');
-						errorElement.textContent = result.error.message;
-					} else {
-						document.getElementById('token').value = result.token.id;
-						//stripeTokenHandler(result.token);
-					}
-				});
-			});
+		event.error
+			? (displayError.textContent = event.error.message)
+			: (displayError.textContent = '');
+	});
 
-			/* function stripeTokenHandler(token) {
-				var form = document.getElementById('payment-form');
-				document.getElementById('token').value = token;
-				var hiddenInput = document.createElement('input');
-				hiddenInput.setAttribute('type', 'hidden');
-				hiddenInput.setAttribute('name', 'stripeToken');
-				hiddenInput.setAttribute('value', token.id);
-				form.appendChild(hiddenInput);
+	var form = document.getElementById('payment-form');
+	form.addEventListener('submit', function (event) {
+		event.preventDefault();
 
-				form.submit();
-			} */
-		</script>
-	</body>
-</html>
+		if (!event.target.duration.value) {
+			return window.alert('Please select one plan');
+		}
+
+		stripe.createToken(card).then(function (result) {
+			if (result.error) {
+				var errorElement = document.getElementById('card-errors');
+				errorElement.textContent = result.error.message;
+			} else {
+				stripeTokenHandler(result.token);
+			}
+		});
+	});
+
+	function stripeTokenHandler(token) {
+		var form = document.getElementById('payment-form');
+		var hiddenInput = document.createElement('input');
+		hiddenInput.setAttribute('type', 'hidden');
+		hiddenInput.setAttribute('name', 'stripeToken');
+		hiddenInput.setAttribute('value', token.id);
+		form.appendChild(hiddenInput);
+
+		form.submit();
+	}
+</script>

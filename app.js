@@ -22,7 +22,7 @@ app
 	.use(express.json())
 	.use(express.urlencoded({ extended: false }));
 
-dbConnection();
+//dbConnection();
 
 app.use(ejs);
 app.set('view engine', 'ejs');

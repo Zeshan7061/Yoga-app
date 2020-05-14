@@ -11,7 +11,7 @@
 
 		<div class="mt-5">
 			<!-- <h2>Users</h2> -->
-			<table class="table table-bordered mt-4 text-center">
+			<table class="table table-bordered text-center mt-4">
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">Name</th>
@@ -22,7 +22,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% users.forEach(user => { %>
+					<% users.forEach(user => { %> <% if (user.roles.includes('user')) { %>
 					<tr>
 						<td><%= user.name %></td>
 						<td><%= user.email %></td>
@@ -56,7 +56,7 @@
 							</form>
 						</td>
 					</tr>
-					<% }) %>
+					<% } %> <% }) %>
 				</tbody>
 			</table>
 		</div>

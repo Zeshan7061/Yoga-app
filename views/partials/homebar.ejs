@@ -1,0 +1,23 @@
+<div class="nav">
+	<h1><a href="/"> logo | sy7 moves</a></h1>
+</div>
+
+<nav>
+	<ul class="left">
+		<li class="logo"><a href="/">logo | sy7 moves</a></li>
+		<li><a href="#">browse</a></li>
+		<li><a href="#">search</a></li>
+		<li><a href="#">teaches</a></li>
+		<li><a href="#">styles</a></li>
+	</ul>
+
+	<ul class="right">
+		<% if (user != undefined) { %>
+		<li><a href="/admin"><%= user.name %></a></li>
+		<li><a href="/logout">Log Out</a></li>
+		<% } else { %>
+		<li><a href="/subscription">start free trail</a></li>
+		<li><a href="/login">sign in</a></li>
+		<% } %>
+	</ul>
+</nav>

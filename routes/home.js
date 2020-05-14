@@ -8,6 +8,7 @@ const {
 	signUp,
 	subscriptionPage,
 	payCharges,
+	yogaVideo,
 } = require('../controllers/home');
 
 router.all('/*', (req, res, next) => {
@@ -30,5 +31,7 @@ router.route('/register/:url?').get(signUpPage).post(signUp);
 router.route('/login').get(logInPage).post(logIn);
 
 router.get('/logout', logOut);
+
+router.get('/yogaVideo', yogaVideo);
 
 module.exports = router;

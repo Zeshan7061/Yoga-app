@@ -1,0 +1,296 @@
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'roboto', sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	overflow-x: hidden;
+	width: 100vw;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.nav {
+	text-align: center;
+	display: none;
+}
+
+.nav h1 {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 3em;
+}
+
+nav {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	padding: 0.5rem;
+	background: #faf8f8;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+nav ul {
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+nav ul li a {
+	padding: 5px;
+	display: inline-block;
+	text-transform: uppercase;
+	margin: 0 5px;
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+nav ul li a:hover {
+	opacity: 0.7;
+}
+
+nav ul.left {
+	-webkit-box-flex: 4;
+	-ms-flex: 4;
+	flex: 4;
+}
+
+nav ul.left .logo {
+	font-size: 2em;
+	font-weight: 600;
+}
+
+main .slider {
+	height: 600px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	padding: 5em;
+	color: #ffffff;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	/* 	background: url('/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg')
+		no-repeat center center/cover; */
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
+		url('/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg')
+			no-repeat center center/cover;
+}
+
+main .slider .tagline {
+	font-size: 4em;
+}
+
+main .slider .tagline span {
+	font-weight: 100;
+}
+
+main .slider a.classLink {
+	color: skyblue;
+	font-size: 1em;
+}
+
+main .slider .btns a {
+	color: white;
+	border: none;
+	border-radius: 3px;
+	font-size: 1.3em;
+	padding: 18px;
+	font-weight: bold;
+	cursor: pointer;
+	-webkit-transition: 0.3s;
+	transition: 0.3s;
+}
+
+main .slider .btns .trail {
+	background: #51b3da;
+	text-transform: uppercase;
+}
+
+main .slider .btns .trail:hover {
+	background: #338bad;
+}
+
+main .slider .btns .trailer {
+	text-transform: capitalize;
+	padding: 18px 2em;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+main .slider .btns .trailer:hover {
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+main .services {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: (minmax(300px, 1fr)) [auto-fit];
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	background-color: #f7f4f4;
+}
+
+main .services .service {
+	text-align: center;
+	padding: 3em;
+}
+
+main .services .service h3 {
+	text-transform: uppercase;
+	font-size: 16px;
+	color: #10354b;
+}
+
+.heading {
+	margin-top: 4em;
+	text-align: center;
+}
+
+.heading h1 {
+	font-weight: 500;
+}
+
+.trainers {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: (minmax(300px, 1fr)) [auto-fit];
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	margin: 2em 0;
+}
+
+.trainers div {
+	margin: 0 5px;
+}
+
+.trainers div a img {
+	width: 100%;
+}
+
+.portability {
+	text-align: center;
+	margin: 2em 0;
+	width: 100vw;
+}
+
+.portability h1 {
+	font-weight: 500;
+}
+
+.portability p {
+	padding: 5px !important;
+}
+
+.portability .portable-img {
+	margin: 3em 0;
+	width: 100vw;
+	height: 600px;
+	background: url('/images/3dff05b9-7258-4db3-a2cc-0a91aa71b288.png') no-repeat
+		center center/cover;
+}
+
+footer {
+	text-align: center;
+	height: 400px;
+	padding: 4em;
+	margin-top: 200px;
+	background-color: #dee0e0;
+}
+
+footer h1 {
+	letter-spacing: 1px;
+	font-weight: 500;
+	font-family: 'BrandonMedium', sans-serif;
+}
+
+footer .trialBtn {
+	text-align: center;
+	text-transform: uppercase;
+	background-color: #56b3d8;
+	color: white;
+	font-weight: bold;
+	font-size: 1.3em;
+	padding: 16px 20px;
+	border-radius: 5px;
+	border: 1px solid #cccccc;
+	margin-bottom: 16px;
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+footer .trialBtn:hover {
+	cursor: pointer;
+	background: #2c8fb6;
+}
+
+footer p {
+	font-size: 14px;
+	color: gray;
+}
+
+footer .contact {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+}
+
+footer .contact div a {
+	padding: 5px;
+	font-size: 2em;
+}
+
+@media (max-width: 768px) {
+	.slider {
+		height: 700px !important;
+		text-align: center;
+	}
+	.slider .tagline {
+		font-size: 2em !important;
+	}
+	.slider .btns button {
+		font-size: 16px !important;
+	}
+	.slider .btns .trailer {
+		margin-top: 10px;
+	}
+
+	h1 {
+		font-size: 24px !important;
+	}
+	nav {
+		display: none;
+	}
+
+	.nav {
+		display: block;
+		box-shadow: 0 2px 10px #cccccc;
+		padding: 5px;
+	}
+
+	.nav h1 {
+		font-size: 2em !important;
+	}
+}

@@ -22,13 +22,13 @@ app
 	.use(express.json())
 	.use(express.urlencoded({ extended: false }));
 
-//dbConnection();
+dbConnection();
 
 app.use(ejs);
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/index');
 
-/* app.use(cors()).use(flash());
+app.use(cors()).use(flash());
 app.use(
 	session({
 		secret: 'yogaapp123',
@@ -39,7 +39,7 @@ app.use(
 
 app.use(passport.initialize()).use(passport.session());
 app.use(methodOverride('_method'));
-app.use(fileUpload()); */
+app.use(fileUpload());
 
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');

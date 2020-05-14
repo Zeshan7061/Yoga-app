@@ -60,7 +60,7 @@ module.exports = {
 				User.findOne({ email: email }).then((user) => {
 					if (user) {
 						errors.push({ message: 'Email already exists. Please log in.' });
-						res.render('home/signup', {
+						res.render('home/checkout', {
 							errors: errors,
 							name: name,
 							email: email,
@@ -75,10 +75,16 @@ module.exports = {
 						bcrypt.genSalt(10, (err, salt) => {
 							bcrypt.hash(user.password, salt, (err, hash) => {
 								user.password = hash;
+
+								user.subscription = {
+									amount: +req.body.duration,
+									span: +req.bod.duration == 199 ? 'year' : 'month',
+								};
+
 								user.save().then(async (savedUser) => {
 									req.flash(
 										'success_msg',
-										'You are registered. Log in to continue.'
+										'You are registered. You have 7days of trail period. Log in to continue.'
 									);
 
 									payment(req, res);
@@ -187,5 +193,9 @@ module.exports = {
 				res.send('Success');
 			}
 		})();
+	},
+
+	yogaVideo: (req, res) => {
+		res.render('home/video');
 	},
 };

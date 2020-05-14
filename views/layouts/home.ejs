@@ -3,69 +3,19 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/css/home.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+			integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ="
+			crossorigin="anonymous"
+		/>
 		<title>Home Page</title>
 	</head>
-
-	<style>
-		* {
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
-		}
-
-		body {
-			font-family: sans-serif;
-			font-size: 16px;
-			line-height: 1.5;
-		}
-
-		.navbar {
-			list-style: none;
-			background-color: #232323;
-			color: white;
-			padding: 0 !important;
-			margin: 0 !important;
-			text-align: center;
-		}
-
-		.navbar li {
-			display: inline-block;
-		}
-
-		a {
-			text-decoration: none;
-			color: white;
-			display: block;
-			padding: 10px;
-			transition: 0.3s;
-		}
-
-		a:hover {
-			background: black;
-		}
-
-		li img {
-			width: 30px;
-			border-radius: 50%;
-			position: relative;
-			top: 10px;
-		}
-	</style>
-
 	<body>
 		<div class="container">
-			<ul class="navbar">
-				<li><a href="/home">Home</a></li>
-				<li><a href="/subscription">Subscription</a></li>
-				<% if (user != undefined) { %>
-				<li><a href="/admin"><%= user.name %></a></li>
-				<li><a href="/logout">Log Out</a></li>
-				<% } else { %>
-				<li><a href="/login">Log in</a></li>
-				<li><a href="/register">Sign up</a></li>
-				<% } %>
-			</ul>
-			<%- include('../partials/messages') %> <%- body %>
+			<%- include('../partials/homebar') %><%- include('../partials/messages')
+			%> <%- body %> <%- include('../partials/footer') %>
 		</div>
 	</body>
 </html>

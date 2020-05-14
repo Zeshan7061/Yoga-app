@@ -1,5 +1,5 @@
 <style>
-	p {
+	p.msg {
 		text-align: center;
 		margin-top: 1em;
 		font-weight: bold;
@@ -15,15 +15,15 @@
 </style>
 <!-- Error Message -->
 <% if(error_msg != ''){ %>
-<p class="error"><%= error_msg %></p>
+<p class="error msg"><%= error_msg %></p>
 <% } %>
 
 <!-- Succes Message -->
 <% if(success_msg != ''){ %>
-<p class="success"><%= success_msg %></p>
+<p class="success msg"><%= success_msg %></p>
 <% } %>
 
 <!-- Validation Errors -->
 <% if(error != ''){ %>
-<p class="error"><%= error %></p>
+<p class="error msg"><%= error %></p>
 <% } %>

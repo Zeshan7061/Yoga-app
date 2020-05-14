@@ -10,6 +10,24 @@
 			</ol>
 		</div>
 
+		<div
+			class="row ml-2 mr-2 mt-5 alert alert-info alert-dismissible fade show"
+			role="alert"
+		>
+			<div style="overflow: hidden !important;">
+				<strong>Hello <%= user.name %> ! </strong> You have 7days of trail
+				period.
+			</div>
+
+			<button
+				type="button"
+				class="close"
+				data-dismiss="alert"
+				aria-label="Close"
+			>
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
 		<%- include('../partials/adminMessages') %>
 	</div>
 </div>

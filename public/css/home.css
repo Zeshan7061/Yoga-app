@@ -374,6 +374,13 @@ footer .contact div a {
 
 	footer {
 		height: 450px;
+		padding: 3em;
+	}
+
+	footer h1 {
+		padding: 0 !important;
+		font-size: 18px !important;
+		margin-bottom: 5px !important;
 	}
 
 	footer .trialBtn {

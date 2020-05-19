@@ -60,5 +60,5 @@ app.use('/', home);
 app.use('/admin', admin);
 app.use('/admin/categories', categories);
 
-const PORT = 5000 || process.env.PORT;
+const PORT = process.env.PORT;
 app.listen(PORT, console.log(`Server running at port: ${PORT}`));

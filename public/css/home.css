@@ -118,9 +118,9 @@ main .slider .btns a {
 	color: white;
 	border: none;
 	border-radius: 3px;
-	font-size: 1.3em;
-	padding: 18px;
-	font-weight: bold;
+	font-size: 1.2em;
+	padding: 20px;
+	font-weight: 500;
 	cursor: pointer;
 	-webkit-transition: 0.3s;
 	transition: 0.3s;
@@ -137,7 +137,7 @@ main .slider .btns .trail:hover {
 
 main .slider .btns .trailer {
 	text-transform: capitalize;
-	padding: 18px 2em;
+	padding: 20px 2em;
 	background-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -176,17 +176,36 @@ main .services .service h3 {
 .trainers {
 	display: -ms-grid;
 	display: grid;
-	-ms-grid-columns: (minmax(300px, 1fr)) [auto-fit];
-	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	-ms-grid-columns: (minmax(250px, 1fr)) [auto-fit];
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 	margin: 2em 0;
+	justify-content: center;
 }
 
 .trainers div {
-	margin: 0 5px;
+	margin: 5px;
+	padding: 1em;
+	text-align: center;
+	box-shadow: 0 2px 10px #cccccc;
+	cursor: pointer;
+	transition: 0.2s linear;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.trainers div:hover {
+	transform: scale(0.9);
+	box-shadow: 0 2px 10px #a3a3a3;
 }
 
 .trainers div a img {
 	width: 100%;
+}
+
+.trainers div h3 {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin: 5px;
 }
 
 .portability {
@@ -209,6 +228,22 @@ main .services .service h3 {
 	height: 600px;
 	background: url('/images/3dff05b9-7258-4db3-a2cc-0a91aa71b288.png') no-repeat
 		center center/cover;
+}
+
+.policies {
+	padding: 2em;
+	margin-top: 5em;
+	background: rgb(230, 228, 228);
+	transition: 0.3s;
+}
+
+.policies h2 {
+	margin-top: 10px;
+	padding: 10px;
+}
+
+.policies p {
+	padding: 10px;
 }
 
 footer {
@@ -270,8 +305,14 @@ footer .contact div a {
 	.slider .tagline {
 		font-size: 2em !important;
 	}
-	.slider .btns button {
+
+	.slider .btns {
+		display: flex;
+		flex-direction: column;
+	}
+	.slider .btns a {
 		font-size: 16px !important;
+		padding: 20px !important;
 	}
 	.slider .btns .trailer {
 		margin-top: 10px;

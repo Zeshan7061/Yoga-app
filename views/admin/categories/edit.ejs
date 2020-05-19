@@ -1,0 +1,27 @@
+<div class="content-wrapper mt-5">
+	<div class="container-fluid mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Categories</li>
+		</ol>
+
+		<form
+			method="POST"
+			action="/admin/categories/edit/<%= category._id %>?_method=PUT"
+		>
+			<div class="form-group">
+				<label for="exampleInputEmail1">Edit Category</label>
+				<input
+					type="text"
+					name="name"
+					class="form-control"
+					required
+					value="<%= category.name %>"
+				/>
+			</div>
+			<button type="submit" class="btn btn-primary">Update</button>
+		</form>
+	</div>
+</div>

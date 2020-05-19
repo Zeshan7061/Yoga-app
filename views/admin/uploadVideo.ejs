@@ -1,0 +1,37 @@
+<div class="content-wrapper mt-5">
+	<div class="container-fluid mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Yoga Videos</li>
+		</ol>
+
+		<%- include('../partials/adminMessages') %>
+
+		<h3>Upload Trainer Videos</h3>
+		<hr />
+		<form
+			method="POST"
+			action="/admin/uploadVideo"
+			enctype="multipart/form-data"
+		>
+			<div class="form-group">
+				<label for="exampleInputEmail1">Trainer</label>
+				<select class="form-control" name="trainer" required>
+					<option value="" hidden>Select Trainer</option>
+					<% trainers.forEach(trn => { %>
+					<option value="<%= trn.name %>"><%= trn.name %></option>
+					<% }) %>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputEmail1">Upload Video</label>
+				<input type="file" class="form-control" name="file" />
+			</div>
+
+			<button type="submit" class="btn btn-primary mt-2">Upload</button>
+		</form>
+	</div>
+</div>

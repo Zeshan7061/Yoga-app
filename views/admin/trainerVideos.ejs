@@ -1,0 +1,48 @@
+<style>
+	.videos {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		justify-content: space-evenly;
+	}
+
+	.videos div.video {
+		margin: 1rem;
+	}
+</style>
+
+<div class="content-wrapper mt-5">
+	<div class="container-fluid mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Trainer Videos</li>
+		</ol>
+
+		<%- include('../partials/adminMessages') %>
+
+		<h3><%= trainer.name %> Training Videos</h3>
+		<hr />
+
+		<div class="videos">
+			<% trainer.videos.forEach(vid => { %>
+			<div class="video">
+				<video
+					src="/uploads/trainerVideos/<%= vid %>"
+					controls
+					muted
+					class="embed-responsive embed-responsive-16by9"
+				></video>
+				<form
+					action="/admin/trainer/deleteVideo/<%= trainer.id%>/<%= vid %>?_method=DELETE"
+					method="POST"
+				>
+					<button class="btn btn-danger btn-sm mt-2">
+						Delete
+					</button>
+				</form>
+			</div>
+			<% }) %>
+		</div>
+	</div>
+</div>

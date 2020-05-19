@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Category = require('../models/Category');
+const Trainer = require('../models/Trainer');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 
@@ -177,5 +179,182 @@ module.exports = {
 
 	subscriptionPage: (req, res) => {
 		res.render('admin/subscription');
+	},
+
+	fetchTrainers: (req, res) => {
+		Category.find().then((categories) => {
+			Trainer.find().then((trainers) => {
+				res.render('admin/trainer', {
+					categories,
+					trainers,
+				});
+			});
+		});
+	},
+
+	createTrainer: async (req, res, next) => {
+		try {
+			const trainer = new Trainer({
+				name: req.body.name,
+				category: req.body.category,
+			});
+
+			if (req.files) {
+				const file = req.files.image;
+				let fileName = Date.now() + '-' + file.name;
+
+				file.mv('./public/images/' + fileName, (err) => {
+					if (err) throw err;
+					trainer.image = fileName;
+
+					trainer.save().then((data) => {
+						req.flash('success_msg', `${trainer.name} added successfully.`);
+						res.redirect('/admin/trainers');
+					});
+				});
+			} else {
+				trainer.save().then((data) => {
+					req.flash('success_msg', `${trainer.name} added successfully.`);
+					res.redirect('/admin/trainers');
+				});
+			}
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	editTrainer: async (req, res, next) => {
+		try {
+			const trainer = await Trainer.findById(req.params.id);
+			const categories = await Category.find();
+
+			res.render('admin/editTrainer', {
+				trainer,
+				categories,
+			});
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	updateTrainer: async (req, res, next) => {
+		try {
+			Trainer.findById(req.params.id).then((trainer) => {
+				trainer.name = req.body.name;
+				trainer.category = req.body.category;
+
+				if (req.files) {
+					fs.unlink('./public/images/' + trainer.image, (err) => {
+						if (err) throw err;
+					});
+
+					const file = req.files.image;
+					let fileName = Date.now() + '-' + file.name;
+
+					file.mv('./public/images/' + fileName, (err) => {
+						if (err) throw err;
+						trainer.image = fileName;
+
+						trainer.save().then((data) => {
+							req.flash('success_msg', `${trainer.name} updated successfully.`);
+							res.redirect('/admin/trainers');
+						});
+					});
+				} else {
+					trainer.save().then((data) => {
+						req.flash('success_msg', `${trainer.name} updated successfully.`);
+						res.redirect('/admin/trainers');
+					});
+				}
+			});
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	deleteTrainer: async (req, res, next) => {
+		try {
+			const trainer = await Trainer.findById(req.params.id);
+
+			if (trainer.image) {
+				fs.unlink('./public/images/' + trainer.image, (err) => {
+					if (err) throw err;
+				});
+			}
+
+			if (trainer.videos.length > 0) {
+				trainer.videos.forEach((video) => {
+					fs.unlink('./public/uploads/trainerVideos/' + video, (err) => {
+						if (err) throw err;
+
+						trainer.remove();
+						req.flash('success_msg', `${trainer.name} removed successfully.`);
+						res.redirect('/admin/trainers');
+					});
+				});
+			} else {
+				trainer.remove();
+				req.flash('success_msg', `${trainer.name} removed successfully.`);
+				res.redirect('/admin/trainers');
+			}
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	uploadTrainerVideoPage: (req, res) => {
+		Trainer.find().then((trainers) => {
+			res.render('admin/uploadVideo', {
+				trainers,
+			});
+		});
+	},
+
+	uploadTrainerVideo: (req, res) => {
+		Trainer.findOne({ name: req.body.trainer }).then((trainer) => {
+			if (req.files) {
+				const file = req.files.file;
+				let fileName = Date.now() + '-' + file.name;
+
+				file.mv('./public/uploads/trainerVideos/' + fileName, (err) => {
+					if (err) throw err;
+					trainer.videos.push(fileName);
+					trainer.save();
+					req.flash('success_msg', 'Video has been successfully uploaded.');
+					res.redirect('/admin/trainerVideos/' + trainer._id);
+				});
+			}
+		});
+	},
+
+	deleteTrainerVideo: async (req, res, next) => {
+		try {
+			const trainer = await Trainer.findById(req.params.id);
+			const index = trainer.videos.indexOf(req.params.video);
+
+			fs.unlink(
+				'./public/uploads/trainerVideos/' + trainer.videos[index],
+				(err) => {
+					if (err) throw err;
+				}
+			);
+
+			trainer.videos.splice(index, 1);
+
+			trainer.save().then((savedTrainer) => {
+				req.flash('success_msg', `Video removed successfully.`);
+				res.redirect('/admin/trainerVideos/' + trainer._id);
+			});
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	showTrainerVideos: (req, res) => {
+		Trainer.findById(req.params.id).then((trainer) => {
+			res.render('admin/trainerVideos', {
+				trainer,
+			});
+		});
 	},
 };

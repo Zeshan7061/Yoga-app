@@ -2,12 +2,17 @@ const bcrypt = require('bcryptjs');
 const { Strategy } = require('passport-local');
 const passport = require('passport');
 const User = require('../models/User');
+const Trainer = require('../models/Trainer');
 const assert = require('assert');
 const payment = require('../helpers/payment');
 
 module.exports = {
 	home: (req, res) => {
-		res.render('home/home');
+		Trainer.find().then((trainers) => {
+			res.render('home/home', {
+				trainers,
+			});
+		});
 	},
 
 	signUpPage: (req, res) => {
@@ -144,7 +149,7 @@ module.exports = {
 			});
 
 			passport.authenticate('local', {
-				successRedirect: '/home',
+				successRedirect: '/',
 				failureRedirect: '/login',
 				failureFlash: true,
 			})(req, res, next);

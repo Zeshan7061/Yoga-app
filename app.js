@@ -14,6 +14,9 @@ const app = express();
 
 const home = require('./routes/home');
 const admin = require('./routes/admin');
+const categories = require('./routes/category');
+
+const { selectValue } = require('./helpers/helper');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -45,6 +48,7 @@ app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
 	res.locals.error = req.flash('error');
+	res.locals.selected = selectValue;
 	res.locals.session = req.session;
 	if (req.user) res.locals.user = req.user;
 	else res.locals.user = undefined;
@@ -54,6 +58,7 @@ app.use((req, res, next) => {
 
 app.use('/', home);
 app.use('/admin', admin);
+app.use('/admin/categories', categories);
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, console.log(`Server running at port: ${PORT}`));

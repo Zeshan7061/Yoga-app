@@ -16,11 +16,7 @@ router.all('/*', (req, res, next) => {
 	next();
 });
 
-router.get('/home', home);
-
-router.get('/', (req, res) => {
-	res.render('home/home');
-});
+router.get('/', home);
 
 router.get('/subscription', subscriptionPage);
 

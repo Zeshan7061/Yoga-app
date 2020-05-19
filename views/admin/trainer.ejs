@@ -1,0 +1,82 @@
+<div class="content-wrapper mt-5">
+	<div class="container-fluid mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Trainers</li>
+		</ol>
+
+		<%- include('../partials/adminMessages') %>
+		<h3>Add trainer</h3>
+		<hr />
+		<form
+			method="POST"
+			action="/admin/createTrainer"
+			enctype="multipart/form-data"
+		>
+			<div class="form-group">
+				<label for="exampleInputEmail1">Trainer Name</label>
+				<input type="text" class="form-control" name="name" required />
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputEmail1">Category</label>
+				<select class="form-control" name="category" required>
+					<% categories.forEach(ctg => { %>
+					<option value="<%= ctg.name %>"><%= ctg.name %></option>
+					<% }) %>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputEmail1">Trainer Pic</label>
+				<input type="file" name="image" class="form-control" />
+			</div>
+
+			<button type="submit" class="btn btn-primary mt-2">Add</button>
+		</form>
+
+		<div class="mt-5">
+			<!-- <h2>Users</h2> -->
+
+			<table class="table table-bordered text-center mt-4">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Category</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% trainers.forEach(trn => { %>
+					<tr>
+						<td><%= trn.name %></td>
+						<td><%= trn.category %></td>
+						<td class="d-inline-flex border">
+							<a
+								href="/admin/editTrainer/<%= trn._id %>"
+								class="btn btn-info btn-sm ml-5 mr-5"
+								>Edit</a
+							>
+							<form
+								action="/admin/removeTrainer/<%= trn._id %>?_method=DELETE"
+								method="post"
+							>
+								<button type="submit" class="btn btn-danger btn-sm">
+									Delete
+								</button>
+							</form>
+							<a
+								href="/admin/trainerVideos/<%= trn._id %>"
+								class="btn btn-info btn-sm ml-5 mr-5"
+								>Videos</a
+							>
+						</td>
+					</tr>
+					<% }) %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

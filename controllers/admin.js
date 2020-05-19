@@ -3,6 +3,7 @@ const Category = require('../models/Category');
 const Trainer = require('../models/Trainer');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
+const { adminAccess } = require('../helpers/helper');
 
 module.exports = {
 	dashborad: (req, res) => {
@@ -182,14 +183,16 @@ module.exports = {
 	},
 
 	fetchTrainers: (req, res) => {
-		Category.find().then((categories) => {
-			Trainer.find().then((trainers) => {
-				res.render('admin/trainer', {
-					categories,
-					trainers,
+		if (adminAccess(req.user, res)) {
+			Category.find().then((categories) => {
+				Trainer.find().then((trainers) => {
+					res.render('admin/trainer', {
+						categories,
+						trainers,
+					});
 				});
 			});
-		});
+		}
 	},
 
 	createTrainer: async (req, res, next) => {
@@ -303,28 +306,32 @@ module.exports = {
 	},
 
 	uploadTrainerVideoPage: (req, res) => {
-		Trainer.find().then((trainers) => {
-			res.render('admin/uploadVideo', {
-				trainers,
+		if (adminAccess(req.user, res)) {
+			Trainer.find().then((trainers) => {
+				res.render('admin/uploadVideo', {
+					trainers,
+				});
 			});
-		});
+		}
 	},
 
 	uploadTrainerVideo: (req, res) => {
-		Trainer.findOne({ name: req.body.trainer }).then((trainer) => {
-			if (req.files) {
-				const file = req.files.file;
-				let fileName = Date.now() + '-' + file.name;
+		if (adminAccess(req.user, res)) {
+			Trainer.findOne({ name: req.body.trainer }).then((trainer) => {
+				if (req.files) {
+					const file = req.files.file;
+					let fileName = Date.now() + '-' + file.name;
 
-				file.mv('./public/uploads/trainerVideos/' + fileName, (err) => {
-					if (err) throw err;
-					trainer.videos.push(fileName);
-					trainer.save();
-					req.flash('success_msg', 'Video has been successfully uploaded.');
-					res.redirect('/admin/trainerVideos/' + trainer._id);
-				});
-			}
-		});
+					file.mv('./public/uploads/trainerVideos/' + fileName, (err) => {
+						if (err) throw err;
+						trainer.videos.push(fileName);
+						trainer.save();
+						req.flash('success_msg', 'Video has been successfully uploaded.');
+						res.redirect('/admin/trainerVideos/' + trainer._id);
+					});
+				}
+			});
+		}
 	},
 
 	deleteTrainerVideo: async (req, res, next) => {

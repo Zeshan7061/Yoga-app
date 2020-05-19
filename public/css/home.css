@@ -180,8 +180,8 @@ main .services .service h3 {
 .trainers {
 	display: -ms-grid;
 	display: grid;
-	-ms-grid-columns: (minmax(190px, 190px)) [auto-fit];
-	grid-template-columns: repeat(auto-fit, minmax(190px, 190px));
+	-ms-grid-columns: (minmax(180px, 180px)) [auto-fit];
+	grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
 	margin: 2em 0;
 	justify-content: center;
 }

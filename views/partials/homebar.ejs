@@ -1,5 +1,11 @@
 <div class="nav">
 	<h1><a href="/"> logo | sy7 moves</a></h1>
+	<% if (user != undefined) { %>
+	<a href="/admin"><%= user.name.toUpperCase() %></a>
+	<a href="/logout">LOG OUT</a>
+	<% } else { %>
+	<a href="/login">SIGN IN</a>
+	<% } %>
 </div>
 
 <nav>

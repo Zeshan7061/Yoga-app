@@ -301,23 +301,25 @@ footer .contact div a {
 }
 
 @media (max-width: 768px) {
-	.slider {
-		height: 700px !important;
+	main .slider {
+		height: 800px !important;
 		text-align: center;
+		padding: 3em;
 	}
-	.slider .tagline {
+
+	main .slider .tagline {
 		font-size: 2em !important;
 	}
 
-	.slider .btns {
+	main .slider .btns {
 		display: flex;
 		flex-direction: column;
 	}
-	.slider .btns a {
+	main .slider .btns a {
 		font-size: 16px !important;
 		padding: 18px !important;
 	}
-	.slider .btns .trailer {
+	main .slider .btns .trailer {
 		margin-top: 10px;
 	}
 
@@ -338,8 +340,37 @@ footer .contact div a {
 		font-size: 2em !important;
 	}
 
+	main .services .service {
+		text-align: center;
+		padding: 1.5em 2em;
+	}
+
+	.heading p {
+		margin: 2px 35px;
+	}
+
+	.policies h1 {
+		font-size: 1.3em !important;
+	}
+
+	.policies h2 {
+		font-size: 1em !important;
+	}
+
+	.policies p {
+		margin-top: -5px !important;
+	}
+
+	.portability h1 {
+		margin: 5px 20px !important;
+	}
+
+	.portability p {
+		margin: 2px 35px;
+	}
+
 	footer {
-		height: 430px;
+		height: 450px;
 	}
 
 	footer .trialBtn {

@@ -16,7 +16,9 @@ router.all('/*', (req, res, next) => {
 	next();
 });
 
-router.get('/', home);
+router.route('/').get(home);
+
+router.get('/charge', payCharges);
 
 router.get('/subscription', subscriptionPage);
 

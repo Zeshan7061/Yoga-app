@@ -15,8 +15,8 @@
 			role="alert"
 		>
 			<div style="overflow: hidden !important;">
-				<strong>Hello <%= user.name %> ! </strong> You have 7days of trail
-				period.
+				<strong>Hello <%= user.name %> ! </strong> You have <%=
+				dateDifference(user.date) %> days of trail period.
 			</div>
 
 			<button

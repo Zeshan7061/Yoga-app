@@ -7,6 +7,9 @@ const {
 	deleteUser,
 	editProfile,
 	updateProfile,
+	changePasswordPage,
+	matchCurrentPassword,
+	updatePassword,
 	updateStatus,
 	profilePgae,
 	subscriptionPage,
@@ -19,6 +22,9 @@ const {
 	uploadTrainerVideo,
 	showTrainerVideos,
 	deleteTrainerVideo,
+	cancelSubscription,
+	managePaymentDetails,
+	managePaymentPage,
 } = require('../controllers/admin');
 const { auth } = require('../helpers/auth');
 
@@ -47,6 +53,13 @@ router.post('/user/profile/edit', editProfile);
 
 router.put('/user/profile/update/:id', updateProfile);
 
+router
+	.route('/user/password')
+	.get(changePasswordPage)
+	.post(matchCurrentPassword);
+
+router.post('/user/setPassword', updatePassword);
+
 router.get('/trainers', fetchTrainers);
 
 router.post('/createTrainer', createTrainer);
@@ -65,5 +78,11 @@ router
 router.get('/trainerVideos/:id?', showTrainerVideos);
 
 router.delete('/trainer/deleteVideo/:id/:video', deleteTrainerVideo);
+
+router.get('/user/cancelSubscription', cancelSubscription);
+
+router.get('/user/managePayment', managePaymentPage);
+
+router.post('/user/updatePayment', managePaymentDetails);
 
 module.exports = router;

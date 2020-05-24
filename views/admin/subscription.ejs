@@ -17,35 +17,39 @@
 			</ol>
 		</div>
 
-		<div class="row ml-3">
-			<button class="btn btn-info">
-				Subscription <%= user.subscription %>
-			</button>
-		</div>
-
-		<div class="row mt-5 ml-1 mr-1">
-			<div class="col-lg-4">
-				<video class="video-fluid z-depth-1" controls>
-					<source
-						src="https://mdbootstrap.com/img/video/Sail-Away.mp4"
-						type="video/mp4"
-					/>
-				</video>
-			</div>
-
-			<div class="col-lg-4">
-				<video class="video-fluid z-depth-1" controls>
-					<source src="/video.mkv" />
-				</video>
-			</div>
-
-			<div class="col-lg-4">
-				<video class="video-fluid z-depth-1" controls>
-					<source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" />
-				</video>
-			</div>
-		</div>
-
 		<%- include('../partials/adminMessages') %>
+
+		<div class="mt-5">
+			<!-- <h2>Users</h2> -->
+			<table class="table table-bordered text-center mt-4">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Amount</th>
+						<th scope="col">Status</th>
+						<th scope="col">Days Left</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<b>$<%= user.subscription.amount %></b> / <%=
+							user.subscription.span %>
+						</td>
+						<td><%= user.subscription.status %></td>
+						<td><%= dateDifference(user.date) %></td>
+						<td>
+							<a
+								href="/admin/user/cancelSubscription"
+								class="btn btn-primary btn-sm"
+							>
+								<% if (user.subscription.status == 'trail') { %> Cancel
+								Subscription <% } else { %> Activate Subscription <% } %>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

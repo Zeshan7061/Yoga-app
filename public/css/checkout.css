@@ -224,15 +224,15 @@ input[type='checkbox']:not(checked) {
 .terms {
 	margin: 1rem 0;
 	display: flex;
-	align-items: center;
+	justify-content: space-between;
 }
 
-.terms * {
+.terms input {
 	flex: 1;
 }
 
 .terms label {
-	flex: 11;
+	flex: 12;
 }
 
 .terms label * {

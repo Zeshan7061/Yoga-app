@@ -5,6 +5,8 @@ const User = require('../models/User');
 const Trainer = require('../models/Trainer');
 const assert = require('assert');
 const payment = require('../helpers/payment');
+const { dateDifference } = require('../helpers/helper');
+const stripe = require('stripe')('sk_test_3DZ6KTMhZBauyttWpWGOGUhN00m48c75zE');
 
 module.exports = {
 	home: (req, res) => {
@@ -54,7 +56,7 @@ module.exports = {
 			}
 
 			if (errors.length > 0) {
-				await res.render('home/signup', {
+				await res.render('home/checkout', {
 					errors: errors,
 					name: req.body.name,
 					email: req.body.email,
@@ -65,6 +67,7 @@ module.exports = {
 				User.findOne({ email: email }).then((user) => {
 					if (user) {
 						errors.push({ message: 'Email already exists. Please log in.' });
+
 						res.render('home/checkout', {
 							errors: errors,
 							name: name,
@@ -81,21 +84,38 @@ module.exports = {
 							bcrypt.hash(user.password, salt, (err, hash) => {
 								user.password = hash;
 
-								user.subscription = {
-									amount: +req.body.duration,
-									span: +req.bod.duration == 199 ? 'year' : 'month',
-								};
+								stripe.customers
+									.create({
+										email: req.body.email,
+										source: req.body.stripeToken,
+										description: 'Yoga App Payment',
+									})
+									.then(async (customer) => {
+										const intent = await stripe.setupIntents.create({
+											customer: customer.id,
+										});
 
-								user.save().then(async (savedUser) => {
-									req.flash(
-										'success_msg',
-										'You are registered. You have 7days of trail period. Log in to continue.'
-									);
+										return res.json({
+											success: true,
+											client_secret: intent.client_secret,
+										});
 
-									payment(req, res);
+										user.subscription = {
+											amount: +req.body.duration,
+											span: +req.body.duration == 199 ? 'year' : 'month',
+											status: 'trail',
+											customer,
+											clientSecrect: intent.client_secret,
+										};
 
-									res.redirect('/login');
-								});
+										await user.save().then(async (savedUser) => {
+											req.flash(
+												'success_msg',
+												'You are registered. Log in to continue.'
+											);
+											res.redirect('/login');
+										});
+									});
 							});
 						});
 					}
@@ -128,6 +148,17 @@ module.exports = {
 							assert.equal(null, err);
 
 							if (matched) {
+								if (
+									dateDifference(user.date) < 1 &&
+									user.subscription.status == 'cancelled'
+								) {
+									req.flash(
+										'error_msg',
+										'Your trail period has been ended. You can no longer use our services'
+									);
+									return res.redirect('/login');
+								}
+
 								return done(null, user);
 							} else
 								return done(null, false, {
@@ -177,7 +208,7 @@ module.exports = {
 		res.render('home/checkout');
 	},
 
-	payCharges: (req, res) => {
+	/* payCharges: (req, res) => {
 		const stripe = require('stripe')(
 			'sk_test_3DZ6KTMhZBauyttWpWGOGUhN00m48c75zE'
 		);
@@ -198,9 +229,45 @@ module.exports = {
 				res.send('Success');
 			}
 		})();
-	},
+	}, */
 
 	yogaVideo: (req, res) => {
 		res.render('home/video');
+	},
+
+	payCharges: async (req, res) => {
+		User.find().then((users) => {
+			users.forEach(async (user) => {
+				if (user.subscription) {
+					console.log(user.subscription.customer.id);
+
+					const paymentMethods = await stripe.paymentMethods.list({
+						customer: user.subscription.customer,
+						type: 'card',
+					});
+
+					console.log(paymentMethods);
+
+					try {
+						const paymentIntent = await stripe.paymentIntents.create({
+							amount: user.subscription.amount,
+							currency: 'usd',
+							customer: user.subscription.customer.id,
+							payment_method: paymentMethods.data[0].id,
+							off_session: true,
+							confirm: true,
+						});
+
+						console.log(paymentIntent);
+					} catch (err) {
+						console.log('Error code is: ', err.code);
+						const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(
+							err.raw.payment_intent.id
+						);
+						console.log('PI retrieved: ', paymentIntentRetrieved.id);
+					}
+				}
+			});
+		});
 	},
 };

@@ -1,13 +1,22 @@
 <link rel="stylesheet" href="/css/checkout.css" />
 
+<script
+	src="https://code.jquery.com/jquery-3.5.1.js"
+	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+	crossorigin="anonymous"
+></script>
 <script src="https://js.stripe.com/v3/"></script>
 
 <div class="container" style="margin-top: 5em;">
-	<!-- <nav>
-				<div class="logo">yoga app</div>
-				<div class="login">log in</div>
-			</nav> -->
 	<main>
+		<% if(typeof errors != 'undefined'){ %> <% errors.forEach(function(error) {
+		%>
+
+		<p style="color: red; text-align: center; margin-top: 1em;">
+			<%= error.message %>
+		</p>
+		<% }); %> <% } %>
+
 		<div class="info">
 			<h1>yoga online class membership</h1>
 			<div class="annual">
@@ -74,10 +83,10 @@
 
 			<div>
 				<form
-					action="/register"
 					id="payment-form"
-					method="POST"
 					autocomplete="on"
+					method="POST"
+					action="/register"
 				>
 					<input type="text" placeholder="Name" name="name" required />
 					<input type="email" name="email" id="" placeholder="Email" required />
@@ -166,91 +175,148 @@
 </div>
 
 <script>
-	document.querySelector('.sub').addEventListener('click', () => {
-		document.querySelector('.subscriptions').classList.toggle('toggleDisplay');
-	});
-
-	const elems = document.querySelectorAll('.period');
-	elems.forEach((el) => {
-		el.addEventListener('click', (event) => {
-			const val = event.target.getAttribute('data-duration-value');
-			const inputDuration = document.getElementById('duration');
-			inputDuration.value = +val;
-
-			elems.forEach((e) => {
-				e.style.background = 'white';
-				e.style.color = 'black';
-			});
-
-			el.style.background = 'black';
-			el.style.color = 'white';
-			document.querySelector('.totalValue').innerHTML = '$' + val;
+	$(document).ready(() => {
+		document.querySelector('.sub').addEventListener('click', () => {
+			document
+				.querySelector('.subscriptions')
+				.classList.toggle('toggleDisplay');
 		});
-	});
 
-	document.getElementById('password').addEventListener('input', (e) => {
-		if (e.target.value.length > 0) {
-			document.getElementById('confirmPassword').style.display = 'block';
-		} else {
-			document.getElementById('confirmPassword').style.display = 'none';
-		}
-	});
+		const elems = document.querySelectorAll('.period');
+		elems.forEach((el) => {
+			el.addEventListener('click', (event) => {
+				const val = event.target.getAttribute('data-duration-value');
+				const inputDuration = document.getElementById('duration');
+				inputDuration.value = +val;
 
-	var stripe = Stripe('pk_test_FPdDtebYH9OXk0J8oJu5KupC00TjxWfuzs');
-	var elements = stripe.elements();
-	var style = {
-		base: {
-			color: '#32325d',
-			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-			fontSmoothing: 'antialiased',
-			fontSize: '16px',
-			'::placeholder': {
-				color: '#aab7c4',
-			},
-		},
-		invalid: {
-			color: '#fa755a',
-			iconColor: '#fa755a',
-		},
-	};
+				elems.forEach((e) => {
+					e.style.background = 'white';
+					e.style.color = 'black';
+				});
 
-	var card = elements.create('card', { style: style });
-	card.mount('#card-element');
+				el.style.background = 'black';
+				el.style.color = 'white';
+				document.querySelector('.totalValue').innerHTML = '$' + val;
+			});
+		});
 
-	card.addEventListener('change', function (event) {
-		var displayError = document.getElementById('card-errors');
-
-		event.error
-			? (displayError.textContent = event.error.message)
-			: (displayError.textContent = '');
-	});
-
-	var form = document.getElementById('payment-form');
-	form.addEventListener('submit', function (event) {
-		event.preventDefault();
-
-		if (!event.target.duration.value) {
-			return window.alert('Please select one plan');
-		}
-
-		stripe.createToken(card).then(function (result) {
-			if (result.error) {
-				var errorElement = document.getElementById('card-errors');
-				errorElement.textContent = result.error.message;
+		document.getElementById('password').addEventListener('input', (e) => {
+			if (e.target.value.length > 0) {
+				document.getElementById('confirmPassword').style.display = 'block';
 			} else {
-				stripeTokenHandler(result.token);
+				document.getElementById('confirmPassword').style.display = 'none';
 			}
 		});
+
+		var stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+		var elements = stripe.elements();
+		var style = {
+			base: {
+				color: '#32325d',
+				fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+				fontSmoothing: 'antialiased',
+				fontSize: '16px',
+				'::placeholder': {
+					color: '#aab7c4',
+				},
+			},
+			invalid: {
+				color: '#fa755a',
+				iconColor: '#fa755a',
+			},
+		};
+
+		var card = elements.create('card', { style: style });
+		card.mount('#card-element');
+
+		card.addEventListener('change', function (event) {
+			var displayError = document.getElementById('card-errors');
+
+			event.error
+				? (displayError.textContent = event.error.message)
+				: (displayError.textContent = '');
+		});
+
+		document.getElementById('password').addEventListener('input', (e) => {
+			if (e.target.value.length > 0) {
+				document.getElementById('confirmPassword').style.display = 'block';
+			} else {
+				document.getElementById('confirmPassword').style.display = 'none';
+			}
+		});
+
+		var form = $('#payment-form');
+		form.on('submit', (event) => {
+			event.preventDefault();
+
+			if (!event.target.duration.value) {
+				return window.alert('Please select one plan');
+			}
+
+			document.querySelector('.trailBtn').disabled = true;
+
+			stripe.createToken(card).then(function (result) {
+				if (result.error) {
+					var errorElement = document.getElementById('card-errors');
+					errorElement.textContent = result.error.message;
+				} else {
+					stripeTokenHandler(result.token);
+					/* $.ajax({
+						method: 'POST',
+						url: '/register',
+						data: '',
+						success: (res) => {
+
+						},
+
+						error: () => {
+							console.log('error');
+						},
+					});
+				} */
+			});
+		});
+
+		function stripeTokenHandler(token) {
+			var form = document.getElementById('payment-form');
+			var hiddenInput = document.createElement('input');
+			hiddenInput.setAttribute('type', 'hidden');
+			hiddenInput.setAttribute('name', 'stripeToken');
+			hiddenInput.setAttribute('value', token.id);
+			form.appendChild(hiddenInput);
+
+			form.submit();
+		}
+
+		/* var form = document.getElementById('payment-form');
+		 form.addEventListener('submit', function (event) {
+			event.preventDefault();
+
+			if (!event.target.duration.value) {
+				return window.alert('Please select one plan');
+			}
+
+			document.querySelector('.trailBtn').disabled = true;
+
+			stripe.createToken(card).then(function (result) {
+				if (result.error) {
+					var errorElement = document.getElementById('card-errors');
+					errorElement.textContent = result.error.message;
+				} else {
+					stripeTokenHandler(result.token);
+				}
+			});
+		});
+
+		function stripeTokenHandler(token) {
+			var form = document.getElementById('payment-form');
+			var hiddenInput = document.createElement('input');
+			hiddenInput.setAttribute('type', 'hidden');
+			hiddenInput.setAttribute('name', 'stripeToken');
+			hiddenInput.setAttribute('value', token.id);
+			form.appendChild(hiddenInput);
+
+			form.submit();
+		} */
 	});
-
-	function stripeTokenHandler(token) {
-		var form = document.getElementById('payment-form');
-		var hiddenInput = document.createElement('input');
-		hiddenInput.setAttribute('type', 'hidden');
-		hiddenInput.setAttribute('name', 'stripeToken');
-		hiddenInput.setAttribute('value', token.id);
-		form.appendChild(hiddenInput);
-
-		form.submit();
-	}
 </script>

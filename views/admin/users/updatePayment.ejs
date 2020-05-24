@@ -1,0 +1,104 @@
+<style></style>
+
+<div class="content-wrapper mt-2">
+	<div class="row mt-5">
+		<div class="col-lg-12">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">Dashboard</a>
+				</li>
+				<li class="breadcrumb-item active">Manage Payment Info</li>
+			</ol>
+
+			<%- include('../../partials/adminMessages') %>
+
+			<h3>Card Details</h3>
+			<hr />
+
+			<script src="https://js.stripe.com/v3/"></script>
+
+			<form action="/admin/user/updatePayment" id="payment-form" method="POST">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" name="email" class="form-control" required />
+				</div>
+
+				<div class="form-group">
+					<label for="card-element">
+						Credit / Debit Card
+					</label>
+					<div id="card-element" class="form-control">
+						<!-- A Stripe Element will be inserted here. -->
+					</div>
+
+					<!-- Used to display Element errors. -->
+					<div id="card-errors" role="alert"></div>
+				</div>
+
+				<button type="submit" class="trailBtn btn btn-info btn-md mt-3">
+					Update Paymeny Details
+				</button>
+			</form>
+
+			<script>
+				var stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+				var elements = stripe.elements();
+				var style = {
+					base: {
+						color: '#32325d',
+						fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+						fontSmoothing: 'antialiased',
+						fontSize: '18px',
+						fontWeight: '300',
+						lineHeight: '1.5',
+						'::placeholder': {
+							color: '#aab7c4',
+						},
+					},
+					invalid: {
+						color: '#fa755a',
+						iconColor: '#fa755a',
+					},
+				};
+
+				var card = elements.create('card', { style: style });
+				card.mount('#card-element');
+
+				card.addEventListener('change', function (event) {
+					var displayError = document.getElementById('card-errors');
+
+					event.error
+						? (displayError.textContent = event.error.message)
+						: (displayError.textContent = '');
+				});
+
+				var form = document.getElementById('payment-form');
+
+				form.addEventListener('submit', function (event) {
+					event.preventDefault();
+					document.querySelector('.trailBtn').disabled = true;
+
+					stripe.createToken(card).then(function (result) {
+						if (result.error) {
+							var errorElement = document.getElementById('card-errors');
+							errorElement.textContent = result.error.message;
+						} else {
+							stripeTokenHandler(result.token);
+						}
+					});
+				});
+
+				function stripeTokenHandler(token) {
+					var form = document.getElementById('payment-form');
+					var hiddenInput = document.createElement('input');
+					hiddenInput.setAttribute('type', 'hidden');
+					hiddenInput.setAttribute('name', 'stripeToken');
+					hiddenInput.setAttribute('value', token.id);
+					form.appendChild(hiddenInput);
+
+					form.submit();
+				}
+			</script>
+		</div>
+	</div>
+</div>

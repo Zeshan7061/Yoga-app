@@ -102,6 +102,71 @@ module.exports = {
 		});
 	},
 
+	changePasswordPage: (req, res) => {
+		res.render('admin/users/changePassword', {
+			title: 'Change Password',
+		});
+	},
+
+	matchCurrentPassword: (req, res) => {
+		if (!req.body.password) {
+			req.flash('error_msg', 'please fill in the required field.');
+			return res.redirect('/admin/user/password');
+		}
+
+		User.findById(req.user.id).then((user) => {
+			bcrypt.compare(req.body.password, user.password, (err, matched) => {
+				if (err) throw err;
+
+				if (matched) {
+					return res.render('admin/users/newPassword', {
+						title: 'New Password',
+					});
+				} else {
+					req.flash('error_msg', 'Password mismatch.');
+					return res.redirect('/admin/user/password');
+				}
+			});
+		});
+	},
+
+	updatePassword: (req, res) => {
+		User.findById(req.user._id).then((user) => {
+			let errors = [];
+			if (!req.body.password || !req.body.confirmPassword) {
+				errors.push({ message: 'please fill in all fields' });
+			}
+
+			if (req.body.password !== req.body.confirmPassword) {
+				errors.push({ message: "passwords don't match." });
+			}
+
+			if (errors.length > 0) {
+				res.render('admin/users/newPassword', {
+					title: 'New Password',
+					errors,
+				});
+			} else {
+				User.findById(req.user._id).then((user) => {
+					bcrypt.genSalt(10, (err, salt) => {
+						bcrypt.hash(req.body.password, salt, (err, hash) => {
+							user.password = hash;
+
+							user.save().then((savedUser) => {
+								req.flash(
+									'success_msg',
+									'Your password has been changed succesfully.'
+								);
+
+								res.redirect('/admin/user/profile/' + user._id);
+							});
+						});
+					});
+				});
+			}
+		});
+	},
+
 	newUser: async (req, res) => {
 		try {
 			let errors = [];
@@ -363,5 +428,53 @@ module.exports = {
 				trainer,
 			});
 		});
+	},
+
+	cancelSubscription: (req, res) => {
+		User.findById(req.user.id).then(async (user) => {
+			if (user.subscription.status == 'trail') {
+				user.subscription = {
+					amount: user.subscription.amount,
+					span: user.subscription.span,
+					status: 'cancelled',
+					customer: user.subscription.customer,
+					clientSecrect: user.subscription.clientSecrect,
+				};
+			} else if (user.subscription.status == 'cancelled') {
+				user.subscription = {
+					amount: user.subscription.amount,
+					span: user.subscription.span,
+					status: 'trail',
+					customer: user.subscription.customer,
+					clientSecrect: user.subscription.clientSecrect,
+				};
+			}
+
+			await user.save();
+			res.redirect('/admin/user/subscription');
+		});
+	},
+
+	managePaymentPage: (req, res) => {
+		res.render('admin/users/updatePayment');
+	},
+
+	managePaymentDetails: async (req, res) => {
+		const stripe = require('stripe')(
+			'sk_test_3DZ6KTMhZBauyttWpWGOGUhN00m48c75zE'
+		);
+		const custmr_id = req.user.subscription.customer.id;
+
+		const customer = await stripe.customers.update(custmr_id, {
+			email: req.body.email,
+			source: req.body.stripeToken,
+			description: 'Yoga App Payment',
+		});
+
+		req.flash(
+			'success_msg',
+			'Your card details has been updated successfully.'
+		);
+		res.redirect('/admin/user/managePayment');
 	},
 };

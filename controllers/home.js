@@ -95,10 +95,10 @@ module.exports = {
 											customer: customer.id,
 										});
 
-										return res.json({
+										/* return res.json({
 											success: true,
 											client_secret: intent.client_secret,
-										});
+										}); */
 
 										user.subscription = {
 											amount: +req.body.duration,

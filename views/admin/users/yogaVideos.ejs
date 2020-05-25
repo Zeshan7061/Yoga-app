@@ -1,0 +1,71 @@
+<style>
+	.videos {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		justify-content: space-evenly;
+	}
+
+	.videos div.video {
+		margin: 1rem 5px !important;
+	}
+</style>
+
+<div class="content-wrapper mt-5">
+	<div class="container-fluid mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Yoga Videos</li>
+		</ol>
+
+		<h3>Yoga Videos</h3>
+		<hr />
+
+		<div class="videos">
+			<% if (user.subscription.status == 'trail') { %> <% for( let i = 0; i <
+			videos.length/2; i++ ) { %>
+			<div class="video">
+				<video
+					src="/uploads/trainerVideos/<%= videos[i] %>"
+					controls
+					muted
+					class="embed-responsive embed-responsive-16by9"
+				></video>
+			</div>
+			<% } %> <% } %>
+		</div>
+		<br />
+		<hr />
+		<br />
+		<h3>Buy Subscription to avail all exciting videos.</h3>
+		<br />
+		<% if (user.subscription.status == 'active') { %>
+		<div class="videos">
+			<% videos.forEach(vid => { %>
+			<div class="video">
+				<video
+					src="/uploads/trainerVideos/<%= vid %>"
+					controls
+					muted
+					class="embed-responsive embed-responsive-16by9"
+				></video>
+			</div>
+			<% }) %>
+		</div>
+		<% } else { %>
+		<div class="videos">
+			<% videos.forEach(vid => { %>
+			<div class="video">
+				<video
+					src="/uploads/trainerVideos/"
+					controls
+					muted
+					class="embed-responsive embed-responsive-16by9"
+				></video>
+			</div>
+			<% }) %>
+		</div>
+		<% } %>
+	</div>
+</div>

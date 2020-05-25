@@ -25,6 +25,7 @@ const {
 	cancelSubscription,
 	managePaymentDetails,
 	managePaymentPage,
+	yogaVideos,
 } = require('../controllers/admin');
 const { auth } = require('../helpers/auth');
 
@@ -84,5 +85,7 @@ router.get('/user/cancelSubscription', cancelSubscription);
 router.get('/user/managePayment', managePaymentPage);
 
 router.post('/user/updatePayment', managePaymentDetails);
+
+router.get('/user/yogaVideos', yogaVideos);
 
 module.exports = router;

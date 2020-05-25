@@ -477,4 +477,18 @@ module.exports = {
 		);
 		res.redirect('/admin/user/managePayment');
 	},
+
+	yogaVideos: (req, res) => {
+		Trainer.find().then(async (users) => {
+			let videosArray = [];
+
+			users.forEach((user) => {
+				videosArray = [...videosArray, ...user.videos];
+			});
+
+			await res.render('admin/users/yogaVideos', {
+				videos: videosArray,
+			});
+		});
+	},
 };

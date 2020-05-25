@@ -89,16 +89,12 @@ module.exports = {
 										email: req.body.email,
 										source: req.body.stripeToken,
 										description: 'Yoga App Payment',
+										name: req.body.name,
 									})
 									.then(async (customer) => {
 										const intent = await stripe.setupIntents.create({
 											customer: customer.id,
 										});
-
-										/* return res.json({
-											success: true,
-											client_secret: intent.client_secret,
-										}); */
 
 										user.subscription = {
 											amount: +req.body.duration,
@@ -109,6 +105,14 @@ module.exports = {
 										};
 
 										await user.save().then(async (savedUser) => {
+											res.json({
+												success: true,
+												client_secret: intent.client_secret,
+												name: req.body.name,
+											});
+
+											return;
+
 											req.flash(
 												'success_msg',
 												'You are registered. Log in to continue.'
@@ -235,30 +239,24 @@ module.exports = {
 		res.render('home/video');
 	},
 
-	payCharges: async (req, res) => {
+	payCharges: (req, res) => {
 		User.find().then((users) => {
 			users.forEach(async (user) => {
-				if (user.subscription) {
-					console.log(user.subscription.customer.id);
-
+				if (user.subscription.customer) {
 					const paymentMethods = await stripe.paymentMethods.list({
-						customer: user.subscription.customer,
+						customer: user.subscription.customer.id,
 						type: 'card',
 					});
 
-					console.log(paymentMethods);
-
 					try {
 						const paymentIntent = await stripe.paymentIntents.create({
-							amount: user.subscription.amount,
+							amount: user.subscription.amount * 100,
 							currency: 'usd',
 							customer: user.subscription.customer.id,
 							payment_method: paymentMethods.data[0].id,
 							off_session: true,
 							confirm: true,
 						});
-
-						console.log(paymentIntent);
 					} catch (err) {
 						console.log('Error code is: ', err.code);
 						const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(

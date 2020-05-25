@@ -261,19 +261,20 @@
 					errorElement.textContent = result.error.message;
 				} else {
 					stripeTokenHandler(result.token);
-					/* $.ajax({
+
+					$.ajax({
 						method: 'POST',
 						url: '/register',
-						data: '',
-						success: (res) => {
-
+						/* success: function (res) {
+							redirectUser(res);
 						},
-
-						error: () => {
+						error: function () {
 							console.log('error');
-						},
+						}, */
+					}).done(function (res) {
+						redirectUser(res);
 					});
-				} */
+				}
 			});
 		});
 
@@ -288,35 +289,27 @@
 			form.submit();
 		}
 
-		/* var form = document.getElementById('payment-form');
-		 form.addEventListener('submit', function (event) {
-			event.preventDefault();
+		function redirectUser(res) {
+			if (res.success) {
+				console.log('hello');
 
-			if (!event.target.duration.value) {
-				return window.alert('Please select one plan');
+				stripe
+					.confirmCardSetup(client_secret, {
+						payment_method: {
+							card: card,
+							billing_details: {
+								name: res.name,
+							},
+						},
+					})
+					.then(function (result) {
+						if (result.error) {
+							return console.log(result.error);
+						} else {
+							window.location.href = 'http://localhost:5000/login';
+						}
+					});
 			}
-
-			document.querySelector('.trailBtn').disabled = true;
-
-			stripe.createToken(card).then(function (result) {
-				if (result.error) {
-					var errorElement = document.getElementById('card-errors');
-					errorElement.textContent = result.error.message;
-				} else {
-					stripeTokenHandler(result.token);
-				}
-			});
-		});
-
-		function stripeTokenHandler(token) {
-			var form = document.getElementById('payment-form');
-			var hiddenInput = document.createElement('input');
-			hiddenInput.setAttribute('type', 'hidden');
-			hiddenInput.setAttribute('name', 'stripeToken');
-			hiddenInput.setAttribute('value', token.id);
-			form.appendChild(hiddenInput);
-
-			form.submit();
-		} */
+		}
 	});
 </script>

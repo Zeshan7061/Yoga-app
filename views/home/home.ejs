@@ -19,10 +19,16 @@
 		</div>
 		<div class="btns">
 			<br /><br /><br />
+			<% if (typeof user == 'undefined') { %>
 			<a class="trail" href="/subscription">start free trial</a>
 			<a class="trailer" href="/yogaVideo"
 				><i class="fas fa-arrow-right"></i> trailer</a
 			>
+			<% } else { %>
+			<a class="trailer" href="/watchVideos"
+				><i class="fas fa-video"></i> latest video</a
+			>
+			<% } %>
 		</div>
 
 		<!-- <div class="price">
@@ -70,7 +76,7 @@
 <div class="trainers">
 	<% trainers.forEach(trn => { %>
 	<div>
-		<a href="#">
+		<a href="/trainerProfile/<%= trn.id %>">
 			<img
 				src="/images/<%= trn.image %>"
 				alt="Trainer Image"

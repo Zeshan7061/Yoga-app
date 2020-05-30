@@ -1,0 +1,67 @@
+<style>
+	.latest-video {
+		box-sizing: border-box;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		margin: 0;
+		padding: 2em 0;
+	}
+
+	.latest-video > div:nth-child(1) {
+		padding: 3em;
+	}
+
+	.video-info h1 {
+		margin-bottom: 0;
+	}
+
+	.w-btn {
+		text-decoration: none;
+		color: white;
+		background: dodgerblue;
+		font-weight: 500;
+		padding: 0.8em 2em;
+		border-radius: 5px;
+		display: inline-block;
+		margin-top: 1em;
+		transition: 0.3s ease-in-out;
+	}
+
+	.w-btn:hover {
+		background: rgb(10, 109, 209);
+	}
+
+	.w-btn:active {
+		transform: scale(0.9);
+	}
+
+	.video-thumbnail img {
+		filter: opacity(0.9);
+		width: 100%;
+		height: 100%;
+	}
+
+	.duration {
+		margin-top: 0;
+	}
+</style>
+
+<div class="latest-video">
+	<div class="video-info">
+		<h1>Latest Video</h1>
+		<p class="duration">10 mins</p>
+		<br />
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit Reprehenderit id.
+		</p>
+		<br />
+		<a href="/watchVideos" class="w-btn">Watch Now</a>
+	</div>
+	<div class="video-thumbnail">
+		<img
+			src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+			alt=""
+		/>
+	</div>
+</div>

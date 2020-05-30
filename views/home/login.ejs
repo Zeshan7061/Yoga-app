@@ -64,6 +64,8 @@
 	}
 </style>
 
+<script src="https://js.stripe.com/v3/"></script>
+
 <form action="/login" method="post" class="loginForm" autocomplete="on">
 	<div class="imgcontainer">
 		<h3>Log In</h3>
@@ -85,5 +87,52 @@
 		<!-- <label>
 			<input type="checkbox" checked="checked" name="remember" /> Remember me
 		</label> -->
+		<input
+			type="hidden"
+			id="ch_name"
+			value="<%= typeof name != 'undefined' ? name : ''  %>"
+		/>
+		<input
+			type="hidden"
+			id="client_secret"
+			value="<%= typeof client_secret != 'undefined' ? client_secret : ''  %>"
+		/>
+		<input
+			type="hidden"
+			name="card"
+			id="card"
+			value="<%= typeof card != 'undefined' ? card : ''  %>"
+		/>
 	</div>
 </form>
+
+<script>
+	/* document.onload = (() => {
+		const name = document.getElementById('ch_name').value;
+		const cs = document.getElementById('client_secret').value;
+		const card = document.getElementById('card');
+
+		redirectUser(name, cs, card);
+	})();
+
+	function redirectUser(n, s, c) {
+		var stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+
+		stripe
+			.confirmCardSetup(s, {
+				payment_method: {
+					card: c,
+					billing_details: {
+						name: n,
+					},
+				},
+			})
+			.then(function (result) {
+				if (result.error) {
+					return console.log(result.error);
+				} else {
+					window.location.assign('/login');
+				}
+			});
+	} */
+</script>

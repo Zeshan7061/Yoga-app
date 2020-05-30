@@ -7,7 +7,7 @@
 }
 
 body {
-	font-family: 'montserrat', sans-serif;
+	font-family: 'montserrat', 'roboto', sans-serif;
 	font-size: 16px;
 	line-height: 1.5;
 	background: linear-gradient(lightgrey, grey, darkgrey) no-repeat center

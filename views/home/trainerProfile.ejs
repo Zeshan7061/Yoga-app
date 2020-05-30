@@ -1,0 +1,137 @@
+<style>
+	.trainer-container {
+		padding: 0 2em;
+	}
+
+	.latest-video {
+		box-sizing: border-box;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		margin: 0;
+		padding: 2em 0;
+	}
+
+	.latest-video > div {
+		margin: 0 20px;
+	}
+
+	.latest-video > div:nth-child(1) {
+		padding: 3em;
+		flex: 7;
+	}
+
+	.latest-video > div:nth-child(2) {
+		flex: 5;
+	}
+
+	.video-info h1 {
+		margin-bottom: 0;
+	}
+
+	.w-btn {
+		text-decoration: none;
+		color: white;
+		background: #232323;
+		font-weight: 500;
+		padding: 0.8em 2em;
+		border-radius: 5px;
+		display: inline-block;
+		margin-top: 2em;
+		transition: 0.3s ease-in-out;
+	}
+
+	.w-btn:hover {
+		background: #333333;
+	}
+
+	.w-btn:active {
+		transform: scale(0.9);
+	}
+
+	.video-thumbnail img {
+		width: 70%;
+		border: 10px solid white;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	}
+
+	.duration {
+		margin-top: 0;
+	}
+
+	.videos {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 10px;
+		margin-top: 3em;
+	}
+
+	.videos .video {
+		margin-bottom: 2em;
+		text-align: center;
+	}
+
+	.videos .video a video {
+		width: 100%;
+	}
+
+	.videos .video a:nth-child(2) {
+		text-decoration: none;
+		color: black;
+		font-weight: 500;
+		transition: 0.3s;
+		padding: 5px 10px;
+		border-radius: 20px;
+		margin-top: 5px;
+		display: inline-block;
+	}
+
+	.videos .video a:nth-child(2):hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+
+	.videos .video a:nth-child(2):active {
+		transform: scale(0.9);
+	}
+
+	.container > h1 {
+		margin-top: 3em;
+	}
+</style>
+
+<div class="latest-video">
+	<div class="video-info">
+		<h1><%= trainer.name %></h1>
+		<p><b>Category: </b><%= trainer.category %></p>
+		<br />
+		<p class="duration">Lorem ipsum dolor sit amet | Lorem, ipsum.</p>
+		<p>
+			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, unde
+			deleniti aut soluta architecto enim quia, asperiores ratione ex saepe eius
+			corporis alias necessitatibus nobis vel. Odit nihil ipsum eos!
+		</p>
+		<a href="#" class="w-btn">Why Me</a>
+	</div>
+	<div class="video-thumbnail">
+		<img src="/images/<%= trainer.image %>" alt="" />
+	</div>
+</div>
+
+<div class="trainer-container">
+	<br /><br /><br />
+	<hr />
+	<div class="videos">
+		<% trainer.videos.forEach(video => { %>
+		<div class="video">
+			<a href="#">
+				<video
+					src="/uploads/trainerVideos/<%= video %> "
+					controls
+					controlsList="nodownload"
+				></video>
+			</a>
+		</div>
+		<% }) %>
+	</div>
+</div>

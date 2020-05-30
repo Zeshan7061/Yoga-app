@@ -1,0 +1,729 @@
+<style>
+	section {
+		max-width: 70%;
+		margin: 10px auto;
+	}
+
+	.panel-bar {
+		display: flex;
+		justify-content: center;
+	}
+
+	.panel-bar span {
+		text-decoration: none;
+		text-transform: capitalize;
+		flex: 1;
+		text-align: center;
+		padding: 1rem;
+		color: black;
+		font-weight: bold;
+		cursor: pointer;
+		transition: 0.2s linear;
+	}
+
+	.panel-bar span:hover {
+		margin-bottom: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	}
+
+	.panels {
+		display: flex;
+		justify-content: space-evenly;
+	}
+
+	.panels .panel {
+		flex-basis: 100%;
+		padding: 1em;
+		background: linear-gradient(rgb(192, 190, 190), rgb(223, 221, 221));
+		transition: display 0.3s linear;
+	}
+
+	.panels .panel:nth-child(2),
+	.panels .panel:nth-child(3),
+	.panels .panel:nth-child(4) {
+		display: none;
+	}
+
+	.panels .panel-0 {
+		padding: 2em 4em;
+	}
+
+	.profile {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.profile .img,
+	.profile .info {
+		margin: 0 5px;
+	}
+
+	.profile .img {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.profile .img img {
+		width: 125px;
+		height: 125px;
+		border-radius: 50%;
+	}
+
+	.profile .info {
+		flex: 12;
+	}
+
+	.profile .info .form-group {
+		display: flex;
+		flex-direction: column;
+		margin-top: 5px;
+	}
+
+	.password-form .form-group {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.sb-btn {
+		font-size: 1em;
+		padding: 10px 50px;
+		margin: 2em 0;
+		border-radius: 5px;
+		border: 1px solid #cccccc;
+		cursor: pointer;
+	}
+
+	.sb-btn:hover {
+		background: darkgray;
+		color: white;
+	}
+
+	.panel-1 form {
+		padding: 1em;
+	}
+
+	.panel-1 form .form-group {
+		display: flex;
+		flex-direction: column;
+		margin: 2em 0;
+	}
+
+	.form-group input {
+		padding: 20px 10px;
+		border: 1px solid #cccccc;
+		border-radius: 5px;
+		height: 30px;
+		font-size: 1em;
+		outline: none;
+		transition: 0.3s;
+		margin: 10px 0;
+	}
+
+	input[type='text'] {
+		padding: 20px 10px;
+	}
+
+	.form-group input:focus {
+		box-shadow: 0 0 0 3px rgb(170, 207, 243);
+	}
+
+	.trailBtn {
+		padding: 10px 20px;
+		font-size: 1em;
+		border-radius: 5px;
+		border: 1px solid rgb(53, 171, 250);
+		background: dodgerblue;
+		cursor: pointer;
+		color: white;
+		transition: 0.2s;
+		margin: 5px 0;
+	}
+
+	.trailBtn:hover {
+		background: rgb(8, 99, 190);
+	}
+
+	.email {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1em;
+	}
+
+	.email * {
+		margin: 20px 10px;
+	}
+
+	.panels .panel-3 {
+		padding: 2em 4em;
+	}
+
+	.panels .panel-3 h1 {
+		margin-bottom: 0;
+	}
+
+	.panels .panel-3 > p {
+		margin-top: 0;
+		margin-bottom: 40px;
+	}
+
+	.panels .panel-3 .membership {
+		display: flex;
+		flex-wrap: wrap;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+		padding: 2em;
+	}
+
+	.membership-info {
+		flex: 11;
+	}
+
+	.cs-btn {
+		text-decoration: none;
+		font-size: 1em;
+		display: block;
+		padding: 10px 20px;
+		text-align: center;
+		color: white;
+		background: dodgerblue;
+		margin-top: 30px;
+		transition: 0.3s;
+		border-radius: 5px;
+	}
+
+	.cs-btn:hover {
+		background: rgb(8, 114, 219);
+	}
+
+	.cs-btn:active {
+		transform: scale(0.9);
+	}
+
+	.StripeElement {
+		padding: 10px 10px;
+		border: 1px solid #cccccc;
+		border-radius: 5px;
+		box-sizing: border-box;
+		background-color: white;
+		margin-top: 10px;
+		transition: box-shadow 150ms ease;
+	}
+
+	.StripeElement--focus {
+		box-shadow: 0 0 0 2px skyblue;
+	}
+
+	.StripeElement--invalid {
+		border-color: #fa755a;
+	}
+
+	.StripeElement--webkit-autofill {
+		background-color: #fefde5 !important;
+	}
+
+	.fileUploadInput {
+		display: grid;
+		grid-gap: 10px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.fileUploadInput input {
+		position: relative;
+		z-index: 1;
+		padding: 0 gap(m);
+		width: 74%;
+		height: 50px;
+		border: 1px solid #323262;
+		border-radius: 3px;
+		font-family: arial, sans-serif;
+		font-size: 1rem;
+		font-weight: regular;
+	}
+
+	.fileUploadInput input[type='file'] {
+		padding: 0 gap(m);
+	}
+
+	.fileUploadInput input[type='file']::-webkit-file-upload-button {
+		visibility: hidden;
+		margin-left: 10px;
+		padding: 0;
+		height: 50px;
+		width: 0;
+	}
+
+	.fileUploadInput button {
+		position: absolute;
+		right: 80px;
+		bottom: 0;
+		width: 50px;
+		height: 50px;
+		line-height: 0;
+		user-select: none;
+		border: none;
+		color: white;
+		background-color: #323262;
+		border-radius: 0 3px 3px 0;
+		font-family: arial, sans-serif;
+		font-size: 1rem;
+		font-weight: 800;
+		outline: none;
+	}
+
+	.save {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.save input {
+		flex: 11;
+	}
+
+	.plan {
+		color: blue;
+		text-decoration: underline;
+	}
+
+	p.msg {
+		text-align: center;
+		margin-top: 1em;
+		font-weight: bold;
+	}
+
+	p.success {
+		color: green;
+	}
+
+	p.error {
+		color: red;
+	}
+
+	.sub-container,
+	.subConfirm-container {
+		padding: 2em;
+		max-width: 800px;
+		margin: 0 auto;
+		background: white;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 999999;
+		box-shadow: 0 0 0 340px rgba(0, 0, 0, 0.9);
+		display: none;
+	}
+
+	.sub-container > h3,
+	.subConfirm-container > h3 {
+		text-transform: uppercase;
+	}
+
+	.subConfirm-container > h3 {
+		margin-bottom: 0;
+	}
+
+	.reason {
+		margin: 10px 0;
+	}
+
+	.reason label {
+		position: relative;
+		margin: 0 5px;
+	}
+
+	.reason input[type='text'] {
+		width: 95%;
+		padding: 10px;
+		font-size: 1em;
+		margin: 2em 0;
+		transition: 0.3s ease;
+		outline: none;
+		border: 1px solid #cccccc;
+	}
+
+	input[type='text']:focus {
+		box-shadow: 0 0 0 2px skyblue;
+	}
+
+	.buttons {
+		text-align: center;
+		margin: 2em 0;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.buttons a,
+	.subConfirm-container a.contact {
+		text-decoration: none;
+		padding: 15px 20px;
+		color: white;
+		background: dodgerblue;
+		transition: 0.3s;
+		flex: 1;
+		margin: 0 5px;
+	}
+
+	.buttons a:hover,
+	.subConfirm-container a.contact:hover {
+		background-color: rgb(6, 103, 199);
+	}
+
+	.buttons a:active,
+	.subConfirm-container a.contact:active {
+		transform: scale(0.9);
+	}
+
+	#contact {
+		margin: 2em 0;
+		text-align: center;
+	}
+</style>
+
+<section>
+	<div class="panel-bar">
+		<span onclick="togglePanel('panel-0',this)">info</span>
+		<span onclick="togglePanel('panel-1',this)">billing</span>
+		<span onclick="togglePanel('panel-2',this)">emails</span>
+		<span onclick="togglePanel('panel-3',this)">purchases</span>
+	</div>
+	<div class="panels">
+		<div class="panel panel-0">
+			<form
+				method="POST"
+				action="/admin/user/profile/update/<%= user.id %>?_method=PUT"
+				enctype="multipart/form-data"
+			>
+				<div class="profile">
+					<div class="img">
+						<img src="/images/<%= user.image %>" alt="" />
+						<br />
+						<div>
+							<div class="fileUploadInput">
+								<label>Upload</label>
+								<input type="file" name="file" />
+								<button>+</button>
+							</div>
+						</div>
+					</div>
+					<div class="info">
+						<div class="form-group">
+							<label for="">Email</label>
+							<input
+								type="email"
+								name="email"
+								placeholder="Email"
+								value="<%= typeof user.email != 'undefined' ? user.email: '' %>"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="">Name</label>
+							<input
+								type="text"
+								name="name"
+								placeholder="Name"
+								value="<%= typeof user.name != 'undefined' ? user.name: '' %>"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="">Website</label>
+							<input
+								type="text"
+								name="website"
+								placeholder="Website Name / URL"
+								value="<%= typeof user.website != 'undefined' ? user.website: '' %>"
+							/>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="password-form">
+					<div class="form-group">
+						<label for="">New Password</label
+						><input type="password" name="password" placeholder="Password" />
+					</div>
+					<div class="form-group">
+						<label for="">Re-enter Password</label
+						><input
+							type="password"
+							name="confirmPassword"
+							placeholder="Re-enter Password"
+						/>
+					</div>
+				</div>
+
+				<div class="save form-group">
+					<input
+						type="password"
+						name="currentPassword"
+						placeholder="enter current password to save changes"
+						required
+					/>
+					<button type="submit" class="sb-btn">Submit</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="panel panel-1">
+			<script src="https://js.stripe.com/v3/"></script>
+
+			<form action="/admin/user/updatePayment" id="payment-form" method="POST">
+				<div class="form-group">
+					<label for="email">Name on Card</label>
+					<input
+						type="text"
+						name="username"
+						class="form-control"
+						required
+						placeholder="Name on Card"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="card-element">
+						Credit / Debit Card
+					</label>
+					<div id="card-element" class="form-control"></div>
+
+					<div id="card-errors" role="alert"></div>
+				</div>
+
+				<button type="submit" class="trailBtn btn btn-info btn-md mt-3">
+					Update Paymeny Details
+				</button>
+			</form>
+
+			<script>
+				var stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+				var elements = stripe.elements();
+				var style = {
+					base: {
+						color: '#32325d',
+						fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+						fontSmoothing: 'antialiased',
+						fontSize: '18px',
+						fontWeight: '300',
+						lineHeight: '1.5',
+						'::placeholder': {
+							color: '#aab7c4',
+						},
+					},
+					invalid: {
+						color: '#fa755a',
+						iconColor: '#fa755a',
+					},
+				};
+
+				var card = elements.create('card', { style: style });
+				card.mount('#card-element');
+
+				card.addEventListener('change', function (event) {
+					var displayError = document.getElementById('card-errors');
+
+					event.error
+						? (displayError.textContent = event.error.message)
+						: (displayError.textContent = '');
+				});
+
+				var form = document.getElementById('payment-form');
+
+				form.addEventListener('submit', function (event) {
+					event.preventDefault();
+					document.querySelector('.trailBtn').disabled = true;
+
+					stripe.createToken(card).then(function (result) {
+						if (result.error) {
+							var errorElement = document.getElementById('card-errors');
+							errorElement.textContent = result.error.message;
+						} else {
+							stripeTokenHandler(result.token);
+						}
+					});
+				});
+
+				function stripeTokenHandler(token) {
+					var form = document.getElementById('payment-form');
+					var hiddenInput = document.createElement('input');
+					hiddenInput.setAttribute('type', 'hidden');
+					hiddenInput.setAttribute('name', 'stripeToken');
+					hiddenInput.setAttribute('value', token.id);
+					form.appendChild(hiddenInput);
+
+					form.submit();
+				}
+			</script>
+		</div>
+
+		<div class="panel panel-2">
+			<div class="email">
+				<input type="checkbox" name="" id="" />
+				<p>
+					<b>Email Updates</b><br />
+					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed corporis
+					reiciendis optio praesentium suscipit aliquam at quae quis, beatae
+					earum voluptate eos quasi.
+				</p>
+			</div>
+
+			<div class="email">
+				<input type="checkbox" name="" id="" />
+				<p>
+					<b>Training Videos updates</b><br />
+					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed corporis
+					reiciendis optio praesentium suscipit aliquam at quae quis, beatae
+					earum voluptate eos quasi.
+				</p>
+			</div>
+
+			<a href="#" class="trailBtn" style="float: right;">Save</a>
+			<br />
+			<br />
+		</div>
+
+		<div class="panel panel-3">
+			<h1>SUBSCRIPTIONS</h1>
+			<p>Manage your subscription plans</p>
+
+			<div class="membership">
+				<div class="membership-info">
+					<h1>
+						<b
+							>NOW | Ahana Yoga Online Class <br />
+							Membership</b
+						>
+					</h1>
+					<br />
+					<% if (user.subscription.status == 'cancelled') { %>
+					<h3>Subscription Cancelled.</h3>
+					<% } else { %>
+					<p>Will auto renew after 7days</p>
+					<p>Free trail started on <%= user.date.toLocaleString() %></p>
+					<br />
+					<a href="#" class="plan">Switch to yearly billing (Save 17%)</a>
+					<% } %>
+				</div>
+				<div class="amount">
+					<p>$19.99 / month</p>
+					<p>Mastercard **** 12</p>
+					<% if (user.subscription.status == 'cancelled') { %>
+					<a href="/updateSubscription" class="cs-btn" id="resumeBtn"
+						>Resume Subscription</a
+					>
+					<% } %>
+				</div>
+			</div>
+
+			<% if (user.subscription.status == 'trail') { %>
+			<a href="#" class="cs-btn" id="cancelBtn">Cancel Subscription</a>
+			<% } %>
+		</div>
+	</div>
+</section>
+
+<div class="sub-container">
+	<h3>
+		your now ahana | yoga subscription is about to be cancelled. <br />
+		you will have access until june 01,2020
+	</h3>
+	<p><b>Please let us know the main reason you decided to cancel.</b></p>
+	<br />
+
+	<div class="reasons">
+		<div class="reason">
+			<input type="radio" name="reason" id="" /><label for=""
+				>Subscription price too high</label
+			>
+		</div>
+		<div class="reason">
+			<input type="radio" name="reason" id="" /><label for=""
+				>Content no longer interested or meeting expectations</label
+			>
+		</div>
+		<div class="reason">
+			<input type="radio" name="reason" id="" /><label for=""
+				>No time to watch/don't use it enough</label
+			>
+		</div>
+		<div class="reason">
+			<input type="radio" name="reason" id="" /><label for=""
+				>No longer fits my budget</label
+			>
+		</div>
+		<div class="reason">
+			<input type="radio" name="reason" id="" /><label for=""
+				>I'll be back</label
+			>
+		</div>
+		<div class="reason">
+			<input type="radio" name="reason" id="" /><label for="">Other</label>
+			<br />
+			<input type="text" />
+		</div>
+	</div>
+	<br /><br />
+	<hr />
+
+	<div class="buttons">
+		<a href="#" id="backBtn">Go Back</a>
+		<a href="#" id="cancelSub">Cancel Subscription</a>
+	</div>
+</div>
+
+<div class="subConfirm-container">
+	<h3>you've cancelled your now | ahana yoga subscription.</h3>
+	<br />
+
+	<p>We're sorry to see you go! Please come back at any time.</p>
+	<p>Question? <a href="">Contact Us</a></p>
+	<br /><br /><br />
+	<hr />
+
+	<div id="contact">
+		<a href="/updateSubscription" class="contact">Sounds good</a>
+	</div>
+</div>
+
+<script>
+	function togglePanel(panel, pnl_elem) {
+		const ph = document.querySelectorAll('.panel-bar span');
+
+		const panels = document.querySelectorAll('.panel');
+		const pnl = document.querySelector(`.${panel}`);
+
+		panels.forEach((p) => {
+			p.style.display = 'none';
+		});
+
+		pnl.style.display = 'block';
+	}
+
+	const backBtn = document.getElementById('backBtn');
+	const csBtn = document.getElementById('cancelBtn');
+	const cancelBtn = document.getElementById('cancelSub');
+	const subContainer = document.querySelector('.sub-container');
+	const subConfirmContainer = document.querySelector('.subConfirm-container');
+
+	csBtn.addEventListener('click', (e) => {
+		e.preventDefault();
+
+		subContainer.style.display = 'block';
+		document.body.overflow = 'hidden';
+	});
+
+	backBtn.addEventListener('click', (e) => {
+		e.preventDefault();
+
+		subContainer.style.display = 'none';
+	});
+
+	cancelBtn.addEventListener('click', (e) => {
+		e.preventDefault();
+
+		subContainer.style.display = 'none';
+		subConfirmContainer.style.display = 'block';
+	});
+</script>

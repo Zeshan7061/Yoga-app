@@ -42,6 +42,14 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
+	website: {
+		type: String,
+		default: '',
+	},
+	playlist: {
+		type: Array,
+		default: [],
+	},
 });
 
 module.exports = mongoose.model('users', userSchema);

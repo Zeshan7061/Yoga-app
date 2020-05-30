@@ -71,33 +71,78 @@ module.exports = {
 	},
 
 	updateProfile: (req, res) => {
-		const { name, email } = req.body;
+		const {
+			name,
+			email,
+			website,
+			password,
+			confirmPassword,
+			currentPassword,
+		} = req.body;
 
 		User.findById(req.user.id).then((user) => {
 			user.name = name;
 			user.email = email;
+			user.website = website;
 
-			if (req.files) {
-				const file = req.files.file;
-				let fileName = Date.now() + '-' + file.name;
+			if (
+				password.length &&
+				confirmPassword.length &&
+				confirmPassword.length > 0 &&
+				password.length > 0 &&
+				password != confirmPassword
+			) {
+				req.flash('error_msg', "Passwords don't match.");
+				return res.redirect('/manageAccount/' + user._id);
+			}
 
-				file.mv('./public/images/' + fileName, async (err) => {
-					if (err) throw err;
+			if (password.length && password.length > 0) {
+				bcrypt.compare(currentPassword, user.password, (err, matched) => {
+					if (matched) {
+						bcrypt.genSalt(10, (err, salt) => {
+							bcrypt.hash(req.body.password, salt, (err, hash) => {
+								user.password = hash;
 
-					const img = user.image;
-					user.image = fileName;
-
-					if (img != '') {
-						fs.unlink('./public/images/' + img, (err) => {
-							if (err) throw err;
+								user.save().then((savedUser) => {
+									req.flash('success_msg', 'Profile updated sucessfully.');
+									return res.redirect('/manageAccount/' + user._id);
+									res.redirect('/admin/user/profile/' + user._id);
+								});
+							});
 						});
+					} else {
+						req.flash('error_msg', 'Incorrect Password!');
+						res.redirect('/manageAccount/' + user._id);
 					}
-
-					await user.save((userSaved) => {
-						req.flash('success_msg', 'Profile updated sucessfully.');
-						res.redirect('/admin/user/profile/' + user._id);
-					});
 				});
+			} else {
+				if (req.files) {
+					const file = req.files.file;
+					let fileName = Date.now() + '-' + file.name;
+
+					file.mv('./public/images/' + fileName, async (err) => {
+						if (err) throw err;
+
+						const img = user.image;
+						user.image = fileName;
+
+						if (img != '') {
+							fs.unlink('./public/images/' + img, (err) => {
+								if (err) throw err;
+							});
+						}
+
+						user.save().then((savedUser) => {
+							req.flash('success_msg', 'Profile updated sucessfully.');
+							return res.redirect('/manageAccount/' + user._id);
+						});
+					});
+				} else {
+					user.save().then((savedUser) => {
+						req.flash('success_msg', 'Profile updated sucessfully.');
+						return res.redirect('/manageAccount/' + user._id);
+					});
+				}
 			}
 		});
 	},
@@ -451,7 +496,7 @@ module.exports = {
 			}
 
 			await user.save();
-			res.redirect('/admin/user/subscription');
+			res.render('home/manageSubscription');
 		});
 	},
 
@@ -475,6 +520,9 @@ module.exports = {
 			'success_msg',
 			'Your card details has been updated successfully.'
 		);
+
+		return res.redirect('/manageAccount/' + req.user.id);
+
 		res.redirect('/admin/user/managePayment');
 	},
 

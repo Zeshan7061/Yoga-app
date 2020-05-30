@@ -72,18 +72,40 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-	opacity: 0.7;
+	opacity: 0.8;
 }
 
 nav ul.left {
 	-webkit-box-flex: 4;
 	-ms-flex: 4;
-	flex: 4;
+	flex: 5;
 }
 
 nav ul.left .logo {
 	font-size: 2em;
 	font-weight: 600;
+}
+
+nav ul.right {
+	flex: 1.5;
+	z-index: 999;
+}
+
+nav ul.right li.account ul {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	background: white;
+	padding: 10px 5px;
+	margin-top: 5px;
+	display: none;
+	border: 2px solid rgb(61, 61, 61);
+	border-radius: 5px;
+}
+
+nav ul.right li.account ul li a {
+	margin-top: 5px;
+	text-transform: capitalize;
 }
 
 main .slider {

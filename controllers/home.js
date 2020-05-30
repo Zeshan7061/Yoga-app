@@ -104,20 +104,32 @@ module.exports = {
 											clientSecrect: intent.client_secret,
 										};
 
+										/* req.on('data', (data) => {
+											console.log(data);
+										}); */
+
+										/* res.json({
+											client_secret: intent.client_secret,
+											name: req.body.name,
+										}); */
+
+										/* res.render('home/login', {
+											client_secret: intent.client_secret,
+											name: req.body.name,
+											card: req.body.card,
+										}); */
+
 										await user.save().then(async (savedUser) => {
-											res.json({
-												success: true,
-												client_secret: intent.client_secret,
-												name: req.body.name,
-											});
-
-											return;
-
-											req.flash(
+											/* req.flash(
 												'success_msg',
 												'You are registered. Log in to continue.'
-											);
-											res.redirect('/login');
+											); */
+
+											res.render('home/welcome', {
+												client_secret: intent.client_secret,
+												name: req.body.name,
+												amount: +req.body.duration,
+											});
 										});
 									});
 							});
@@ -184,7 +196,7 @@ module.exports = {
 			});
 
 			passport.authenticate('local', {
-				successRedirect: '/',
+				successRedirect: '/latestVideo',
 				failureRedirect: '/login',
 				failureFlash: true,
 			})(req, res, next);
@@ -266,6 +278,59 @@ module.exports = {
 					}
 				}
 			});
+		});
+	},
+
+	latestVideo: (req, res) => {
+		res.render('home/latestVideo');
+	},
+
+	watchVideos: (req, res) => {
+		res.render('home/watchVideos');
+	},
+
+	trainerProfile: (req, res) => {
+		Trainer.findById(req.params.id).then((trainer) => {
+			res.render('home/trainerProfile', {
+				trainer,
+			});
+		});
+	},
+
+	manageAccount: (req, res) => {
+		User.findById(req.params.id).then((user) => {
+			res.render('home/manageAccount', {
+				user,
+			});
+		});
+	},
+
+	manageSubscriptionPage: (req, res) => {
+		res.render('home/manageSubscription');
+	},
+
+	cancelSubscription: (req, res) => {
+		User.findById(req.user.id).then(async (user) => {
+			if (user.subscription.status == 'trail') {
+				user.subscription = {
+					amount: user.subscription.amount,
+					span: user.subscription.span,
+					status: 'cancelled',
+					customer: user.subscription.customer,
+					clientSecrect: user.subscription.clientSecrect,
+				};
+			} else if (user.subscription.status == 'cancelled') {
+				user.subscription = {
+					amount: user.subscription.amount,
+					span: user.subscription.span,
+					status: 'trail',
+					customer: user.subscription.customer,
+					clientSecrect: user.subscription.clientSecrect,
+				};
+			}
+
+			await user.save();
+			res.render('home/manageSubscription');
 		});
 	},
 };

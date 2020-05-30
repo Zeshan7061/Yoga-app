@@ -9,6 +9,7 @@ const ejs = require('express-ejs-layouts');
 const path = require('path');
 const dbConnection = require('./config/db');
 const dotenv = require('dotenv');
+const colors = require('colors');
 
 const app = express();
 
@@ -64,4 +65,7 @@ app.use('/admin', admin);
 app.use('/admin/categories', categories);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`Server running at port: ${PORT}`));
+app.listen(
+	PORT,
+	console.log(`Server running at port: ${PORT}`.black.bgWhite.bold)
+);

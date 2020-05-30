@@ -11,7 +11,7 @@
 <nav>
 	<ul class="left">
 		<li class="logo"><a href="/">logo | sy7 moves</a></li>
-		<li><a href="#">browse</a></li>
+		<li><a href="/latestVideo">browse</a></li>
 		<li><a href="#">search</a></li>
 		<li><a href="#">teaches</a></li>
 		<li><a href="#">styles</a></li>
@@ -19,11 +19,34 @@
 
 	<ul class="right">
 		<% if (user != undefined) { %>
-		<li><a href="/admin"><%= user.name %></a></li>
-		<li><a href="/logout">Log Out</a></li>
+		<li class="account">
+			<a href="#"><%= user.name %></a>
+			<ul class="settings">
+				<li style="border-bottom: 2px solid grey;">
+					<a style="text-transform: none;" href="#"><%= user.email %></a>
+				</li>
+				<li><a href="/manageAccount/<%= user.id %>">Manage Account</a></li>
+				<li>
+					<a href="/manageSubscription" id="manageSub">Manage Subscription</a>
+				</li>
+				<li><a href="#">Help</a></li>
+				<li><a href="/logout">Logout</a></li>
+			</ul>
+		</li>
+		<!-- <li><a href="/logout">Log Out</a></li> -->
 		<% } else { %>
 		<li><a href="/subscription">start free trail</a></li>
 		<li><a href="/login">sign in</a></li>
 		<% } %>
 	</ul>
 </nav>
+
+<script defer>
+	const account = document.querySelector('.account a');
+	account.addEventListener('click', () => {
+		const settings = document.querySelector('.settings');
+		settings.style.display == 'block'
+			? (settings.style.display = 'none')
+			: (settings.style.display = 'block');
+	});
+</script>

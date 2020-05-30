@@ -1,0 +1,68 @@
+<style>
+	.welcome-container {
+		max-width: 500px;
+		margin: 3em auto;
+		padding: 3em;
+		box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
+	}
+
+	.welcome-container > h1 {
+		text-align: center;
+		margin-bottom: 10px;
+	}
+
+	.welcome-container > p:nth-of-type(1) {
+		font-size: 1.1em;
+		margin-top: 0;
+		text-align: center;
+	}
+
+	.welcome-container > a {
+		text-decoration: none;
+		color: white;
+		background: dodgerblue;
+		padding: 0.8em 2em;
+		display: block;
+		text-align: center;
+		border-radius: 5px;
+		font-size: 1.2em;
+		margin-top: 2em;
+		transition: 0.3s;
+	}
+
+	.welcome-container > a:hover {
+		background: rgb(7, 118, 230);
+	}
+
+	.welcome-container > a:active {
+		transform: scale(0.9);
+	}
+
+	.sub-amount {
+		display: flex;
+		justify-content: space-evenly;
+		margin-top: 20px;
+	}
+
+	.sub-amount span {
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+</style>
+
+<div class="welcome-container">
+	<h1>Thanks for subscribing!</h1>
+	<p>You are now member of <b>Ahana | Yoga</b></p>
+	<div class="sub-amount">
+		<span>Total</span>
+		<span>$<%= amount %> </span>
+	</div>
+	<p style="margin-top: 30px;">
+		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe error minima
+		sit hic ratione labore autem? Praesentium beatae necessitatibus eaque velit,
+		at sunt assumenda maxime cum optio atque, cumque rem, error architecto omnis
+		inventore! Aliquam error consectetur placeat eaque laborum ipsam quaerat
+		pariatur excepturi quod? Voluptate magni consectetur saepe quam!
+	</p>
+	<a href="/watchVideos">Start Watching</a>
+</div>

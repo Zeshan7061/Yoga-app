@@ -25,11 +25,15 @@
 				<li style="border-bottom: 2px solid grey;">
 					<a style="text-transform: none;" href="#"><%= user.email %></a>
 				</li>
+				<% if (user.roles.includes('admin')) { %>
+				<li><a href="/admin">Admin Panel</a></li>
+				<% } else { %>
 				<li><a href="/manageAccount/<%= user.id %>">Manage Account</a></li>
 				<li>
 					<a href="/manageSubscription" id="manageSub">Manage Subscription</a>
 				</li>
 				<li><a href="#">Help</a></li>
+				<% } %>
 				<li><a href="/logout">Logout</a></li>
 			</ul>
 		</li>

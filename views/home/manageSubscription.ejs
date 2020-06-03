@@ -52,6 +52,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		flex-wrap: wrap !important;
 	}
 
 	.profile .img,
@@ -62,6 +63,7 @@
 	.profile .img {
 		display: flex;
 		flex-direction: column;
+		flex-wrap: wrap;
 	}
 
 	.profile .img img {
@@ -77,11 +79,13 @@
 	.profile .info .form-group {
 		display: flex;
 		flex-direction: column;
+		flex-wrap: wrap;
 		margin-top: 5px;
 	}
 
 	.password-form .form-group {
 		display: flex;
+		flex-wrap: wrap;
 		flex-direction: column;
 	}
 
@@ -603,8 +607,11 @@
 					<p>Will auto renew after 7days</p>
 					<p>Free trail started on <%= user.date.toLocaleString() %></p>
 					<br />
-					<a href="#" class="plan">Switch to yearly billing (Save 17%)</a>
-					<% } %>
+					<% if (user.subscription.span == 'month') { %>
+					<a href="/updatePlan" class="plan"
+						>Switch to yearly billing (Save 17%)</a
+					>
+					<% } %> <% } %>
 				</div>
 				<div class="amount">
 					<p>

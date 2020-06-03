@@ -26,6 +26,8 @@ const {
 	managePaymentDetails,
 	managePaymentPage,
 	yogaVideos,
+	customerQueries,
+	removeQuery,
 } = require('../controllers/admin');
 const { auth } = require('../helpers/auth');
 
@@ -87,5 +89,9 @@ router.get('/user/managePayment', managePaymentPage);
 router.post('/user/updatePayment', managePaymentDetails);
 
 router.get('/user/yogaVideos', yogaVideos);
+
+router.get('/queries', customerQueries);
+
+router.get('/delete/:id', removeQuery);
 
 module.exports = router;

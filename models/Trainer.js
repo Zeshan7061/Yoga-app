@@ -11,7 +11,7 @@ const trainerSchema = new Schema({
 	},
 	image: {
 		type: String,
-		default: '',
+		default: USER_DEFAULT_IMAGE,
 		trim: true,
 	},
 	videos: {
@@ -22,6 +22,11 @@ const trainerSchema = new Schema({
 		type: String,
 		default: '',
 		required: true,
+		trim: true,
+	},
+	bio: {
+		type: String,
+		default: '',
 		trim: true,
 	},
 });

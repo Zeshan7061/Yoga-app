@@ -32,7 +32,7 @@
 	}
 
 	.panels .panel {
-		flex-basis: 100%;
+		flex-basis: 100% !important;
 		padding: 1em;
 		background: linear-gradient(rgb(192, 190, 190), rgb(223, 221, 221));
 		transition: display 0.3s linear;
@@ -52,6 +52,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		flex-wrap: wrap;
 	}
 
 	.profile .img,
@@ -72,17 +73,20 @@
 
 	.profile .info {
 		flex: 12;
+		margin-top: 20px;
 	}
 
 	.profile .info .form-group {
 		display: flex;
 		flex-direction: column;
+		flex-wrap: wrap;
 		margin-top: 5px;
 	}
 
 	.password-form .form-group {
 		display: flex;
 		flex-direction: column;
+		flex-wrap: wrap;
 	}
 
 	.sb-btn {
@@ -603,8 +607,11 @@
 					<p>Will auto renew after 7days</p>
 					<p>Free trail started on <%= user.date.toLocaleString() %></p>
 					<br />
-					<a href="#" class="plan">Switch to yearly billing (Save 17%)</a>
-					<% } %>
+					<% if (user.subscription.span == 'month') { %>
+					<a href="/updatePlan" class="plan"
+						>Switch to yearly billing (Save 17%)</a
+					>
+					<% } %> <% } %>
 				</div>
 				<div class="amount">
 					<p>$19.99 / month</p>

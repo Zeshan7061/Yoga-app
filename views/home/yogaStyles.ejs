@@ -1,0 +1,66 @@
+<style>
+	section {
+		padding: 3em;
+	}
+
+	section > h1 {
+		font-weight: normal;
+		margin-bottom: 1em;
+	}
+
+	nav {
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	section .styleVideos {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 380px));
+		gap: 3em;
+	}
+
+	.styleVideos .sv img {
+		width: 100%;
+		cursor: pointer;
+		transition: 0.4s ease-out;
+	}
+
+	.styleVideos .sv img:hover {
+		opacity: 0.8;
+	}
+
+	.styleVideos .sv p {
+		color: grey;
+		font-size: 14px;
+	}
+</style>
+
+<section>
+	<h1>Browse by Style</h1>
+	<div class="styleVideos">
+		<% videosArray.forEach(e => { %>
+		<div class="sv">
+			<a href="/yogaStyle/<%= e.name %>">
+				<img
+					src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+					alt=""
+				/>
+			</a>
+			<a href="/yogaStyle/<%= e.name %>"><%= e.name %></a>
+			<p><%= e.styles.length %> videos</p>
+		</div>
+		<% }) %>
+
+		<div class="sv">
+			<a href="/yogaStyle/all">
+				<img
+					src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+					alt=""
+				/>
+			</a>
+			<a href="/yogaStyle/all">All Videos</a>
+			<% total = 0 %> <% videosArray.forEach(e => { %> <% total +=
+			e.styles.length %> <% }) %>
+			<p><%= total %> videos</p>
+		</div>
+	</div>
+</section>

@@ -86,7 +86,7 @@ nav ul.left .logo {
 	font-weight: 600;
 }
 
-nav ul.right {
+ul.right {
 	flex: 1.5;
 	z-index: 999;
 }
@@ -202,8 +202,8 @@ main .services .service h3 {
 .trainers {
 	display: -ms-grid;
 	display: grid;
-	-ms-grid-columns: (minmax(180px, 180px)) [auto-fit];
-	grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
+	-ms-grid-columns: (minmax(200px, 200px)) [auto-fit];
+	grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
 	margin: 2em 0;
 	justify-content: center;
 }
@@ -225,6 +225,7 @@ main .services .service h3 {
 
 .trainers div a img {
 	width: 100%;
+	height: 180px;
 }
 
 .trainers div h3 {

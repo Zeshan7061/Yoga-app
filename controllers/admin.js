@@ -4,10 +4,14 @@ const Trainer = require('../models/Trainer');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const { adminAccess } = require('../helpers/helper');
+const Video = require('../models/Video');
+const Message = require('../models/Message');
 
 module.exports = {
 	dashborad: (req, res) => {
-		res.render('admin/index');
+		req.user.roles.includes('admin')
+			? res.render('admin/index')
+			: res.redirect('/');
 	},
 
 	fetchUsers: (req, res) => {
@@ -310,6 +314,7 @@ module.exports = {
 			const trainer = new Trainer({
 				name: req.body.name,
 				category: req.body.category,
+				bio: req.body.bio,
 			});
 
 			if (req.files) {
@@ -355,11 +360,14 @@ module.exports = {
 			Trainer.findById(req.params.id).then((trainer) => {
 				trainer.name = req.body.name;
 				trainer.category = req.body.category;
+				trainer.bio = req.body.bio;
 
 				if (req.files) {
-					fs.unlink('./public/images/' + trainer.image, (err) => {
-						if (err) throw err;
-					});
+					if (trainer.image != '' && trainer.image != 'user.jpg') {
+						fs.unlink('./public/images/' + trainer.image, (err) => {
+							if (err) throw err;
+						});
+					}
 
 					const file = req.files.image;
 					let fileName = Date.now() + '-' + file.name;
@@ -434,8 +442,25 @@ module.exports = {
 
 					file.mv('./public/uploads/trainerVideos/' + fileName, (err) => {
 						if (err) throw err;
-						trainer.videos.push(fileName);
+
+						trainer.videos.push({
+							video: fileName,
+							style: req.body.style,
+							title: req.body.title,
+						});
+						trainer.style = req.body.style;
 						trainer.save();
+
+						new Video({
+							video: {
+								name: fileName,
+								category: trainer.category,
+								trainer: trainer.name,
+								style: req.body.style,
+							},
+							title: req.body.title,
+						}).save();
+
 						req.flash('success_msg', 'Video has been successfully uploaded.');
 						res.redirect('/admin/trainerVideos/' + trainer._id);
 					});
@@ -447,10 +472,13 @@ module.exports = {
 	deleteTrainerVideo: async (req, res, next) => {
 		try {
 			const trainer = await Trainer.findById(req.params.id);
-			const index = trainer.videos.indexOf(req.params.video);
+			//const index = trainer.videos.indexOf(req.params.video);
+			const index = trainer.videos.findIndex(
+				(elem) => elem.video == req.params.video
+			);
 
 			fs.unlink(
-				'./public/uploads/trainerVideos/' + trainer.videos[index],
+				'./public/uploads/trainerVideos/' + trainer.videos[index].video,
 				(err) => {
 					if (err) throw err;
 				}
@@ -537,6 +565,21 @@ module.exports = {
 			await res.render('admin/users/yogaVideos', {
 				videos: videosArray,
 			});
+		});
+	},
+
+	customerQueries: (req, res) => {
+		Message.find().then((messages) => {
+			res.render('admin/users/messages', {
+				messages,
+			});
+		});
+	},
+
+	removeQuery: (req, res) => {
+		Message.findByIdAndDelete(req.params.id).then((msg) => {
+			req.flash('success_msg', 'Customer query deleted successfully.');
+			res.redirect('/admin/queries');
 		});
 	},
 };

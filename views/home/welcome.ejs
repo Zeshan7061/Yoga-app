@@ -55,7 +55,7 @@
 	<p>You are now member of <b>Ahana | Yoga</b></p>
 	<div class="sub-amount">
 		<span>Total</span>
-		<span>$<%= amount %> </span>
+		<span id="amount">$</span>
 	</div>
 	<p style="margin-top: 30px;">
 		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe error minima
@@ -66,3 +66,7 @@
 	</p>
 	<a href="/watchVideos">Start Watching</a>
 </div>
+
+<script>
+	document.getElementById('amount').innerHTML += localStorage.getItem('amount');
+</script>

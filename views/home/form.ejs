@@ -1,0 +1,180 @@
+<link rel="stylesheet" href="/css/checkout.css" />
+
+<script
+	src="https://code.jquery.com/jquery-3.5.1.js"
+	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+	crossorigin="anonymous"
+></script>
+<script src="https://js.stripe.com/v3/"></script>
+
+<div class="errors"></div>
+
+<div class="container" style="margin-top: 5em;">
+	<main>
+		<div class="info">
+			<h1>yoga online class membership</h1>
+			<div class="annual">
+				<h4 class="anuual period" data-duration-value="199">
+					Anuual <span data-duration-value="199">- $199 / year</span>
+				</h4>
+				<h4 class="monthly period" data-duration-value="19.99">
+					Monthly
+					<span data-duration-value="19.99">- $19.99 / month</span>
+				</h4>
+				<select name="" id="" class="sub">
+					<option value="" hidden>Gift this subcription </option></select
+				>
+				<div class="subscriptions">
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+					<p>1-month subscription - $19.99</p>
+				</div>
+
+				<div>
+					<br /><br />
+					<hr />
+				</div>
+				<br />
+				<p class="text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
+					vitae doloremque aliquid minus illum qui! Lorem ipsum dolor sit amet.
+				</p>
+
+				<br />
+				<p class="text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+					dolore, culpa commodi atque eaque nihil nisi quas totam consectetur
+					odio!
+					<a href="#" class="rm">Read More</a>
+				</p>
+
+				<button class="trailerBtn">
+					Watch Trailer
+				</button>
+			</div>
+		</div>
+
+		<div class="payment">
+			<h2 class="heading">Start your 7-day free trial</h2>
+			<p class="account">
+				Already have an account?<a
+					href="/login"
+					style="
+						display: inline-block;
+						background: none;
+						color: blue;
+						text-decoration: underline;
+					"
+					>Log in</a
+				>
+			</p>
+
+			<div>
+				<form
+					id="payment-form"
+					autocomplete="on"
+					method="POST"
+					action="/register"
+				>
+					<input type="text" placeholder="Name" name="name" required />
+					<input type="email" name="email" id="" placeholder="Email" required />
+
+					<input
+						type="password"
+						placeholder="Password"
+						name="password"
+						id="password"
+						required
+					/>
+					<input
+						type="password"
+						placeholder="Confirm Password"
+						name="confirmPassword"
+						id="confirmPassword"
+						style="display: none;"
+						required
+					/>
+
+					<div class="terms">
+						<input
+							type="checkbox"
+							class="css-checkbox regular-checkbox"
+							id="tor"
+							required
+						/>
+						<label for="tor" class="css-label">
+							I agree to recieve newsletter and product updates</label
+						>
+					</div>
+
+					<br />
+					<br />
+					<hr />
+					<br />
+
+					<h3 class="pd">Payment details</h3>
+
+					<input type="hidden" name="duration" id="duration" />
+
+					<input
+						type="text"
+						placeholder="Name on Card"
+						name="username"
+						required
+					/>
+					<div class="form-row">
+						<input type="hidden" name="card" class="card" />
+
+						<!-- <label for="card-element">
+										Credit or debit card
+									</label> -->
+						<div id="card-element">
+							<!-- A Stripe Element will be inserted here. -->
+						</div>
+
+						<!-- Used to display form errors. -->
+						<div id="card-errors" role="alert"></div>
+					</div>
+					<br /><br /><br />
+					<hr />
+					<br />
+					<div class="total">Total: <span class="totalValue">$199</span></div>
+					<br />
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos
+						repudiandae provident temporibus! Eius omnis aliquid quasi animi
+						impedit delectus, explicabo officia vel? Accusantium tempore, sed
+						perferendis illo amet enim sequi?
+					</p>
+					<br />
+					<button type="submit" class="trailBtn" id="submitBtn">
+						Start free trial
+					</button>
+					<br />
+					<br />
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus
+						suscipit tempora sint dolores eaque, cupiditate nam ipsam excepturi
+						amet alias voluptates non laborum quam aspernatur autem earum iste
+						laboriosam totam inventore sed. Qui eveniet, excepturi nemo at
+						numquam porro commodi.
+					</p>
+				</form>
+			</div>
+		</div>
+	</main>
+
+	<div class="load">
+		<span> Submitting.....please wait</span>
+		<br />
+		<div class="loader"></div>
+	</div>
+</div>
+
+<script src="/js/client.js"></script>

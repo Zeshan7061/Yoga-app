@@ -1,7 +1,11 @@
 <div class="nav">
 	<h1><a href="/"> logo | sy7 moves</a></h1>
-	<% if (user != undefined) { %>
+
+	<% if (user != undefined) { %> <% if ( user.roles.includes('admin')) { %>
 	<a href="/admin"><%= user.name.toUpperCase() %></a>
+	<% } else { %>
+	<a href="/manageAccount/<%= user.id %>"><%= user.name.toUpperCase() %></a>
+	<% } %>
 	<a href="/logout">LOG OUT</a>
 	<% } else { %>
 	<a href="/login">SIGN IN</a>
@@ -11,10 +15,10 @@
 <nav>
 	<ul class="left">
 		<li class="logo"><a href="/">logo | sy7 moves</a></li>
-		<li><a href="/latestVideo">browse</a></li>
-		<li><a href="#">search</a></li>
-		<li><a href="#">teaches</a></li>
-		<li><a href="#">styles</a></li>
+		<li><a href="/browse">browse</a></li>
+		<li><a href="/search">search</a></li>
+		<li><a href="/yogaTrainers">teaches</a></li>
+		<li><a href="/styles">styles</a></li>
 	</ul>
 
 	<ul class="right">
@@ -32,14 +36,14 @@
 				<li>
 					<a href="/manageSubscription" id="manageSub">Manage Subscription</a>
 				</li>
-				<li><a href="#">Help</a></li>
+				<li><a href="/help">Help</a></li>
 				<% } %>
 				<li><a href="/logout">Logout</a></li>
 			</ul>
 		</li>
 		<!-- <li><a href="/logout">Log Out</a></li> -->
 		<% } else { %>
-		<li><a href="/subscription">start free trail</a></li>
+		<li><a href="/signup">start free trail</a></li>
 		<li><a href="/login">sign in</a></li>
 		<% } %>
 	</ul>
@@ -47,10 +51,12 @@
 
 <script defer>
 	const account = document.querySelector('.account a');
-	account.addEventListener('click', () => {
-		const settings = document.querySelector('.settings');
-		settings.style.display == 'block'
-			? (settings.style.display = 'none')
-			: (settings.style.display = 'block');
-	});
+	if (account) {
+		account.addEventListener('click', () => {
+			const settings = document.querySelector('.settings');
+			settings.style.display == 'block'
+				? (settings.style.display = 'none')
+				: (settings.style.display = 'block');
+		});
+	}
 </script>

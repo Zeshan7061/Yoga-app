@@ -12,10 +12,23 @@ const {
 	yogaVideo,
 	latestVideo,
 	watchVideos,
+	yogaTrainers,
 	trainerProfile,
 	manageAccount,
 	manageSubscriptionPage,
 	cancelSubscription,
+	updateSubscriptionPlan,
+	form,
+	ajaxData,
+	welcomePage,
+	helpPage,
+	help,
+	storeVideos,
+	stylePage,
+	styleVideos,
+	browsePage,
+	searchPage,
+	search,
 } = require('../controllers/home');
 
 router.all('/*', (req, res, next) => {
@@ -25,11 +38,10 @@ router.all('/*', (req, res, next) => {
 
 router.route('/').get(home);
 
-router.get('/charge', payCharges);
+//router.get('/charge', payCharges);
+//router.post('/charge', payCharges);
 
 router.get('/subscription', subscriptionPage);
-
-router.post('/charge', payCharges);
 
 router.route('/register/:url?').get(signUpPage).post(signUp);
 
@@ -43,6 +55,8 @@ router.get('/latestVideo', latestVideo);
 
 router.get('/watchVideos', watchVideos);
 
+router.get('/yogaTrainers', yogaTrainers);
+
 router.get('/trainerProfile/:id', trainerProfile);
 
 router.get('/manageAccount/:id', manageAccount);
@@ -50,5 +64,23 @@ router.get('/manageAccount/:id', manageAccount);
 router.get('/manageSubscription', manageSubscriptionPage);
 
 router.get('/updateSubscription', cancelSubscription);
+
+router.get('/updatePlan', updateSubscriptionPlan);
+
+router.route('/signup').get(form).post(ajaxData);
+
+router.get('/welcome', welcomePage);
+
+router.route('/help').get(helpPage).post(help);
+
+router.get('/styles', stylePage);
+
+router.get('/yogaStyle/:style', styleVideos);
+
+router.get('/browse', browsePage);
+
+router.route('/search/:value?').get(searchPage).post(search);
+
+//router.get('/storeVideos', storeVideos);
 
 module.exports = router;

@@ -157,7 +157,7 @@
 						perferendis illo amet enim sequi?
 					</p>
 					<br />
-					<button type="submit" class="trailBtn">
+					<button type="submit" class="trailBtn" id="submitBtn">
 						Start free trial
 					</button>
 					<br />
@@ -262,8 +262,6 @@
 				} else {
 					document.querySelector('.trailBtn').disabled = true;
 					document.querySelector('.card').value = card;
-
-					stripeTokenHandler(result.token);
 				}
 			});
 		});
@@ -277,35 +275,6 @@
 			form.appendChild(hiddenInput);
 
 			form.submit();
-
-			/* $.ajax({
-				method: 'POST',
-				url: '/register',
-				data: 'data',
-				success: (res) => {
-					return console.log(res);
-
-					stripe
-						.confirmCardSetup(res.client_secret, {
-							payment_method: {
-								card: card,
-								billing_details: {
-									name: res.name,
-								},
-							},
-						})
-						.then(function (result) {
-							if (result.error) {
-								return console.log(result.error);
-							} else {
-								window.location.assign('/login');
-							}
-						});
-				},
-				error: (err) => {
-					console.log(err);
-				},
-			}); */
 		}
 
 		function redirectUser(res) {

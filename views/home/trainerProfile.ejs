@@ -62,7 +62,7 @@
 
 	.videos {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
 		gap: 10px;
 		margin-top: 3em;
 	}
@@ -72,27 +72,8 @@
 		text-align: center;
 	}
 
-	.videos .video a video {
+	.videos .video video {
 		width: 100%;
-	}
-
-	.videos .video a:nth-child(2) {
-		text-decoration: none;
-		color: black;
-		font-weight: 500;
-		transition: 0.3s;
-		padding: 5px 10px;
-		border-radius: 20px;
-		margin-top: 5px;
-		display: inline-block;
-	}
-
-	.videos .video a:nth-child(2):hover {
-		background: rgba(0, 0, 0, 0.15);
-	}
-
-	.videos .video a:nth-child(2):active {
-		transform: scale(0.9);
 	}
 
 	.container > h1 {
@@ -107,9 +88,7 @@
 		<br />
 		<p class="duration">Lorem ipsum dolor sit amet | Lorem, ipsum.</p>
 		<p>
-			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, unde
-			deleniti aut soluta architecto enim quia, asperiores ratione ex saepe eius
-			corporis alias necessitatibus nobis vel. Odit nihil ipsum eos!
+			<%= trainer.bio %>
 		</p>
 		<a href="#" class="w-btn">Why Me</a>
 	</div>
@@ -124,13 +103,15 @@
 	<div class="videos">
 		<% trainer.videos.forEach(video => { %>
 		<div class="video">
-			<a href="#">
-				<video
-					src="/uploads/trainerVideos/<%= video %> "
-					controls
-					controlsList="nodownload"
-				></video>
-			</a>
+			<% if (user == undefined) { %>
+			<video src="/uploads/trainerVideos/<%= video.video %> "></video>
+			<% } else { %>
+			<video
+				src="/uploads/trainerVideos/<%= video.video %> "
+				controls
+				controlsList="nodownload"
+			></video>
+			<% } %>
 		</div>
 		<% }) %>
 	</div>

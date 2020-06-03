@@ -1,0 +1,117 @@
+<style>
+	section {
+		padding: 3em;
+	}
+
+	section > h1 {
+		font-weight: normal;
+		margin-bottom: 1em;
+	}
+
+	nav {
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	section .styleVideos {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	section .styleVideos .sv {
+		border: 1px solid black;
+	}
+</style>
+
+<section>
+	<h1>Browse by Style</h1>
+	<div class="styleVideos">
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p>style name</p>
+			<p>n videos</p>
+		</div>
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p>style name</p>
+			<p>n videos</p>
+		</div>
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p>style name</p>
+			<p>n videos</p>
+		</div>
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p>style name</p>
+			<p>n videos</p>
+		</div>
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p>style name</p>
+			<p>n videos</p>
+		</div>
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p>style name</p>
+			<p>n videos</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	section {
+		padding: 3em;
+	}
+
+	section > h1 {
+		font-weight: normal;
+		margin-bottom: 1em;
+	}
+
+	nav {
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	section .styleVideos {
+		display: flex;
+	}
+
+	section .styleVideos .sv {
+		border: 1px solid black;
+		flex: 1;
+	}
+</style>
+
+<section>
+	<h1>Browse by Style</h1>
+	<div class="styleVideos">
+		<% videosArray.forEach(e => { %>
+		<div class="sv">
+			<img
+				src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
+				alt=""
+			/>
+			<p><%= e.name %></p>
+			<p><%= e.styles.length %> videos</p>
+			<% }) %>
+		</div>
+	</div>
+</section>

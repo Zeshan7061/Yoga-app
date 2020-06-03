@@ -604,13 +604,15 @@
 					<% if (user.subscription.status == 'cancelled') { %>
 					<h3>Subscription Cancelled.</h3>
 					<% } else { %>
-					<p>Will auto renew after 7days</p>
+					<p>Will auto renew after <%= dateDifference(user.date) %>days</p>
 					<p>Free trail started on <%= user.date.toLocaleString() %></p>
 					<br />
 					<% if (user.subscription.span == 'month') { %>
 					<a href="/updatePlan" class="plan"
 						>Switch to yearly billing (Save 17%)</a
 					>
+					<% } else { %>
+					<a href="/updatePlan" class="plan">Switch back to monthly</a>
 					<% } %> <% } %>
 				</div>
 				<div class="amount">

@@ -511,13 +511,23 @@ module.exports = {
 
 	updateSubscriptionPlan: (req, res) => {
 		User.findById(req.user.id).then(async (user) => {
-			user.subscription = {
-				amount: '199',
-				span: 'year',
-				status: user.subscription.status,
-				customer: user.subscription.customer,
-				clientSecrect: user.subscription.clientSecrect,
-			};
+			if (user.subscription.span == 'month') {
+				user.subscription = {
+					amount: '199',
+					span: 'year',
+					status: user.subscription.status,
+					customer: user.subscription.customer,
+					clientSecrect: user.subscription.clientSecrect,
+				};
+			} else if (user.subscription.span == 'year') {
+				user.subscription = {
+					amount: '19.99',
+					span: 'month',
+					status: user.subscription.status,
+					customer: user.subscription.customer,
+					clientSecrect: user.subscription.clientSecrect,
+				};
+			}
 
 			await user.save().then(async (savedUser) => {
 				return res.redirect('/manageSubscription');
@@ -570,6 +580,7 @@ module.exports = {
 							category: trn.category,
 							trainer: trn.name,
 						},
+						title: trn.videos[i].title,
 					});
 
 					vd.save();
@@ -679,5 +690,32 @@ module.exports = {
 		res.render('home/search');
 	},
 
-	search: (req, res) => {},
+	search: (req, res) => {
+		const value = req.body.search;
+		const re = new RegExp(value, 'gi');
+
+		if (value.length > 0) {
+			Trainer.find({
+				name: re,
+			}).then((trainers) => {
+				Video.find({
+					title: re,
+				}).then((videos) => {
+					res.json({
+						success: true,
+						trainers,
+						videos,
+						user: req.user,
+					});
+				});
+			});
+		} else {
+			res.json({
+				success: false,
+				trainers: [],
+				videos: [],
+				user: req.user,
+			});
+		}
+	},
 };

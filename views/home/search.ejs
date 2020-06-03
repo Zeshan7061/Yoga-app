@@ -33,16 +33,60 @@
 
 	.results {
 		margin-top: 4em;
+		/* 		background: rgba(0, 0, 0, 0.7);
+		color: white; */
+		display: none;
 	}
 
-	.results > p {
+	.loading {
 		text-align: center;
 		color: grey;
-		font-size: 14px;
+		margin-top: 4em;
 	}
 
 	nav {
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.searchReturn section,
+	.videos-section {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 1em;
+		margin: 3em 0;
+	}
+
+	.trainers-section > div:nth-child(1),
+	.videos-section > div:nth-child(1) {
+		flex: 3;
+		text-align: center;
+		margin-bottom: 1em;
+	}
+
+	.trainers-section > div:nth-child(2),
+	.videos-section > div:nth-child(2) {
+		flex: 9;
+	}
+
+	.trainers-section .trainers-link,
+	.videos-section .videos-link {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+		justify-content: center;
+	}
+
+	.trainers-section .trainers-link div,
+	.videos-section .videos-link div {
+		padding: 1em;
+	}
+
+	.trainers-link div img {
+		width: 100%;
+		height: 200px;
+	}
+
+	.videos-section .videos-link div video {
+		width: 100%;
 	}
 </style>
 
@@ -52,32 +96,92 @@
 			<i class="fas fa-search"></i>
 		</div>
 		<div class="input">
-			<input type="search" name="query" placeholder="Search" />
+			<input type="search" name="query" placeholder="Search" id="search" />
 		</div>
 	</div>
 
+	<p class="loading">Start typing to see search resuts</p>
+
 	<div class="results">
-		<p>Start typing to see search resuts</p>
+		<div class="searchReturn">
+			<section class="trainers-section">
+				<div class="trianer-count">
+					<span class="t-count">collections</span><br /><i
+						class="fas fa-list"
+					></i>
+				</div>
+				<div class="trainers-link"></div>
+			</section>
+		</div>
+
+		<div class="search-videos">
+			<section class="videos-section">
+				<div class="videos-count">
+					<span class="v-count">videos</span><br /><i class="fas fa-video"></i>
+				</div>
+				<div class="videos-link"></div>
+			</section>
+		</div>
 	</div>
 </div>
 
 <script>
 	$(document).ready(function () {
-		$('#search').on('input', (e) => {
-			e.preventDefault();
+		let timer;
 
-			let value = e.target.value.trim();
-			if (!value) {
-				value = 'all';
+		$('#search').on('input', function () {
+			$('#search').keyup(function () {
+				clearTimeout(timer);
+
+				timer = setTimeout(function () {
+					$.ajax({
+						type: 'POST',
+						url: `/search`,
+						data: { search: $('#search').val() },
+					}).done(function (data) {
+						if (data.trainers == [] && data.videos == []) {
+							$('.results').hide();
+							$('.loading').fadeIn(500);
+						} else {
+							outputData(data.trainers, data.videos, data.user);
+							$('.loading').hide();
+						}
+					});
+
+					$('.results').fadeIn(500);
+				}, 2000);
+
+				$('.loading').fadeIn(250);
+			});
+
+			$('.results').hide();
+		});
+
+		function outputData(trainersArray, videosArray, user) {
+			$('.trainers-link').html('');
+			$('.videos-link').html('');
+			$('.t-count').text(trainersArray.length + ' collections');
+			$('.v-count').text(videosArray.length + ' videos');
+
+			for (let i = 0; i < trainersArray.length; i++) {
+				const div = document.createElement('div');
+				div.innerHTML = `<a href="/trainerProfile/${trainersArray[i]._id}"><img src="/images/${trainersArray[i].image}" /></a>`;
+				div.innerHTML += `<a href="/trainerProfile/${trainersArray[i]._id}"><h2>${trainersArray[i].name}</h2></a><p>${trainersArray[i].videos.length} videos</p>`;
+
+				$('.trainers-link').append(div);
 			}
 
-			$.ajax({
-				url: '/search' + value,
-				method: 'POST',
-				success: (data) => {
-					console.log(data);
-				},
-			});
-		});
+			for (let i = 0; i < videosArray.length; i++) {
+				const videoDiv = document.createElement('div');
+				videoDiv.innerHTML = `<video src="/uploads/trainerVideos/${
+					videosArray[i].video.name
+				}" ${
+					user == undefined ? '' : 'controls'
+				} controlsList="nodownload"></video>`;
+				videoDiv.innerHTML += `<p>${videosArray[i].title} videos</p>`;
+
+				$('.videos-link').append(videoDiv);
+			}
+		}
 	});
 </script>

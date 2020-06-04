@@ -718,4 +718,25 @@ module.exports = {
 			});
 		}
 	},
+
+	makeProduct: (req, res) => {
+		/* stripe.prices.list({ limit: 2 }, function (err, prices) {
+			if (err) throw err;
+
+			console.log(prices);
+			res.redirect('/');
+		}); */
+		stripe.subscriptions.create(
+			{
+				customer: 'cus_HNfMRHibov5hPB',
+				items: [{ price: 'price_1Gq1ZAKDDvmvyFcuB5kVikev' }],
+			},
+			function (err, subscription) {
+				if (err) throw err;
+
+				console.log(subscription);
+				res.redirect('/');
+			}
+		);
+	},
 };

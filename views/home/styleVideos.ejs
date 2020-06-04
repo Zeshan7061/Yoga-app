@@ -76,6 +76,11 @@
 	.styleVideos .sv video {
 		width: 100%;
 	}
+
+	.title {
+		color: grey;
+		margin: 5px 0;
+	}
 </style>
 
 <div class="latest-video">
@@ -116,6 +121,7 @@
 				controlsList="nodownload"
 			></video>
 			<% } %>
+			<p class="title"><%= e.title %></p>
 		</div>
 		<% }) %>
 	</div>

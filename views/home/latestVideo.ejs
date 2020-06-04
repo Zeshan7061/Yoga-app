@@ -114,12 +114,17 @@
 		display: grid;
 		grid-template: 1fr / repeat(4,1fr);
 		gap: 15px;
-		height: 170px;
+		height: 210px;
 		overflow: hidden;
 	}
 
 	.explore .ex-video video{
 		width: 100%;
+	}
+
+	p.title{
+		color: grey;
+		margin: 5px 0;
 	}
 </style>
 
@@ -151,11 +156,14 @@
 			</div>
 			<div class="sv-video">
 				<% e.styles.forEach(elem => { %>
+					<div class="div">
 				<video
 					src="/uploads/trainerVideos/<%= elem.video.name %>"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload"
 				></video>
+				<p class="title"><%= elem.title %></p>
+					</div>
 				<% }) %>
 			</div>
 		</div>
@@ -189,6 +197,7 @@
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload"
 				></video>
+				<p class="title"><%= elem.title %></p>
 			</div>
 			<% }) %>
 		<% }) %>

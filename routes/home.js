@@ -29,6 +29,7 @@ const {
 	browsePage,
 	searchPage,
 	search,
+	makeProduct,
 } = require('../controllers/home');
 
 router.all('/*', (req, res, next) => {
@@ -80,6 +81,8 @@ router.get('/yogaStyle/:style', styleVideos);
 router.get('/browse', browsePage);
 
 router.route('/search/:value?').get(searchPage).post(search);
+
+router.get('/makeProduct', makeProduct);
 
 //router.get('/storeVideos', storeVideos);
 

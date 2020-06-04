@@ -484,6 +484,9 @@ module.exports = {
 				}
 			);
 
+			Video.remove({
+				title: trainer.videos[index].title,
+			});
 			trainer.videos.splice(index, 1);
 
 			trainer.save().then((savedTrainer) => {

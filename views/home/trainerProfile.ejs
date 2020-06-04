@@ -69,7 +69,11 @@
 
 	.videos .video {
 		margin-bottom: 2em;
-		text-align: center;
+	}
+
+	.videos .video p {
+		color: grey;
+		margin: 5px 0;
 	}
 
 	.videos .video video {
@@ -115,6 +119,7 @@
 				controlsList="nodownload"
 			></video>
 			<% } %>
+			<p><%= video.title %></p>
 		</div>
 		<% }) %>
 	</div>

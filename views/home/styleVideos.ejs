@@ -110,10 +110,7 @@
 		<% videos.forEach(e => { %>
 		<div class="sv">
 			<% if (user == undefined) { %>
-			<video
-				src="/uploads/trainerVideos/<%= e.video.name %>"
-				controlsList="nodownload"
-			></video>
+			<video src="/video.mkv" controlsList="nodownload"></video>
 			<% } else { %>
 			<video
 				src="/uploads/trainerVideos/<%= e.video.name %>"

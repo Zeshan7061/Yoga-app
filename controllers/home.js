@@ -348,7 +348,14 @@ module.exports = {
 	},
 
 	watchVideos: (req, res) => {
-		res.render('home/watchVideos');
+		Video.find()
+			.sort({ date: -1 })
+			.limit(10)
+			.then((videos) => {
+				res.render('home/watchVideos', {
+					videos,
+				});
+			});
 	},
 
 	trainerProfile: (req, res) => {
@@ -719,22 +726,16 @@ module.exports = {
 		}
 	},
 
-	makeProduct: (req, res) => {
-		/* stripe.prices.list({ limit: 2 }, function (err, prices) {
-			if (err) throw err;
+	makeProduct: async (req, res) => {
+		const customer = 'cus_HNfMRHibov5hPB';
 
-			console.log(prices);
-			res.redirect('/');
-		}); */
-		stripe.subscriptions.create(
-			{
-				customer: 'cus_HNfMRHibov5hPB',
-				items: [{ price: 'price_1Gq1ZAKDDvmvyFcuB5kVikev' }],
-			},
+		stripe.subscriptions.update(
+			'sub_HP5G1vuBw7OdUG',
+			{ items: [{ price: 'plan_HP4nRBOpr0iqBU' }] },
 			function (err, subscription) {
 				if (err) throw err;
-
 				console.log(subscription);
+
 				res.redirect('/');
 			}
 		);

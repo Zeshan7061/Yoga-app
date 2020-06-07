@@ -112,7 +112,7 @@
 
 	.explore{
 		display: grid;
-		grid-template: 1fr / repeat(4,1fr);
+		grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
 		gap: 15px;
 		height: 210px;
 		overflow: hidden;
@@ -126,12 +126,18 @@
 		color: grey;
 		margin: 5px 0;
 	}
+
+	@media screen and (max-width: 892px){
+		.explore{
+			height: 880px;
+		}
+	}
 </style>
 
 <div class="latest-video">
 	<div class="video-info">
 		<h1>Latest Video</h1>
-		<p class="duration">9 videos</p>
+		<p class="duration"><%= videosArray.length %>  videos</p>
 		<br />
 		<p>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit Reprehenderit id.
@@ -157,11 +163,19 @@
 			<div class="sv-video">
 				<% e.styles.forEach(elem => { %>
 					<div class="div">
+				<% if (user == undefined) { %>
 				<video
-					src="/uploads/trainerVideos/<%= elem.video.name %>"
+					src="/video.mkv"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload"
 				></video>
+				<% }else { %>
+				<video
+					src="/uploads/trainerVideos/<%= elem.video.name %>"
+					<%= user == undefined ? '' : 'controls' %> 
+					controlsList="nodownload">
+				</video>
+					<% } %> 
 				<p class="title"><%= elem.title %></p>
 					</div>
 				<% }) %>
@@ -192,11 +206,19 @@
 		<% videosArray.forEach(e => { %>
 			<% e.styles.forEach(elem => { %>
 			<div class="ex-video">
+				<% if (user == undefined) { %>
 				<video
-					src="/uploads/trainerVideos/<%= elem.video.name %>"
+					src="/video.mkv"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload"
 				></video>
+				<% } else { %>
+				<video
+					src="/uploads/trainerVideos/<%= elem.video.name %>"
+					<%= user == undefined ? '' : 'controls' %> 
+					controlsList="nodownload">
+				</video>
+					<% } %> 
 				<p class="title"><%= elem.title %></p>
 			</div>
 			<% }) %>

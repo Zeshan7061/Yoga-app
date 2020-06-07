@@ -125,13 +125,14 @@ select:active {
 
 .trailerBtn {
 	margin-top: 3em;
-	padding: 1em 2em;
+	padding: 1em 1.5em;
 	border-radius: 5px;
 	color: white;
 	background: rgb(110, 110, 110);
 	border: none;
 	transition: 0.3s;
 	font-weight: bold;
+	display: inline-block;
 }
 
 .trailerBtn:hover {
@@ -193,6 +194,10 @@ input:focus {
 
 .trailBtn:hover {
 	background-color: rgb(47, 180, 233);
+}
+
+.trailBtn:active {
+	transform: scale(0.9);
 }
 
 .toggleDisplay {

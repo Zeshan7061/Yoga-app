@@ -52,8 +52,14 @@
 	.videos-section {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
 		padding: 1em;
 		margin: 3em 0;
+	}
+
+	.trainers-section,
+	.videos-section {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	}
 
 	.trainers-section > div:nth-child(1),
@@ -83,6 +89,11 @@
 	.trainers-link div img {
 		width: 100%;
 		height: 200px;
+		transition: 0.3s;
+	}
+
+	.trainers-link div img:hover {
+		opacity: 0.8;
 	}
 
 	.videos-section .videos-link div video {
@@ -173,11 +184,11 @@
 
 			for (let i = 0; i < videosArray.length; i++) {
 				const videoDiv = document.createElement('div');
-				videoDiv.innerHTML = `<video src="/uploads/trainerVideos/${
-					videosArray[i].video.name
-				}" ${
-					user == undefined ? '' : 'controls'
-				} controlsList="nodownload"></video>`;
+				if (user == undefined) {
+					videoDiv.innerHTML = `<video src="/video.mkv"  controlsList="nodownload"></video>`;
+				} else {
+					videoDiv.innerHTML = `<video src="/uploads/trainerVideos/${videosArray[i].video.name}" controls controlsList="nodownload"></video>`;
+				}
 				videoDiv.innerHTML += `<p>${videosArray[i].title} videos</p>`;
 
 				$('.videos-link').append(videoDiv);

@@ -138,23 +138,28 @@
 							placeholder="Your email"
 							name="client_email"
 							required
+							value="
+							<%= typeof client_email != 'undefined' ? client_email : '' %>"
 						/>
 						<input
 							type="text"
 							name="recipient_name"
 							placeholder="Recipient Name"
+							value="<%= typeof recipient_name != 'undefined' ?recipient_name : '' %>"
 							required
 						/>
 						<input
 							type="email"
 							name="recipient_email"
 							placeholder="Recipient email"
+							value="<%= typeof recipient_email != 'undefined' ?recipient_email : '' %>"
 							required
 						/>
 						<input
 							type="text"
 							name="message"
 							placeholder="Gift message"
+							value="<%= typeof message != 'undefined' ? message : '' %>"
 							required
 						/>
 					</div>

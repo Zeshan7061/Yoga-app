@@ -1009,6 +1009,7 @@ module.exports = {
 						recipient_email,
 						message,
 						username,
+						gift: true,
 					});
 				} else {
 					User.findOne({ email: recipient_email }).then((user) => {
@@ -1022,6 +1023,7 @@ module.exports = {
 								recipient_email,
 								message,
 								username,
+								gift: true,
 							});
 						} else {
 							const user = new User({

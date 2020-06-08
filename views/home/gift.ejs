@@ -6,7 +6,7 @@
 		box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
 	}
 
-	.welcome-container > h1 {
+	.welcome-container > h2 {
 		text-align: center;
 		margin-bottom: 10px;
 	}
@@ -51,7 +51,7 @@
 </style>
 
 <div class="welcome-container">
-	<h1>Thanks for subscribing!</h1>
+	<h2>Your Gift has been subscribed.</h2>
 	<p>You are now member of <b>Ahana | Yoga</b></p>
 	<div class="sub-amount">
 		<span>Total</span>
@@ -59,16 +59,14 @@
 			>$<%= typeof duration != 'undefined' ? duration : '' %></span
 		>
 	</div>
-	<p style="margin-top: 30px;">
-		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe error minima
-		sit hic ratione labore autem? Praesentium beatae necessitatibus eaque velit,
-		at sunt assumenda maxime cum optio atque, cumque rem, error architecto omnis
-		inventore! Aliquam error consectetur placeat eaque laborum ipsam quaerat
-		pariatur excepturi quod? Voluptate magni consectetur saepe quam!
+	<p style="margin-top: 30px; text-align: center;">
+		Your log in Password is
+		<span class="pwd" style="font-weight: bold; padding: 5px; font-size: 1.1em;"
+			><%= typeof password != 'undefined' ? password : '' %></span
+		>
+	</p>
+	<p style="margin: 5px 0; text-align: center;">
+		Log in to reset it. <a href="/login ">Log in</a>
 	</p>
 	<a href="/watchVideos">Start Watching</a>
 </div>
-
-<!-- <script>
-	document.getElementById('amount').innerHTML += localStorage.getItem('amount');
-</script> -->

@@ -9,10 +9,11 @@ const { dateDifference } = require('../helpers/helper');
 const stripe = require('stripe')('sk_test_3DZ6KTMhZBauyttWpWGOGUhN00m48c75zE');
 const Message = require('../models/Message');
 const Video = require('../models/Video');
+const randomString = require('randomstring');
 
 module.exports = {
-	home: async (req, res) => {
-		User.find().then((users) => {
+	home: (req, res) => {
+		/* User.find().then((users) => {
 			users.forEach(async (user) => {
 				if (
 					user.subscription.customer &&
@@ -61,9 +62,9 @@ module.exports = {
 					}
 				}
 			});
-		});
+		}); */
 
-		await Trainer.find().then((trainers) => {
+		Trainer.find().then((trainers) => {
 			res.render('home/home', {
 				trainers,
 			});
@@ -387,7 +388,17 @@ module.exports = {
 					status: 'cancelled',
 					customer: user.subscription.customer,
 					clientSecrect: user.subscription.clientSecrect,
+					subscriptionID: user.subscription.subscriptionID,
 				};
+
+				const subscription = await stripe.subscriptions.update(
+					user.subscription.subscriptionID,
+					{
+						pause_collection: {
+							behavior: 'mark_uncollectible',
+						},
+					}
+				);
 
 				user.save().then((savedUser) => {
 					return res.redirect('/manageSubscription');
@@ -400,7 +411,15 @@ module.exports = {
 					status: 'trail',
 					customer: user.subscription.customer,
 					clientSecrect: user.subscription.clientSecrect,
+					subscriptionID: user.subscription.subscriptionID,
 				};
+
+				const subscription = await stripe.subscriptions.update(
+					user.subscription.subscriptionID,
+					{
+						pause_collection: '',
+					}
+				);
 
 				user.save().then((savedUser) => {
 					return res.redirect('/manageSubscription');
@@ -525,7 +544,25 @@ module.exports = {
 					status: user.subscription.status,
 					customer: user.subscription.customer,
 					clientSecrect: user.subscription.clientSecrect,
+					subscriptionID: user.subscription.subscriptionID,
 				};
+
+				const subscription = await stripe.subscriptions.retrieve(
+					user.subscription.subscriptionID
+				);
+
+				const sub = await stripe.subscriptions.update(
+					user.subscription.subscriptionID,
+					{
+						proration_behavior: 'none',
+						items: [
+							{
+								id: subscription.items.data[0].id,
+								price: process.env.YEARLY_PLAN,
+							},
+						],
+					}
+				);
 			} else if (user.subscription.span == 'year') {
 				user.subscription = {
 					amount: '19.99',
@@ -533,7 +570,25 @@ module.exports = {
 					status: user.subscription.status,
 					customer: user.subscription.customer,
 					clientSecrect: user.subscription.clientSecrect,
+					subscriptionID: user.subscription.subscriptionID,
 				};
+
+				const subscription = await stripe.subscriptions.retrieve(
+					user.subscription.subscriptionID
+				);
+
+				const sub = await stripe.subscriptions.update(
+					user.subscription.subscriptionID,
+					{
+						proration_behavior: 'none',
+						items: [
+							{
+								id: subscription.items.data[0].id,
+								price: process.env.MONTHLY_PLAN,
+							},
+						],
+					}
+				);
 			}
 
 			await user.save().then(async (savedUser) => {
@@ -729,15 +784,440 @@ module.exports = {
 	makeProduct: async (req, res) => {
 		const customer = 'cus_HNfMRHibov5hPB';
 
-		stripe.subscriptions.update(
-			'sub_HP5G1vuBw7OdUG',
-			{ items: [{ price: 'plan_HP4nRBOpr0iqBU' }] },
-			function (err, subscription) {
-				if (err) throw err;
-				console.log(subscription);
+		/* const subscription = await stripe.subscriptions.retrieve(
+			'sub_HP5G1vuBw7OdUG'
+		);
 
-				res.redirect('/');
+		const planChanged = await stripe.subscriptions.update(
+			'sub_HP5G1vuBw7OdUG',
+			{
+				cancel_at_period_end: false,
+				proration_behavior: 'none',
+				items: [
+					{
+						id: subscription.items.data[0].id,
+						price: 'plan_HP4nRBOpr0iqBU',
+					},
+				],
 			}
 		);
+
+		console.log(planChanged); */
+
+		/* stripe.subscriptions.del('sub_HP5G1vuBw7OdUG', function (
+			err,
+			confirmation
+		) {
+			if (err) throw err;
+			console.log(confirmation);
+			res.redirect('/');
+		}); */
+
+		const subscription = await stripe.subscriptions.retrieve(
+			'sub_HQYSKIqk35Sg3c'
+		);
+
+		const sub = await stripe.subscriptions.update('sub_HQYSKIqk35Sg3c', {
+			proration_behavior: 'none',
+			items: [
+				{
+					id: subscription.items.data[0].id,
+					price: 'plan_HP4nRBOpr0iqBU',
+				},
+			],
+		});
+
+		res.redirect('/');
+	},
+
+	newCustomer: (req, res) => {
+		if (req.params.form == 'subscription') {
+			try {
+				const {
+					name,
+					email,
+					password,
+					confirmPassword,
+					username,
+					duration,
+					stripeToken,
+				} = req.body;
+				let errors = [];
+
+				if (!name) {
+					errors.push({
+						message: 'Add name!',
+					});
+				}
+
+				if (!email) {
+					errors.push({
+						message: 'Add an email!',
+					});
+				}
+
+				if (!password) {
+					errors.push({
+						message: 'Add password!',
+					});
+				}
+
+				if (!confirmPassword) {
+					errors.push({
+						message: 'Add confirm Password!',
+					});
+				}
+
+				if (password !== confirmPassword) {
+					errors.push({
+						message: "Passwords don't match.",
+					});
+				}
+
+				if (errors.length > 0) {
+					res.render('home/form', {
+						errors,
+						name,
+						email,
+						username: username,
+					});
+				} else {
+					User.findOne({ email: email }).then((user) => {
+						if (user) {
+							errors.push({
+								message: 'Email already exists. Please log in.',
+							});
+
+							res.render('home/form', {
+								errors,
+								name,
+								email,
+								username: username,
+							});
+						} else {
+							const user = new User({
+								name: name,
+								email: email,
+								password: password,
+							});
+
+							bcrypt.genSalt(10, (err, salt) => {
+								bcrypt.hash(user.password, salt, (err, hash) => {
+									user.password = hash;
+
+									stripe.customers
+										.create({
+											name: username,
+											email,
+											source: stripeToken,
+											description: 'Yoga App Payment',
+										})
+										.then(async (customer) => {
+											const intent = await stripe.setupIntents.create({
+												customer: customer.id,
+											});
+
+											let plan =
+												duration == 199
+													? process.env.YEARLY_PLAN
+													: process.env.MONTHLY_PLAN;
+
+											stripe.subscriptions.create(
+												{
+													customer: customer.id,
+													items: [{ price: plan }],
+													trial_from_plan: true,
+												},
+												async function (err, subscription) {
+													if (err) throw err;
+
+													user.subscription = {
+														duration,
+														span: duration == 199 ? 'year' : 'month',
+														status: 'trail',
+														customer,
+														clientSecrect: intent.client_secret,
+														subscriptionID: subscription.id,
+													};
+
+													await user.save().then((savedUser) => {
+														res.render('home/welcome', {
+															duration,
+														});
+													});
+												}
+											);
+										});
+								});
+							});
+						}
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		} else if (req.params.form == 'gift') {
+			try {
+				const {
+					client_email,
+					recipient_name,
+					recipient_email,
+					message,
+					username,
+					duration,
+					stripeToken,
+				} = req.body;
+				let errors = [];
+
+				let password = randomString.generate(8);
+
+				if (!client_email) {
+					errors.push({
+						message: 'Add an email!',
+					});
+				}
+
+				if (!recipient_name) {
+					errors.push({
+						message: 'Add recipient name!',
+					});
+				}
+
+				if (!recipient_email) {
+					errors.push({
+						message: 'Add recipient email!',
+					});
+				}
+
+				if (!message) {
+					errors.push({
+						message: 'Add gift message!',
+					});
+				}
+
+				/* if (!date) {
+					errors.push({
+						message: 'Add delivery date!',
+					});
+				} */
+
+				if (errors.length > 0) {
+					res.render('home/form', {
+						errors,
+						client_email,
+						recipient_name,
+						recipient_email,
+						message,
+						username,
+					});
+				} else {
+					User.findOne({ email: recipient_email }).then((user) => {
+						if (user) {
+							errors.push({ message: 'Email already exists. Please log in.' });
+
+							res.render('home/form', {
+								errors,
+								client_email,
+								recipient_name,
+								recipient_email,
+								message,
+								username,
+							});
+						} else {
+							const user = new User({
+								name: recipient_name,
+								email: recipient_email,
+								password,
+							});
+
+							bcrypt.genSalt(10, (err, salt) => {
+								bcrypt.hash(user.password, salt, (err, hash) => {
+									user.password = hash;
+
+									stripe.customers
+										.create({
+											name: username,
+											email: client_email,
+											source: stripeToken,
+											description: 'Yoga App Payment',
+										})
+										.then(async (customer) => {
+											const intent = await stripe.setupIntents.create({
+												customer: customer.id,
+											});
+
+											let plan =
+												duration == 199
+													? process.env.YEARLY_PLAN
+													: process.env.MONTHLY_PLAN;
+
+											stripe.subscriptions.create(
+												{
+													customer: customer.id,
+													items: [{ price: plan }],
+													trial_from_plan: true,
+												},
+												async function (err, subscription) {
+													if (err) throw err;
+
+													user.subscription = {
+														duration,
+														span: duration == 199 ? 'year' : 'month',
+														status: 'trail',
+														customer,
+														clientSecrect: intent.client_secret,
+														subscriptionID: subscription.id,
+													};
+
+													await user.save().then((savedUser) => {
+														res.render('home/gift', {
+															duration,
+															password,
+														});
+													});
+												}
+											);
+										});
+								});
+							});
+						}
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	},
+
+	giftSubscriptionPage: (req, res) => {
+		res.render('home/giftForm');
+	},
+
+	giftSubscription: (req, res) => {
+		try {
+			const {
+				email,
+				recipient_email,
+				message,
+				date,
+				username,
+				duration,
+				stripeToken,
+			} = req.body;
+			let errors = [];
+
+			let password = randomString.generate(8);
+
+			if (!email) {
+				errors.push({
+					message: 'Add an email!',
+				});
+			}
+
+			if (!recipient_email) {
+				errors.push({
+					message: 'Add recipient email!',
+				});
+			}
+
+			if (!message) {
+				errors.push({
+					message: 'Add gift message!',
+				});
+			}
+
+			if (!date) {
+				errors.push({
+					message: 'Add delivery date!',
+				});
+			}
+
+			if (errors.length > 0) {
+				res.render('home/giftForm', {
+					errors,
+					name,
+					email,
+					recipient_email,
+					message,
+					date,
+					username,
+				});
+			} else {
+				User.findOne({ email: recipient_email }).then((user) => {
+					if (user) {
+						errors.push({ message: 'Email already exists. Please log in.' });
+
+						res.render('home/giftForm', {
+							errors,
+							name,
+							email,
+							recipient_email,
+							message,
+							date,
+							username,
+						});
+					} else {
+						const user = new User({
+							name,
+							email: recipient_email,
+							password,
+						});
+
+						bcrypt.genSalt(10, (err, salt) => {
+							bcrypt.hash(user.password, salt, (err, hash) => {
+								user.password = hash;
+
+								stripe.customers
+									.create({
+										name: username,
+										email,
+										source: stripeToken,
+										description: 'Yoga App Payment',
+									})
+									.then(async (customer) => {
+										const intent = await stripe.setupIntents.create({
+											customer: customer.id,
+										});
+
+										let plan =
+											duration == 199
+												? process.env.YEARLY_PLAN
+												: process.env.MONTHLY_PLAN;
+
+										stripe.subscriptions.create(
+											{
+												customer: customer.id,
+												items: [{ price: plan }],
+												trial_from_plan: true,
+											},
+											async function (err, subscription) {
+												if (err) throw err;
+
+												user.subscription = {
+													duration,
+													span: duration == 199 ? 'year' : 'month',
+													status: 'trail',
+													customer,
+													clientSecrect: intent.client_secret,
+													subscriptionID: subscription.id,
+												};
+
+												await user.save().then((savedUser) => {
+													res.render('home/welcome', {
+														duration,
+														password,
+													});
+												});
+											}
+										);
+									});
+							});
+						});
+					}
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	},
 };

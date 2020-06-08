@@ -30,6 +30,9 @@ const {
 	searchPage,
 	search,
 	makeProduct,
+	newCustomer,
+	giftSubscriptionPage,
+	giftSubscription,
 } = require('../controllers/home');
 
 router.all('/*', (req, res, next) => {
@@ -68,7 +71,7 @@ router.get('/updateSubscription', cancelSubscription);
 
 router.get('/updatePlan', updateSubscriptionPlan);
 
-router.route('/signup').get(form).post(ajaxData);
+router.route('/signup/:form?').get(form).post(newCustomer);
 
 router.get('/welcome', welcomePage);
 
@@ -82,8 +85,13 @@ router.get('/browse', browsePage);
 
 router.route('/search/:value?').get(searchPage).post(search);
 
-router.get('/makeProduct', makeProduct);
+//router.get('/makeProduct', makeProduct);
 
 //router.get('/storeVideos', storeVideos);
+
+router
+	.route('/giftSubscription')
+	.get(giftSubscriptionPage)
+	.post(giftSubscription);
 
 module.exports = router;

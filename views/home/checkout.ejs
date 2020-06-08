@@ -262,6 +262,7 @@
 				} else {
 					document.querySelector('.trailBtn').disabled = true;
 					document.querySelector('.card').value = card;
+					stripeTokenHandler(result.token);
 				}
 			});
 		});

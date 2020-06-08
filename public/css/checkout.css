@@ -45,14 +45,15 @@ nav {
 
 main {
 	width: 80%;
-	margin: auto;
+	margin: -50px auto;
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
 }
 
 main .info,
-.payment {
+.payment,
+#gift {
 	flex: 1;
 	padding: 1em 2em;
 }
@@ -114,7 +115,7 @@ select:active {
 }
 
 .subscriptions p {
-	margin: 5px 0;
+	margin: 5px;
 	cursor: pointer;
 	padding: 7px;
 }
@@ -140,17 +141,45 @@ select:active {
 	cursor: pointer;
 }
 
-.payment {
+.payment,
+#gift {
 	border-radius: 5px;
 	background: white;
 }
+
+.gift-fields {
+	display: none;
+}
+
+.gift-info {
+	padding: 10px;
+	background: white;
+	border-radius: 5px;
+	margin: 1em 0;
+	display: none;
+	cursor: pointer;
+}
+
+.gift-info p {
+	padding: 0 20px;
+}
+
+.gift-info p:nth-of-type(1) {
+	font-weight: bold !important;
+}
+
 .payment .heading,
 .account {
 	text-align: center;
 	padding: 5px;
 }
 
-.form {
+.heading {
+	margin-top: 20px;
+}
+
+.form,
+#gift-form {
 	display: flex;
 	flex-direction: column;
 	margin-top: 1em;
@@ -201,8 +230,7 @@ input:focus {
 }
 
 .toggleDisplay {
-	height: 130px;
-	padding: 10px;
+	height: 100px;
 }
 
 .total {

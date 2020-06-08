@@ -7,7 +7,13 @@
 ></script>
 <script src="https://js.stripe.com/v3/"></script>
 
-<div class="errors"></div>
+<div class="errors">
+	<% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+	<div class="error">
+		<%= error.message %>
+	</div>
+	<% }) %> <% } %>
+</div>
 
 <div class="container" style="margin-top: 5em;">
 	<main>
@@ -24,9 +30,15 @@
 				<select name="" id="" class="sub">
 					<option value="" hidden>Gift this subcription </option></select
 				>
+
 				<div class="subscriptions">
-					<p>1-month subscription - $19.99</p>
-					<p>1-year subscription - $199</p>
+					<p data-amount="19.99">1-month subscription - $19.99</p>
+					<p data-amount="199">1-year subscription - $199</p>
+				</div>
+
+				<div class="gift-info">
+					<p>Gift this subcription</p>
+					<p id="sub-info">1-month subscription for $19.99</p>
 				</div>
 
 				<div>
@@ -67,44 +79,84 @@
 					>Log in</a
 				>
 			</p>
-
+			<br />
 			<div>
 				<form
 					id="payment-form"
 					autocomplete="on"
 					method="POST"
-					action="/register"
+					action="/signup/subscription"
 				>
-					<input type="text" placeholder="Name" name="name" required />
-					<input type="email" name="email" id="" placeholder="Email" required />
-
-					<input
-						type="password"
-						placeholder="Password"
-						name="password"
-						id="password"
-						required
-					/>
-					<input
-						type="password"
-						placeholder="Confirm Password"
-						name="confirmPassword"
-						id="confirmPassword"
-						style="display: none;"
-						required
-					/>
-
-					<div class="terms">
+					<div class="subscription-fields">
 						<input
-							type="checkbox"
-							class="css-checkbox regular-checkbox"
-							id="tor"
+							type="text"
+							placeholder="Name"
+							name="name"
 							required
-							checked
+							value="<%= typeof name != 'undefined'? name: '' %>"
 						/>
-						<label for="tor" class="css-label">
-							I agree to recieve newsletter and product updates</label
-						>
+						<input
+							type="email"
+							name="email"
+							placeholder="Email"
+							required
+							value="<%= typeof email != 'undefined'? email: '' %>"
+						/>
+						<input
+							type="password"
+							placeholder="Password"
+							name="password"
+							id="password"
+							required
+						/>
+						<input
+							type="password"
+							placeholder="Confirm Password"
+							name="confirmPassword"
+							id="confirmPassword"
+							style="display: none;"
+							required
+						/>
+
+						<div class="terms">
+							<input
+								type="checkbox"
+								class="css-checkbox regular-checkbox"
+								id="tor"
+								required
+								checked
+							/>
+							<label for="tor" class="css-label">
+								I agree to recieve newsletter and product updates</label
+							>
+						</div>
+					</div>
+
+					<div class="gift-fields">
+						<input
+							type="email"
+							placeholder="Your email"
+							name="client_email"
+							required
+						/>
+						<input
+							type="text"
+							name="recipient_name"
+							placeholder="Recipient Name"
+							required
+						/>
+						<input
+							type="email"
+							name="recipient_email"
+							placeholder="Recipient email"
+							required
+						/>
+						<input
+							type="text"
+							name="message"
+							placeholder="Gift message"
+							required
+						/>
 					</div>
 
 					<br />
@@ -121,7 +173,9 @@
 						placeholder="Name on Card"
 						name="username"
 						required
+						value="<%= typeof username != 'undefined'? username: '' %>"
 					/>
+
 					<div class="form-row">
 						<input type="hidden" name="card" class="card" />
 
@@ -171,4 +225,4 @@
 	</div>
 </div>
 
-<script src="/js/client.js"></script>
+<script src="/js/subscriptions.js"></script>

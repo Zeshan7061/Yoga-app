@@ -5,6 +5,41 @@ $(document).ready(() => {
 		document.querySelector('.subscriptions').classList.toggle('toggleDisplay');
 	});
 
+	const stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+	const elements = stripe.elements();
+	const form = $('#payment-form');
+	const subscriptionForm = document.querySelector('.payment');
+	const giftForm = document.getElementById('#gift');
+	const style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '16px',
+			'::placeholder': {
+				color: '#aab7c4',
+			},
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a',
+		},
+	};
+
+	var card = elements.create('card', { style: style });
+	card.mount('#card-element');
+	const loadingView = document.querySelector('.load');
+
+	const subs = document.querySelectorAll('.subscriptions p');
+	const giftInfo = document.querySelector('.gift-info');
+
+	subs.forEach((s) => {
+		s.addEventListener('click', (e) => {
+			subscriptionForm.style.display = 'none';
+			giftForm.style.display = 'block';
+		});
+	});
+
 	const elems = document.querySelectorAll('.period');
 	elems.forEach((el) => {
 		el.addEventListener('click', (event) => {
@@ -30,29 +65,6 @@ $(document).ready(() => {
 			document.getElementById('confirmPassword').style.display = 'none';
 		}
 	});
-
-	const stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
-	const elements = stripe.elements();
-	const form = $('#payment-form');
-	const style = {
-		base: {
-			color: '#32325d',
-			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-			fontSmoothing: 'antialiased',
-			fontSize: '16px',
-			'::placeholder': {
-				color: '#aab7c4',
-			},
-		},
-		invalid: {
-			color: '#fa755a',
-			iconColor: '#fa755a',
-		},
-	};
-
-	var card = elements.create('card', { style: style });
-	card.mount('#card-element');
-	const loadingView = document.querySelector('.load');
 
 	form.on('submit', (e) => {
 		e.preventDefault();

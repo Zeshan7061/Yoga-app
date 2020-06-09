@@ -320,6 +320,7 @@ footer .contact {
 footer .contact div a {
 	padding: 5px;
 	font-size: 2em;
+	z-index: 9999999;
 }
 
 @media (max-width: 768px) {

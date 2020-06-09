@@ -33,11 +33,17 @@
 		color: white;
 		background: dodgerblue;
 		font-weight: 500;
-		padding: 0.8em 2em;
+		padding: 0.7em 1.5em;
 		border-radius: 5px;
-		display: inline-block;
 		margin-top: 1em;
 		transition: 0.3s ease-in-out;
+		border: none;
+		font-size: 1.2em;
+		outline: none;
+	}
+
+	hr {
+		margin: 2em 6em;
 	}
 
 	.w-btn:hover {
@@ -95,7 +101,13 @@
 			omnis!
 		</p>
 		<br />
-		<a href="/watchVideos" class="w-btn">Watch Now</a>
+		<button
+			class="w-btn"
+			onclick="return false;"
+			onmousedown="scrollToVideos('styleVid');"
+		>
+			Watch Now
+		</button>
 	</div>
 	<div class="video-thumbnail">
 		<img
@@ -105,8 +117,11 @@
 	</div>
 </div>
 
+<br />
+<hr />
+
 <section>
-	<div class="styleVideos">
+	<div class="styleVideos" id="styleVid">
 		<% videos.forEach(e => { %>
 		<div class="sv">
 			<% if (user == undefined) { %>
@@ -123,3 +138,28 @@
 		<% }) %>
 	</div>
 </section>
+
+<script>
+	function scrollToVideos(el) {
+		var scrollY = 0;
+		var distance = 40;
+		var speed = 24;
+
+		const currentY = window.pageYOffset;
+		const targetY = document.getElementById(el).offsetTop - 200;
+		const bodyHeight = document.body.offsetHeight;
+		const yPos = currentY + window.innerHeight;
+		const animator = setTimeout("scrollToVideos('" + el + "')", 20);
+
+		if (yPos > bodyHeight) {
+			clearTimeout(animator);
+		} else {
+			if (currentY < targetY - distance) {
+				scrollY = currentY + distance;
+				window.scroll(0, scrollY);
+			} else {
+				clearTimeout(animator);
+			}
+		}
+	}
+</script>

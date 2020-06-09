@@ -185,9 +185,17 @@
 			for (let i = 0; i < videosArray.length; i++) {
 				const videoDiv = document.createElement('div');
 				if (user == undefined) {
-					videoDiv.innerHTML = `<video src="/video.mkv"  controlsList="nodownload"></video>`;
+					videoDiv.innerHTML = `<video controlsList="nodownload">
+					<source src="/video.mkv" type="video/mp4">
+				    <source src="/video.mkv" type="video/ogg">
+    				<source src="/video.mkv" type="video/webm">
+					</video>`;
 				} else {
-					videoDiv.innerHTML = `<video src="/uploads/trainerVideos/${videosArray[i].video.name}" controls controlsList="nodownload"></video>`;
+					videoDiv.innerHTML = `<video controls controlsList="nodownload">
+					<source src="/uploads/trainerVideos/${videosArray[i].video.name}" type="video/mp4">
+				    <source src="/uploads/trainerVideos/${videosArray[i].video.name}" type="video/ogg">
+    				<source src="/uploads/trainerVideos/${videosArray[i].video.name}" type="video/webm">	
+					</video>`;
 				}
 				videoDiv.innerHTML += `<p>${videosArray[i].title} videos</p>`;
 

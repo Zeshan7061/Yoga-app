@@ -613,10 +613,12 @@
 					>
 					<% } else { %>
 					<a href="/updatePlan" class="plan">Switch back to monthly</a>
-					<% } %> <% } %><% } %>
+					<% } %> <% } %>
 				</div>
 				<div class="amount">
-					<p>$19.99 / month</p>
+					<p>
+						$<%= user.subscription.amount %> / <%= user.subscription.span %>
+					</p>
 					<p>Mastercard **** 12</p>
 					<% if (user.subscription.status == 'cancelled') { %>
 					<a href="/updateSubscription" class="cs-btn" id="resumeBtn"
@@ -699,6 +701,7 @@
 <script>
 	function togglePanel(panel, pnl_elem) {
 		const ph = document.querySelectorAll('.panel-bar span');
+		console.log(pnl_elem);
 
 		const panels = document.querySelectorAll('.panel');
 		const pnl = document.querySelector(`.${panel}`);

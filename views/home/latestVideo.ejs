@@ -165,15 +165,20 @@
 					<div class="div">
 				<% if (user == undefined) { %>
 				<video
-					src="/video.mkv"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload"
-				></video>
+				>
+				<source src="/video.mkv" type="video/mp4">
+				<source src="/video.mkv" type="video/ogg">
+    			<source src="/video.mkv" type="video/webm">
+			</video>
 				<% }else { %>
 				<video
-					src="/uploads/trainerVideos/<%= elem.video.name %>"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload">
+					<source src="/uploads/trainerVideos/<%= elem.video.name %>" type="video/mp4">
+				    <source src="/uploads/trainerVideos/<%= elem.video.name %>" type="video/ogg">
+    				<source src="/uploads/trainerVideos/<%= elem.video.name %>" type="video/webm">
 				</video>
 					<% } %> 
 				<p class="title"><%= elem.title %></p>
@@ -208,15 +213,20 @@
 			<div class="ex-video">
 				<% if (user == undefined) { %>
 				<video
-					src="/video.mkv"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload"
-				></video>
+				>
+					<source src="/video.mkv" type="video/mp4">
+				    <source src="/video.mkv" type="video/ogg">
+    				<source src="/video.mkv" type="video/webm">
+			</video>
 				<% } else { %>
 				<video
-					src="/uploads/trainerVideos/<%= elem.video.name %>"
 					<%= user == undefined ? '' : 'controls' %> 
 					controlsList="nodownload">
+					<source src="/uploads/trainerVideos/<%= elem.video.name %>" type="video/mp4">
+				    <source src="/uploads/trainerVideos/<%= elem.video.name %>" type="video/ogg">
+    				<source src="/uploads/trainerVideos/<%= elem.video.name %>" type="video/webm">
 				</video>
 					<% } %> 
 				<p class="title"><%= elem.title %></p>

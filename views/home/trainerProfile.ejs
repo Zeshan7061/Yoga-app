@@ -110,13 +110,26 @@
 		<% trainer.videos.forEach(video => { %>
 		<div class="video">
 			<% if (user == undefined) { %>
-			<video src="/video.mkv"></video>
+			<video>
+				<source src="/video.mkv" type="video/mp4" />
+				<source src="/video.mkv" type="video/ogg" />
+				<source src="/video.mkv" type="video/webm" />
+			</video>
 			<% } else { %>
-			<video
-				src="/uploads/trainerVideos/<%= video.video %> "
-				controls
-				controlsList="nodownload"
-			></video>
+			<video controls controlsList="nodownload">
+				<source
+					src="/uploads/trainerVideos/<%= video.video %>"
+					type="video/mp4"
+				/>
+				<source
+					src="/uploads/trainerVideos/<%= video.video %>"
+					type="video/ogg"
+				/>
+				<source
+					src="/uploads/trainerVideos/<%= video.video %>"
+					type="video/webm"
+				/>
+			</video>
 			<% } %>
 			<p><%= video.title %></p>
 		</div>

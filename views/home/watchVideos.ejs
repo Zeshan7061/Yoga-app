@@ -132,13 +132,26 @@
 		<div class="video">
 			<a href="#">
 				<% if (user == undefined) { %>
-				<video src="/video.mkv"></video>
+				<video>
+					<source src="/video.mkv" type="video/mp4" />
+					<source src="/video.mkv" type="video/ogg" />
+					<source src="/video.mkv" type="video/webm" />
+				</video>
 				<% } else { %>
-				<video
-					src="/uploads/trainerVideos/<%= v.video.name %>"
-					controls
-					controlsList="nodownload"
-				></video>
+				<video controls controlsList="nodownload">
+					<source
+						src="/uploads/trainerVideos/<%= v.video.name %>"
+						type="video/mp4"
+					/>
+					<source
+						src="/uploads/trainerVideos/<%= v.video.name %>"
+						type="video/ogg"
+					/>
+					<source
+						src="/uploads/trainerVideos/<%= v.video.name %>"
+						type="video/webm"
+					/>
+				</video>
 				<% } %>
 			</a>
 			<p><%= v.title %></p>

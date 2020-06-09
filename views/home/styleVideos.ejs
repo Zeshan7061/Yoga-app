@@ -117,11 +117,20 @@
 			<% if (user == undefined) { %>
 			<video src="/video.mkv" controlsList="nodownload"></video>
 			<% } else { %>
-			<video
-				src="/uploads/trainerVideos/<%= e.video.name %>"
-				controls
-				controlsList="nodownload"
-			></video>
+			<video controls controlsList="nodownload">
+				<source
+					src="/uploads/trainerVideos/<%= e.video.name %>"
+					type="video/mp4"
+				/>
+				<source
+					src="/uploads/trainerVideos/<%= e.video.name %>"
+					type="video/ogg"
+				/>
+				<source
+					src="/uploads/trainerVideos/<%= e.video.name %>"
+					type="video/mkv"
+				/>
+			</video>
 			<% } %>
 			<p class="title"><%= e.title %></p>
 		</div>

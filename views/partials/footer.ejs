@@ -1,9 +1,13 @@
 <footer>
 	<h1>Start practicing online today.</h1>
 	<p>Ready to watch NOW | AHANA YOGA everywhere you go?</p>
-	<br /><br /><br />
+	<% if (user == undefined) { %>
 	<a class="trialBtn" href="/signup">START YOUR FREE TRAIL</a>
-	<br /><br />
+	<% }else { %>
+	<a class="trialBtn" href="#">START YOUR FREE TRAIL</a>
+	<% } %>
+
+	<br />
 	<p>Free for 7 days. Cancel anytime.</p>
 	<p>Pay $19.99/month or $199/year</p>
 

@@ -274,7 +274,6 @@ main .services .service h3 {
 
 footer {
 	text-align: center;
-	height: 400px;
 	padding: 4em;
 	margin-top: 200px;
 	background-color: #dee0e0;
@@ -295,9 +294,10 @@ footer .trialBtn {
 	padding: 16px 20px;
 	border-radius: 5px;
 	border: 1px solid #cccccc;
-	margin-bottom: 16px;
+	margin: 1.5em 0;
 	-webkit-transition: 0.2s;
 	transition: 0.2s;
+	display: inline-block;
 }
 
 footer .trialBtn:hover {
@@ -314,7 +314,7 @@ footer .contact {
 	margin-top: 10px;
 	display: flex;
 	justify-content: space-between;
-	padding: 1em;
+	padding: 1em 0 0 0;
 }
 
 footer .contact div a {

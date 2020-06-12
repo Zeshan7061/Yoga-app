@@ -1,6 +1,6 @@
 <footer>
 	<h1>Start practicing online today.</h1>
-	<p>Ready to watch NOW | AHANA YOGA everywhere you go?</p>
+	<p>Ready to watch SY7 | BODYBAR everywhere you go?</p>
 	<% if (user == undefined) { %>
 	<a class="trialBtn" href="/signup">START YOUR FREE TRAIL</a>
 	<% }else { %>
@@ -12,13 +12,19 @@
 	<p>Pay $19.99/month or $199/year</p>
 
 	<div class="contact">
-		<p>
-			<b>CONTACT | PRIVACY POLICY </b>
-			© COPYRIGHT 2020 SY7 MOVES BodyBar
-		</p>
-		<div>
-			<a href="#"><i class="fab fa-instagram"></i></a
-			><a href="#"><i class="fab fa-facebook"></i></a>
-		</div>
+		<a href="/">home</a>
+		<a href="https://sunyoga7.com/classes/">our studio</a>
+		<a href="https://www.instagram.com/sun.yoga.7.body.bar/?hl=en">instagram</a>
+		<a href="/signup">sign up</a>
+		<a href="/yogaTrainers">teachers</a>
+		<% if (user == undefined) { %>
+		<a href="/login">help</a>
+		<% } else {%>
+		<a href="/help">help</a>
+		<% } %>
+		<a href="#">terms</a>
+		<a href="https://sunyoga7.com/privacy-policy/">privacy</a>
+		<a href="#">cookies</a>
+		<a href="/login">sign in</a>
 	</div>
 </footer>

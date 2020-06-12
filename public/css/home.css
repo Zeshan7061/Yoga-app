@@ -124,8 +124,7 @@ main .slider {
 	-ms-flex-pack: center;
 	justify-content: center;
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
-		url('/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg')
-			no-repeat center center/cover;
+		url('/images/mainBanner.jpeg') no-repeat center center/cover;
 }
 
 main .slider .tagline {
@@ -246,14 +245,14 @@ main .services .service h3 {
 
 .portability p {
 	padding: 5px !important;
+	margin: 5px 5em;
 }
 
 .portability .portable-img {
 	margin: 3em 0;
 	width: 100vw;
 	height: 600px;
-	background: url('/images/3dff05b9-7258-4db3-a2cc-0a91aa71b288.png') no-repeat
-		center center/cover;
+	background: url('/images/play.jpeg') no-repeat center center/cover;
 }
 
 .policies {
@@ -311,16 +310,23 @@ footer p {
 }
 
 footer .contact {
-	margin-top: 10px;
+	margin-top: 4em;
+	padding: 0 !important;
 	display: flex;
-	justify-content: space-between;
-	padding: 1em 0 0 0;
+	border-top: 1px solid black;
 }
 
-footer .contact div a {
-	padding: 5px;
-	font-size: 2em;
+footer .contact a {
 	z-index: 9999999;
+	margin: 10px;
+	color: grey;
+	font-size: 14px;
+	text-transform: capitalize;
+	transition: 0.3s;
+}
+
+footer .contact a:hover {
+	opacity: 0.7;
 }
 
 @media (max-width: 768px) {

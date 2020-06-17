@@ -384,6 +384,10 @@
 		margin: 2em 0;
 		text-align: center;
 	}
+
+	nav {
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	}
 </style>
 
 <section>
@@ -402,12 +406,12 @@
 			>
 				<div class="profile">
 					<div class="img">
-						<img src="/images/<%= user.image %>" alt="" />
+						<img src="/images/<%= user.image %>" alt="" id="profileImg" />
 						<br />
 						<div>
 							<div class="fileUploadInput">
 								<label>Upload</label>
-								<input type="file" name="file" />
+								<input type="file" name="file" onchange="showImage(this)" />
 								<button>+</button>
 							</div>
 						</div>
@@ -701,7 +705,6 @@
 <script>
 	function togglePanel(panel, pnl_elem) {
 		const ph = document.querySelectorAll('.panel-bar span');
-		console.log(pnl_elem);
 
 		const panels = document.querySelectorAll('.panel');
 		const pnl = document.querySelector(`.${panel}`);
@@ -738,4 +741,18 @@
 		subContainer.style.display = 'none';
 		subConfirmContainer.style.display = 'block';
 	});
+
+	function showImage(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = (e) => {
+				document
+					.getElementById('profileImg')
+					.setAttribute('src', e.target.result);
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
 </script>

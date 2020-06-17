@@ -197,7 +197,8 @@ module.exports = {
 	},
 
 	logInPage: (req, res) => {
-		res.render('home/login');
+		if (req.user == undefined) res.render('home/login');
+		else res.redirect('/');
 	},
 
 	logIn: (req, res, next) => {
@@ -430,7 +431,8 @@ module.exports = {
 	},
 
 	form: (req, res) => {
-		res.render('home/form');
+		if (req.user == undefined) res.render('home/form');
+		else res.redirect('/');
 	},
 
 	ajaxData: async (req, res) => {

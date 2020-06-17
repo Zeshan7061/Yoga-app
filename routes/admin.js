@@ -28,6 +28,7 @@ const {
 	yogaVideos,
 	customerQueries,
 	removeQuery,
+	updateAdminProfile,
 } = require('../controllers/admin');
 const { auth } = require('../helpers/auth');
 
@@ -53,6 +54,8 @@ router.get('/user/profile/:id', profilePgae);
 router.get('/user/subscription', subscriptionPage);
 
 router.post('/user/profile/edit', editProfile);
+
+router.put('/updateProfile/:id', updateAdminProfile);
 
 router.put('/user/profile/update/:id', updateProfile);
 

@@ -130,7 +130,7 @@ module.exports = {
 						const img = user.image;
 						user.image = fileName;
 
-						if (img != '') {
+						if (img != '' && img != 'user.jpg') {
 							fs.unlink('./public/images/' + img, (err) => {
 								if (err) throw err;
 							});
@@ -149,6 +149,42 @@ module.exports = {
 				}
 			}
 		});
+	},
+
+	updateAdminProfile: async (req, res) => {
+		const { name, email } = req.body;
+
+		const user = await User.findById(req.params.id);
+		user.name = name;
+		user.email = email;
+
+		if (req.files) {
+			const file = req.files.file;
+			let fileName = Date.now() + '-' + file.name;
+
+			file.mv('./public/images/' + fileName, async (err) => {
+				if (err) throw err;
+
+				const img = user.image;
+				user.image = fileName;
+
+				if (img != '' && img != 'user.jpg') {
+					fs.unlink('./public/images/' + img, (err) => {
+						if (err) throw err;
+					});
+				}
+
+				user.save().then((savedUser) => {
+					req.flash('success_msg', 'Profile updated sucessfully.');
+					return res.redirect('/admin/user/profile/' + user._id);
+				});
+			});
+		} else {
+			user.save().then((savedUser) => {
+				req.flash('success_msg', 'Profile updated sucessfully.');
+				return res.redirect('/admin/user/profile/' + user._id);
+			});
+		}
 	},
 
 	changePasswordPage: (req, res) => {

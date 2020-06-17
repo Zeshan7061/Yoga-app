@@ -38,6 +38,9 @@ app.use(
 		secret: 'yogaapp123',
 		resave: false,
 		saveUninitialized: true,
+		cookie: {
+			maxAge: 120 * 60 * 1000,
+		},
 	})
 );
 

@@ -26,7 +26,7 @@ $(document).ready(() => {
 
 	var card = elements.create('card', { style: style });
 	card.mount('#card-element');
-	const loadingView = document.querySelector('.load');
+	const loadingView = document.querySelector('.loading');
 
 	const Subscriptions = document.querySelector('.subscriptions');
 	const subs = document.querySelectorAll('.subscriptions p');
@@ -161,22 +161,10 @@ $(document).ready(() => {
 				var errorElement = document.getElementById('card-errors');
 				errorElement.textContent = result.error.message;
 			} else {
-				const loadingStyle = {
-					position: 'absolute',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%,-50%)',
-					zIndex: 100000,
-					display: 'block',
-				};
-
-				window.scrollTo(0, 0);
-				$('.load').css(loadingStyle);
-				document.body.style.overflow = 'hidden';
+				loadingView.style.display = 'block';
 
 				let myGreeting = setTimeout(function () {
 					loadingView.style.display = 'none';
-					document.body.style.overflow = 'auto';
 				}, 5000);
 
 				stripeTokenHandler(result.token);

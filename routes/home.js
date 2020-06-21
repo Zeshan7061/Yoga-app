@@ -33,6 +33,9 @@ const {
 	newCustomer,
 	giftSubscriptionPage,
 	giftSubscription,
+	newSubscriptionPage,
+	newSubscription,
+	cancelUserSubscription,
 } = require('../controllers/home');
 
 router.all('/*', (req, res, next) => {
@@ -67,7 +70,7 @@ router.get('/manageAccount/:id', manageAccount);
 
 router.get('/manageSubscription', manageSubscriptionPage);
 
-router.get('/updateSubscription', cancelSubscription);
+router.get('/updateSubscription', cancelUserSubscription);
 
 router.get('/updatePlan', updateSubscriptionPlan);
 
@@ -93,5 +96,7 @@ router
 	.route('/giftSubscription')
 	.get(giftSubscriptionPage)
 	.post(giftSubscription);
+
+router.route('/buySubscription').get(newSubscriptionPage).post(newSubscription);
 
 module.exports = router;

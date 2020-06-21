@@ -125,11 +125,17 @@
 		<h1>Any Questions???Ask here</h1>
 		<form id="qs-form" autocomplete="on" method="POST" action="/help">
 			<label for="">Title</label>
-			<input type="text" required class="title" name="title" />
+			<input type="text" required class="title" name="title" tabindex="1" />
 			<br />
 			<label for="">Message</label>
-			<textarea name="message" rows="6" class="text"></textarea>
-			<button type="submit" class="submitBtn">Submit</button>
+			<textarea
+				name="message"
+				rows="6"
+				class="text"
+				required
+				tabindex="2"
+			></textarea>
+			<button type="submit" class="submitBtn" tabindex="3">Submit</button>
 		</form>
 	</div>
 	<% } %>

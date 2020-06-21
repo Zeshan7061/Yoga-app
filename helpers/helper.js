@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = {
 	selectValue: (postStatus, value) =>
 		postStatus === value ? 'selected' : false,
@@ -24,6 +26,8 @@ module.exports = {
 			daysLeft = (endDate - startDate) / 86400000;
 		}
 
-		return Math.round(daysLeft);
+		if (daysLeft >= 0) return Math.round(daysLeft);
 	},
+
+	momentHelper: (date) => moment(date),
 };

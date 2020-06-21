@@ -17,7 +17,11 @@ const home = require('./routes/home');
 const admin = require('./routes/admin');
 const categories = require('./routes/category');
 
-const { selectValue, dateDifference } = require('./helpers/helper');
+const {
+	selectValue,
+	dateDifference,
+	momentHelper,
+} = require('./helpers/helper');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -53,6 +57,7 @@ app.use((req, res, next) => {
 	res.locals.error_msg = req.flash('error_msg');
 	res.locals.error = req.flash('error');
 	res.locals.dateDifference = dateDifference;
+	res.locals.momentHelper = momentHelper;
 
 	res.locals.selected = selectValue;
 	res.locals.session = req.session;

@@ -118,9 +118,13 @@ module.exports = {
 			} else {
 				const { name, email, password } = req.body;
 
-				User.findOne({ email: email }).then((user) => {
+				User.findOne({
+					email: email,
+				}).then((user) => {
 					if (user) {
-						errors.push({ message: 'Email already exists. Please log in.' });
+						errors.push({
+							message: 'Email already exists. Please log in.',
+						});
 
 						res.render('home/checkout', {
 							errors: errors,
@@ -209,35 +213,48 @@ module.exports = {
 			}
 
 			passport.use(
-				new Strategy({ usernameField: 'email' }, (email, password, done) => {
-					User.findOne({ email: email }, (err, user) => {
-						assert.equal(null, err);
+				new Strategy(
+					{
+						usernameField: 'email',
+					},
+					(email, password, done) => {
+						User.findOne(
+							{
+								email: email,
+							},
+							(err, user) => {
+								assert.equal(null, err);
 
-						if (!user) return done(null, false, { message: 'user not found.' });
+								if (!user)
+									return done(null, false, {
+										message: 'user not found.',
+									});
 
-						bcrypt.compare(password, user.password, (err, matched) => {
-							assert.equal(null, err);
+								bcrypt.compare(password, user.password, (err, matched) => {
+									assert.equal(null, err);
 
-							if (matched) {
-								if (
-									dateDifference(user.date) < 1 &&
-									user.subscription.status == 'cancelled'
-								) {
-									req.flash(
-										'error_msg',
-										'Your trail period has been ended. You can no longer use our services'
-									);
-									return res.redirect('/login');
-								}
+									if (matched) {
+										if (
+											dateDifference(user.date) < 1 &&
+											user.subscription.status == 'cancelled'
+										) {
+											req.flash(
+												'error_msg',
+												'Your trail period has been ended. You can no longer use our services'
+											);
+											return res.redirect('/login');
+										}
 
-								return done(null, user);
-							} else
-								return done(null, false, {
-									message: 'Incorrect password',
+										return done(null, user);
+									} else
+										return done(null, false, {
+											message: 'Incorrect password',
+										});
 								});
-						});
-					});
-				})
+							}
+						);
+					}
+				)
 			);
 
 			passport.serializeUser((user, done) => {
@@ -351,7 +368,9 @@ module.exports = {
 
 	watchVideos: (req, res) => {
 		Video.find()
-			.sort({ date: -1 })
+			.sort({
+				date: -1,
+			})
 			.limit(10)
 			.then((videos) => {
 				res.render('home/watchVideos', {
@@ -476,9 +495,13 @@ module.exports = {
 			} else {
 				const { name, email, password, cardHolder, amount, token } = req.body;
 
-				User.findOne({ email: email }).then((user) => {
+				User.findOne({
+					email: email,
+				}).then((user) => {
 					if (user) {
-						errors.push({ message: 'Email already exists. Please log in.' });
+						errors.push({
+							message: 'Email already exists. Please log in.',
+						});
 
 						res.json({
 							errors: errors,
@@ -556,7 +579,7 @@ module.exports = {
 				const sub = await stripe.subscriptions.update(
 					user.subscription.subscriptionID,
 					{
-						proration_behavior: 'none',
+						prorate: false,
 						items: [
 							{
 								id: subscription.items.data[0].id,
@@ -582,7 +605,7 @@ module.exports = {
 				const sub = await stripe.subscriptions.update(
 					user.subscription.subscriptionID,
 					{
-						proration_behavior: 'none',
+						prorate: false,
 						items: [
 							{
 								id: subscription.items.data[0].id,
@@ -884,7 +907,9 @@ module.exports = {
 						username: username,
 					});
 				} else {
-					User.findOne({ email: email }).then((user) => {
+					User.findOne({
+						email: email,
+					}).then((user) => {
 						if (user) {
 							errors.push({
 								message: 'Email already exists. Please log in.',
@@ -927,7 +952,11 @@ module.exports = {
 											stripe.subscriptions.create(
 												{
 													customer: customer.id,
-													items: [{ price: plan }],
+													items: [
+														{
+															price: plan,
+														},
+													],
 													trial_from_plan: true,
 												},
 												async function (err, subscription) {
@@ -1014,9 +1043,13 @@ module.exports = {
 						gift: true,
 					});
 				} else {
-					User.findOne({ email: recipient_email }).then((user) => {
+					User.findOne({
+						email: recipient_email,
+					}).then((user) => {
 						if (user) {
-							errors.push({ message: 'Email already exists. Please log in.' });
+							errors.push({
+								message: 'Email already exists. Please log in.',
+							});
 
 							res.render('home/form', {
 								errors,
@@ -1058,7 +1091,11 @@ module.exports = {
 											stripe.subscriptions.create(
 												{
 													customer: customer.id,
-													items: [{ price: plan }],
+													items: [
+														{
+															price: plan,
+														},
+													],
 													trial_from_plan: true,
 												},
 												async function (err, subscription) {
@@ -1147,9 +1184,13 @@ module.exports = {
 					username,
 				});
 			} else {
-				User.findOne({ email: recipient_email }).then((user) => {
+				User.findOne({
+					email: recipient_email,
+				}).then((user) => {
 					if (user) {
-						errors.push({ message: 'Email already exists. Please log in.' });
+						errors.push({
+							message: 'Email already exists. Please log in.',
+						});
 
 						res.render('home/giftForm', {
 							errors,
@@ -1191,7 +1232,11 @@ module.exports = {
 										stripe.subscriptions.create(
 											{
 												customer: customer.id,
-												items: [{ price: plan }],
+												items: [
+													{
+														price: plan,
+													},
+												],
 												trial_from_plan: true,
 											},
 											async function (err, subscription) {
@@ -1223,5 +1268,86 @@ module.exports = {
 		} catch (error) {
 			console.log(error);
 		}
+	},
+
+	cancelUserSubscription: async (req, res) => {
+		const user = await User.findById(req.user.id);
+
+		stripe.subscriptions.del(
+			user.subscription.subscriptionID,
+			async (err, confirmation) => {
+				if (err) console.log(err);
+
+				user.subscription = {};
+
+				await user.save();
+
+				req.flash('success_msg', 'Your subscription has been cancelled.');
+				res.redirect('/manageSubscription');
+			}
+		);
+	},
+
+	newSubscriptionPage: (req, res) => {
+		if (req.user && Object.keys(req.user.subscription) == 0)
+			return res.render('home/buySubscription');
+
+		res.redirect('/login');
+	},
+
+	newSubscription: async (req, res) => {
+		const { username, stripeToken, duration } = req.body;
+		const email = req.user.email;
+
+		const customer = await stripe.customers.create({
+			name: username,
+			email,
+			source: stripeToken,
+			description: 'Yoga App Payment',
+		});
+
+		const intent = await stripe.setupIntents.create({
+			customer: customer.id,
+		});
+
+		let plan =
+			duration == 199 ? process.env.YEARLY_PLAN : process.env.MONTHLY_PLAN;
+
+		stripe.subscriptions.create(
+			{
+				customer: customer.id,
+				items: [
+					{
+						price: plan,
+					},
+				],
+			},
+			async (err, subscription) => {
+				if (err) throw err;
+
+				const user = await User.findById(req.user.id);
+
+				user.subscription = {
+					duration,
+					span: duration == 199 ? 'year' : 'month',
+					status: 'subscribed',
+					customer,
+					clientSecrect: intent.client_secret,
+					subscriptionID: subscription.id,
+				};
+
+				user.date = Date.now();
+
+				await user.save();
+
+				req.flash(
+					'success_msg',
+					`Your subscription of $${duration} / ${
+						duration == 199 ? 'year' : 'month'
+					} has been activated.`
+				);
+				res.redirect('/manageSubscription');
+			}
+		);
 	},
 };

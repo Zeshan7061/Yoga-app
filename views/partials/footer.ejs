@@ -15,7 +15,8 @@
 		<a href="/">home</a>
 		<a href="https://sunyoga7.com/classes/">our studio</a>
 		<a href="https://www.instagram.com/sun.yoga.7.body.bar/?hl=en">instagram</a>
-		<a href="/signup">sign up</a>
+		<% if (user == undefined) { %>
+		<a href="/signup">sign up</a> <% } else { %> <a href="#">sign up</a> <% } %>
 		<a href="/yogaTrainers">teachers</a>
 		<% if (user == undefined) { %>
 		<a href="/login">help</a>
@@ -25,6 +26,10 @@
 		<a href="#">terms</a>
 		<a href="https://sunyoga7.com/privacy-policy/">privacy</a>
 		<a href="#">cookies</a>
+		<% if (user == undefined) { %>
 		<a href="/login">sign in</a>
+		<% }else{ %>
+		<a href="#">sign in</a>
+		<% } %>
 	</div>
 </footer>

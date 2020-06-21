@@ -125,6 +125,7 @@ main .slider {
 	justify-content: center;
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)),
 		url('/images/mainBanner.jpeg') no-repeat center center/cover;
+	background-attachment: fixed;
 }
 
 main .slider .tagline {
@@ -402,8 +403,12 @@ footer .contact a:hover {
 		margin: 2px 35px;
 	}
 
+	.portability .portable-img {
+		height: 50vh !important;
+	}
+
 	footer {
-		height: 450px;
+		height: 100%;
 		padding: 3em;
 	}
 
@@ -415,11 +420,13 @@ footer .contact a:hover {
 
 	footer .trialBtn {
 		font-size: 1em;
+		font-weight: 600;
 	}
 
 	footer .contact {
-		flex-direction: column;
-		padding: 1em !important;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
 	}
 
 	footer .contact div a {

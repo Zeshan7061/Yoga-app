@@ -1,7 +1,7 @@
 <style>
 	section {
-		max-width: 70%;
-		margin: 10px auto;
+		max-width: 80%;
+		margin: 5em auto;
 	}
 
 	.panel-bar {
@@ -183,6 +183,10 @@
 		flex: 11;
 	}
 
+	.panels .panel-3 .membership p {
+		line-height: 2;
+	}
+
 	.cs-btn {
 		text-decoration: none;
 		font-size: 1em;
@@ -311,12 +315,12 @@
 		max-width: 800px;
 		margin: 0 auto;
 		background: white;
-		position: absolute;
+		position: fixed;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		z-index: 999999;
-		box-shadow: 0 0 0 340px rgba(0, 0, 0, 0.9);
+		box-shadow: 0 0 0 340px rgba(0, 0, 0, 1);
 		display: none;
 	}
 
@@ -397,6 +401,7 @@
 		<span onclick="togglePanel('panel-2',this)">emails</span>
 		<span onclick="togglePanel('panel-3',this)">purchases</span>
 	</div>
+
 	<div class="panels">
 		<div class="panel panel-0">
 			<form
@@ -586,7 +591,6 @@
 					earum voluptate eos quasi.
 				</p>
 			</div>
-
 			<a href="#" class="trailBtn" style="float: right;">Save</a>
 			<br />
 			<br />
@@ -605,13 +609,43 @@
 						>
 					</h1>
 					<br />
-					<% if (user.subscription.status == 'cancelled') { %>
+					<% if (Object.keys(user.subscription).length == 0) { %>
 					<h3>Subscription Cancelled.</h3>
 					<% } else { %>
-					<p>Will auto renew after <%= dateDifference(user.date) %>days</p>
-					<p>Free trail started on <%= user.date.toLocaleString() %></p>
+					<p>
+						Will auto renew after every <%= user.subscription.span %> until
+						cancelled.
+					</p>
+					<% if (dateDifference(user.date) > -1 && user.subscription.status !=
+					'subscribed') { %>
+					<p>
+						Free trail started on
+						<b><%= momentHelper(user.date).format('dd ll') %></b>
+					</p>
+					<p>
+						Enjoy 7days of free trail. You can cancel meanwhile, we won't
+						charge.
+					</p>
 					<br />
-					<% if (user.subscription.span == 'month') { %>
+					<p
+						style="
+							border: 1px solid black;
+							border-radius: 5px;
+							padding: 5px;
+							width: fit-content;
+						"
+					>
+						<b><%= dateDifference(user.date) %>days</b>
+						left of free trail.
+					</p>
+					<br />
+					<% }else{ %>
+					<p>
+						Subscription started on
+						<b><%= momentHelper(user.date).format('dd ll') %></b>
+					</p>
+					<br />
+					<%}%> <% if (user.subscription.span == 'month') { %>
 					<a href="/updatePlan" class="plan"
 						>Switch to yearly billing (Save 17%)</a
 					>
@@ -620,19 +654,23 @@
 					<% } %> <% } %>
 				</div>
 				<div class="amount">
-					<p>
-						$<%= user.subscription.amount %> / <%= user.subscription.span %>
-					</p>
+					<%#
 					<p>Mastercard **** 12</p>
-					<% if (user.subscription.status == 'cancelled') { %>
-					<a href="/updateSubscription" class="cs-btn" id="resumeBtn"
-						>Resume Subscription</a
-					>
+					%> <% if (Object.keys(user.subscription).length == 0) { %>
+					<a href="/buySubscription" class="cs-btn">Buy Subscription</a>
+					<% } else {%>
+					<p>
+						<b
+							>$<%= user.subscription.duration %> / <%= user.subscription.span
+							%></b
+						><br />
+						<img src="/images/card-image.png" alt="" width="120" />
+					</p>
 					<% } %>
 				</div>
 			</div>
 
-			<% if (user.subscription.status == 'trail') { %>
+			<% if (Object.keys(user.subscription).length > 0) { %>
 			<a href="#" class="cs-btn" id="cancelBtn">Cancel Subscription</a>
 			<% } %>
 		</div>

@@ -1,5 +1,5 @@
-/node_modules
-/loading.html
-/styleVideos.html
+node_modules
+loading.html
+styleVideos.html
 giftForm.ejs
 checkout.ejs

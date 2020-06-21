@@ -1,0 +1,339 @@
+<style>
+	.bs-container {
+		margin: 3em auto;
+		min-width: 500px;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 1em 2em;
+	}
+
+	.bs-container > h1 {
+		text-align: center;
+	}
+
+	form .form-group {
+		display: flex;
+		flex-direction: column;
+		margin: 1em 0;
+	}
+
+	.form-group input {
+		padding: 20px 10px;
+		border: 1px solid #cccccc;
+		border-radius: 5px;
+		height: 30px;
+		font-size: 1em;
+		outline: none;
+		transition: 0.3s;
+		margin: 10px 0;
+	}
+
+	select {
+		padding: 12px 10px;
+		border: 1px solid #cccccc;
+		border-radius: 5px;
+		font-size: 1em;
+		outline: none;
+		transition: 0.3s;
+		margin: 10px 0;
+	}
+
+	input[type='text'] {
+		padding: 20px 10px;
+	}
+
+	.form-group input:focus {
+		box-shadow: 0 0 0 3px rgb(170, 207, 243);
+	}
+
+	.StripeElement {
+		padding: 7px 10px;
+		border: 1px solid #cccccc;
+		border-radius: 5px;
+		box-sizing: border-box;
+		background-color: white;
+		margin-top: 10px;
+		transition: box-shadow 150ms ease;
+	}
+
+	.StripeElement--focus {
+		box-shadow: 0 0 0 2px skyblue;
+	}
+
+	.StripeElement--invalid {
+		border-color: #fa755a;
+	}
+
+	.StripeElement--webkit-autofill {
+		background-color: #fefde5 !important;
+	}
+
+	.cs-btn {
+		text-decoration: none;
+		font-size: 1em;
+		display: block;
+		padding: 10px 20px;
+		text-align: center;
+		color: white;
+		background: dodgerblue;
+		margin-top: 30px;
+		transition: 0.3s;
+		border-radius: 5px;
+		outline: none;
+		border: none;
+		cursor: pointer;
+	}
+
+	.cs-btn:hover {
+		background: rgb(8, 114, 219);
+	}
+
+	.cs-btn:active {
+		transform: scale(0.9);
+	}
+
+	nav {
+		box-shadow: 0 2px 10px #cccccc;
+	}
+
+	.loading {
+		position: fixed;
+		z-index: 99999;
+		height: 5em;
+		width: 5em;
+		overflow: show;
+		margin: auto;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		display: none;
+	}
+
+	.loading:before {
+		content: '';
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: radial-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+		background: -webkit-radial-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+	}
+
+	.loading:not(:required) {
+		font: 0/0 a;
+		color: transparent;
+		text-shadow: none;
+		background-color: transparent;
+		border: 0;
+	}
+
+	.loading:not(:required):after {
+		content: '';
+		display: block;
+		font-size: 10px;
+		width: 1em;
+		height: 1em;
+		margin-top: -0.5em;
+		-webkit-animation: spinner 150ms infinite linear;
+		-moz-animation: spinner 150ms infinite linear;
+		-ms-animation: spinner 150ms infinite linear;
+		-o-animation: spinner 150ms infinite linear;
+		animation: spinner 150ms infinite linear;
+		border-radius: 0.5em;
+		-webkit-box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0,
+			rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0,
+			rgba(255, 255, 255, 0.75) 0 1.5em 0 0,
+			rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0,
+			rgba(255, 255, 255, 0.75) -1.5em 0 0 0,
+			rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0,
+			rgba(255, 255, 255, 0.75) 0 -1.5em 0 0,
+			rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+		box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0,
+			rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0,
+			rgba(255, 255, 255, 0.75) 0 1.5em 0 0,
+			rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0,
+			rgba(255, 255, 255, 0.75) -1.5em 0 0 0,
+			rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0,
+			rgba(255, 255, 255, 0.75) 0 -1.5em 0 0,
+			rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+	}
+
+	@-webkit-keyframes spinner {
+		0% {
+			-webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	@-moz-keyframes spinner {
+		0% {
+			-webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	@-o-keyframes spinner {
+		0% {
+			-webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes spinner {
+		0% {
+			-webkit-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+</style>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<div class="bs-container">
+	<div class="loading">Loading&#8230;</div>
+	<h1>Buy Subscription</h1>
+	<br />
+	<hr />
+	<form action="/buySubscription" id="payment-form" method="POST">
+		<div class="form-group">
+			<label for="email">Name on Card</label>
+			<input
+				type="text"
+				name="username"
+				class="form-control"
+				required
+				placeholder="Name on Card"
+				tabindex="1"
+			/>
+		</div>
+
+		<div class="form-group">
+			<label for="duration">Select Plan</label>
+			<select name="duration" tabindex="2">
+				<option value="19.99">$19.99 / month</option>
+				<option value="199">$199 / year</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="card-element">
+				Credit / Debit Card
+			</label>
+			<div id="card-element" class="form-control" tabindex="3"></div>
+
+			<div id="card-errors" role="alert"></div>
+		</div>
+
+		<button type="submit" class="cs-btn">
+			Buy Subscription
+		</button>
+		<br /><br />
+		<a href="/manageSubscription" class="cs-btn">Back</a>
+	</form>
+</div>
+
+<script>
+	var stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+	var elements = stripe.elements();
+	var style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '18px',
+			fontWeight: '300',
+			lineHeight: '1.5',
+			'::placeholder': {
+				color: '#aab7c4',
+			},
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a',
+		},
+	};
+
+	var card = elements.create('card', { style: style });
+	card.mount('#card-element');
+
+	card.addEventListener('change', function (event) {
+		var displayError = document.getElementById('card-errors');
+
+		event.error
+			? (displayError.textContent = event.error.message)
+			: (displayError.textContent = '');
+	});
+
+	var form = document.getElementById('payment-form');
+	const loadingView = document.querySelector('.loading');
+
+	form.addEventListener('submit', function (event) {
+		event.preventDefault();
+		document.querySelector('.cs-btn').disabled = true;
+
+		stripe.createToken(card).then(function (result) {
+			if (result.error) {
+				var errorElement = document.getElementById('card-errors');
+				errorElement.textContent = result.error.message;
+			} else {
+				loadingView.style.display = 'block';
+
+				let myGreeting = setTimeout(function () {
+					loadingView.style.display = 'none';
+					stripeTokenHandler(result.token);
+				}, 3000);
+			}
+		});
+	});
+
+	function stripeTokenHandler(token) {
+		var form = document.getElementById('payment-form');
+		var hiddenInput = document.createElement('input');
+		hiddenInput.setAttribute('type', 'hidden');
+		hiddenInput.setAttribute('name', 'stripeToken');
+		hiddenInput.setAttribute('value', token.id);
+		form.appendChild(hiddenInput);
+
+		form.submit();
+	}
+</script>

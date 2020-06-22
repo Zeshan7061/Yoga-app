@@ -5,6 +5,19 @@ $(document).ready(() => {
 		document.querySelector('.subscriptions').classList.toggle('toggleDisplay');
 	});
 
+	const readMore = document.querySelector('.rm');
+	const siteInfo = document.querySelector('.site-info');
+
+	readMore.addEventListener('click', (e) => {
+		e.preventDefault();
+
+		console.log(siteInfo.style.height);
+
+		if (siteInfo.style.height == '' || siteInfo.style.height == '70px')
+			siteInfo.style.height = '220px';
+		else if (siteInfo.style.height == '220px') siteInfo.style.height = '70px';
+	});
+
 	const stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
 	const elements = stripe.elements();
 	const form = $('#payment-form');
@@ -39,6 +52,9 @@ $(document).ready(() => {
 	const submitBtn = document.getElementById('submitBtn');
 	const Subinputs = document.querySelectorAll('.subscription-fields input');
 	const giftInputs = document.querySelectorAll('.gift-fields input');
+	const subAmount = document.getElementById('amount');
+	const subPeriod = document.getElementById('period');
+
 	let flag = false;
 
 	giftInputs.forEach((g) => {
@@ -133,6 +149,8 @@ $(document).ready(() => {
 			Subscriptions.style.display = 'block';
 
 			document.querySelector('.totalValue').innerHTML = '$' + val;
+			subAmount.innerText = val;
+			subPeriod.innerText = val == 199 ? 'year' : 'month';
 			submitBtn.innerText = 'Start free trail';
 		});
 	});

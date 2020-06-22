@@ -255,6 +255,12 @@ hr {
 	display: block;
 }
 
+.site-info {
+	height: 70px;
+	overflow: hidden;
+	transition: 0.3s;
+}
+
 p {
 	font-weight: normal !important;
 	margin: 0;

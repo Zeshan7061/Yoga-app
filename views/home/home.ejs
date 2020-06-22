@@ -97,6 +97,10 @@
 	<div class="portable-img"></div>
 </div>
 
+<div class="yogaLogo">
+	<%# <img src="/images/yogalogo.gif" alt="" width="100%" /> %>
+	<h1 class="tagline"><span>SY7 | </span> BODYBAR</h1>
+</div>
 <!-- <div class="policies">
 	<h1>
 		TERMS AND CONDITIONS <span><i class="fas fa-arrow-circle-down"></i></span>
@@ -250,7 +254,10 @@
 </div> -->
 
 <script>
-	/* document.querySelector('.policies h1').addEventListener('click', (e) => {
-		document.getElementById('tor').classList.add('height');
-	}); */
+	const loadingView = document.querySelector('.yogaLogo');
+	addEventListener('load', () => {
+		let myGreeting = setTimeout(function () {
+			loadingView.style.display = 'none';
+		}, 2000);
+	});
 </script>

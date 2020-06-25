@@ -168,7 +168,7 @@ module.exports = {
 				const img = user.image;
 				user.image = fileName;
 
-				if (img != '' && img != 'user.jpg') {
+				if (img != '' && img != 'user.jpg' && fs.existsSync(`./${img}`)) {
 					fs.unlink('./public/images/' + img, (err) => {
 						if (err) throw err;
 					});

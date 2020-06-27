@@ -1302,4 +1302,12 @@ module.exports = {
 			}
 		);
 	},
+
+	showTerms: (req, res) => {
+		res.render('home/terms');
+	},
+
+	showCookies: (req, res) => {
+		res.render('home/cookies');
+	},
 };

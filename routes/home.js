@@ -36,6 +36,8 @@ const {
 	newSubscriptionPage,
 	newSubscription,
 	cancelUserSubscription,
+	showTerms,
+	showCookies,
 } = require('../controllers/home');
 
 router.all('/*', (req, res, next) => {
@@ -98,5 +100,9 @@ router
 	.post(giftSubscription);
 
 router.route('/buySubscription').get(newSubscriptionPage).post(newSubscription);
+
+router.get('/terms', showTerms);
+
+router.get('/cookies', showCookies);
 
 module.exports = router;

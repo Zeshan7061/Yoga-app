@@ -497,29 +497,31 @@ module.exports = {
 					let fileName = Date.now() + '-' + file.name;
 
 					file.mv('./public/uploads/trainerVideos/' + fileName, (err) => {
-						if (err) throw err;
+						if (fs.existsSync(`./public/uploads/trainerVideos/${fileName}`)) {
+							if (err) throw err;
 
-						trainer.videos.push({
-							video: fileName,
-							style: req.body.style,
-							title: req.body.title,
-						});
-
-						trainer.style = req.body.style;
-						trainer.save();
-
-						new Video({
-							video: {
-								name: fileName,
-								category: trainer.category,
-								trainer: trainer.name,
+							trainer.videos.push({
+								video: fileName,
 								style: req.body.style,
-							},
-							title: req.body.title,
-						}).save();
+								title: req.body.title,
+							});
 
-						req.flash('success_msg', 'Video has been successfully uploaded.');
-						res.redirect('/admin/trainerVideos/' + trainer._id);
+							trainer.style = req.body.style;
+							trainer.save();
+
+							new Video({
+								video: {
+									name: fileName,
+									category: trainer.category,
+									trainer: trainer.name,
+									style: req.body.style,
+								},
+								title: req.body.title,
+							}).save();
+
+							req.flash('success_msg', 'Video has been successfully uploaded.');
+							res.redirect('/admin/trainerVideos/' + trainer._id);
+						}
 					});
 				}
 			});

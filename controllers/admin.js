@@ -540,7 +540,7 @@ module.exports = {
 				}
 			);
 
-			await Video.remove({
+			await Video.deleteOne({
 				title: trainer.videos[index].title,
 			});
 

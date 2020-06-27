@@ -29,6 +29,7 @@ const {
 	customerQueries,
 	removeQuery,
 	updateAdminProfile,
+	addStyles,
 } = require('../controllers/admin');
 const { auth } = require('../helpers/auth');
 
@@ -96,5 +97,7 @@ router.get('/user/yogaVideos', yogaVideos);
 router.get('/queries', customerQueries);
 
 router.get('/delete/:id', removeQuery);
+
+router.get('/addStyles', addStyles);
 
 module.exports = router;

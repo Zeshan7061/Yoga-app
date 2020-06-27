@@ -82,14 +82,11 @@
 <div class="latest-video">
 	<div class="video-info">
 		<h1><%= title %></h1>
+		<% if (typeof styles != 'undefined') { %> <% styles.forEach(s => { %> <% if
+		(s.name == title) { %>
 		<br />
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit Reprehenderit id.
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quasi!
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit,
-			quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas,
-			omnis!
-		</p>
+		<p id="description"><%= s.description %></p>
+		<% } %> <% }) %> <% } %>
 		<br />
 		<button
 			class="w-btn"

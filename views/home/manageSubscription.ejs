@@ -150,13 +150,11 @@
 
 	.email {
 		display: flex;
-		justify-content: center;
-		align-items: center;
 		padding: 1em;
 	}
 
-	.email * {
-		margin: 20px 10px;
+	.email input {
+		margin: 10px 20px;
 	}
 
 	.panels .panel-3 {
@@ -576,9 +574,7 @@
 				<input type="checkbox" name="" id="" />
 				<p>
 					<b>Email Updates</b><br />
-					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed corporis
-					reiciendis optio praesentium suscipit aliquam at quae quis, beatae
-					earum voluptate eos quasi.
+					I agree to receive newsletters from SY7 BODYBAR.
 				</p>
 			</div>
 
@@ -586,9 +582,7 @@
 				<input type="checkbox" name="" id="" />
 				<p>
 					<b>Training Videos updates</b><br />
-					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed corporis
-					reiciendis optio praesentium suscipit aliquam at quae quis, beatae
-					earum voluptate eos quasi.
+					I agree to receive newsletters about Video updates from SY7 BODYBAR
 				</p>
 			</div>
 			<a href="#" class="trailBtn" style="float: right;">Save</a>
@@ -651,6 +645,18 @@
 					>
 					<% } else { %>
 					<a href="/updatePlan" class="plan">Switch back to monthly</a>
+					<p
+						style="
+							line-height: 1.5;
+							margin: 10px 0;
+							box-shadow: 0 0px 3px rgba(0, 0, 0, 0.5);
+							padding: 5px;
+							text-align: justify;
+						"
+					>
+						Switching between plans will charge you immediately. Make sure to
+						fully avail your previous plan before switching.
+					</p>
 					<% } %> <% } %>
 				</div>
 				<div class="amount">

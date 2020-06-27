@@ -15,6 +15,7 @@
 			method="POST"
 			action="/admin/uploadVideo"
 			enctype="multipart/form-data"
+			class="mb-5"
 		>
 			<div class="form-group">
 				<label for="exampleInputEmail1">Trainer</label>
@@ -33,7 +34,7 @@
 					type="text"
 					class="form-control"
 					required
-					placeholder="title"
+					placeholder="Title"
 				/>
 			</div>
 
@@ -44,16 +45,14 @@
 
 			<div class="form-group">
 				<label for="">Yoga Style</label>
-				<input
-					type="text"
-					placeholder="yoga style"
-					name="style"
-					class="form-control"
-					required
-				/>
+				<select name="style" class="form-control" required>
+					<% styles.forEach(style => { %>
+					<option value="<%= style.name %>"><%= style.name %></option>
+					<% }) %>
+				</select>
 			</div>
 
-			<button type="submit" class="btn btn-primary mt-2">Upload</button>
+			<button type="submit" class="btn btn-primary mt-4">Upload</button>
 		</form>
 	</div>
 </div>

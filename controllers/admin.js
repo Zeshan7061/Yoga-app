@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const { adminAccess } = require('../helpers/helper');
 const Video = require('../models/Video');
 const Message = require('../models/Message');
+const Style = require('../models/Style');
 
 module.exports = {
 	dashborad: (req, res) => {
@@ -130,7 +131,11 @@ module.exports = {
 						const img = user.image;
 						user.image = fileName;
 
-						if (img != '' && img != 'user.jpg' && fs.existsSync(`./${img}`)) {
+						if (
+							img != '' &&
+							img != 'user.jpg' &&
+							fs.existsSync(`./public/images/${img}`)
+						) {
 							fs.unlink('./public/images/' + img, (err) => {
 								if (err) throw err;
 							});
@@ -168,7 +173,11 @@ module.exports = {
 				const img = user.image;
 				user.image = fileName;
 
-				if (img != '' && img != 'user.jpg' && fs.existsSync(`./${img}`)) {
+				if (
+					img != '' &&
+					img != 'user.jpg' &&
+					fs.existsSync(`./public/images/${img}`)
+				) {
 					fs.unlink('./public/images/' + img, (err) => {
 						if (err) throw err;
 					});
@@ -399,7 +408,11 @@ module.exports = {
 				trainer.bio = req.body.bio;
 
 				if (req.files) {
-					if (trainer.image != '' && trainer.image != 'user.jpg') {
+					if (
+						trainer.image != '' &&
+						trainer.image != 'user.jpg' &&
+						fs.existsSync(`./public/images/${trainer.image}`)
+					) {
 						fs.unlink('./public/images/' + trainer.image, (err) => {
 							if (err) throw err;
 						});
@@ -433,7 +446,7 @@ module.exports = {
 		try {
 			const trainer = await Trainer.findById(req.params.id);
 
-			if (trainer.image) {
+			if (fs.existsSync(`./public/images/trainer.image`)) {
 				fs.unlink('./public/images/' + trainer.image, (err) => {
 					if (err) throw err;
 				});
@@ -441,16 +454,20 @@ module.exports = {
 
 			if (trainer.videos.length > 0) {
 				trainer.videos.forEach((video) => {
-					fs.unlink('./public/uploads/trainerVideos/' + video, (err) => {
-						if (err) throw err;
-
-						trainer.remove();
-						req.flash('success_msg', `${trainer.name} removed successfully.`);
-						res.redirect('/admin/trainers');
-					});
+					if (fs.existsSync(`./public/uploads/trainerVideos/${video.video}`))
+						fs.unlink(
+							'./public/uploads/trainerVideos/' + video.video,
+							(err) => {
+								if (err) throw err;
+							}
+						);
 				});
+
+				await trainer.remove();
+				req.flash('success_msg', `${trainer.name} removed successfully.`);
+				res.redirect('/admin/trainers');
 			} else {
-				trainer.remove();
+				await trainer.remove();
 				req.flash('success_msg', `${trainer.name} removed successfully.`);
 				res.redirect('/admin/trainers');
 			}
@@ -462,8 +479,11 @@ module.exports = {
 	uploadTrainerVideoPage: (req, res) => {
 		if (adminAccess(req.user, res)) {
 			Trainer.find().then((trainers) => {
-				res.render('admin/uploadVideo', {
-					trainers,
+				Style.find().then((styles) => {
+					res.render('admin/uploadVideo', {
+						trainers,
+						styles,
+					});
 				});
 			});
 		}
@@ -484,6 +504,7 @@ module.exports = {
 							style: req.body.style,
 							title: req.body.title,
 						});
+
 						trainer.style = req.body.style;
 						trainer.save();
 
@@ -508,7 +529,6 @@ module.exports = {
 	deleteTrainerVideo: async (req, res, next) => {
 		try {
 			const trainer = await Trainer.findById(req.params.id);
-			//const index = trainer.videos.indexOf(req.params.video);
 			const index = trainer.videos.findIndex(
 				(elem) => elem.video == req.params.video
 			);
@@ -520,9 +540,10 @@ module.exports = {
 				}
 			);
 
-			Video.remove({
+			await Video.remove({
 				title: trainer.videos[index].title,
 			});
+
 			trainer.videos.splice(index, 1);
 
 			trainer.save().then((savedTrainer) => {
@@ -620,5 +641,49 @@ module.exports = {
 			req.flash('success_msg', 'Customer query deleted successfully.');
 			res.redirect('/admin/queries');
 		});
+	},
+
+	addStyles: async (req, res) => {
+		const styles = [
+			{
+				name: 'SY7 FLOW',
+				description:
+					'SY7 Flow is a style of yoga that focuses on strength, agility, balance & flexibility . I use "power" to describe our class meant to help you burn calories & sweat as well as awaken your personal power. It is more than just the passive stretching that yoga has a reputation for. Open to ALL Levels.',
+			},
+			{
+				name: 'SY7 POWER',
+				description:
+					'SY7 POWER uses the poses & flow of yoga practice in a "sets" & "reps" form and pushups. This organic style exercise class tones strengthens & ignites the internal fire. No machines, just your body. Intermediate Level .',
+			},
+			{
+				name: 'SY7 HIIT',
+				description:
+					"SY7 HIIT is a training system that combines High Intensity Interval Training (HIIT), muscle toning and cardio in a heated room. This practice promotes long, lean muscle mass while burning fat, with rapid results. It strengthens your core, improves circulation, and increases flexibility. SY7 HIIT is performed on a yoga mat. All movements are low impact, which protects your joints and muscles from the pounding of other exercises like running and jumping.Not only do you burn more calories during a HIIT workout, but the effect of all that intense exertion kicks your body's repair cycle into hyperdrive. That means you burn more fat and calories in the 24 hours after a SY7 HIIT workout than you do after, say, a steady-pace run. Advance Level.",
+			},
+			{
+				name: 'SY7 FOLLOW',
+				description:
+					'THE PERFECT HOUR. SY7 FOLLOW IS A VINYASA STYLE YOGA CLASS WITH CREATIVE SEQUENCING, AND LESS INSTRUCTIONS. YOU WILL FIND SUN SALUTATIONS, STANDING POSTURES, BACK OPENING, INVERSIONS & TWISTING. IT IS A SWEATY, FUN & CHALLENGING YOGA CLASS. Intermediate and Advance level welcome.',
+			},
+			{
+				name: 'Yoga for Beginners',
+				description:
+					'Learn the Basics of Vinyasa & Ashtanga Yoga by the SY7 BODYBAR teachers who break down the poses for you in Yoga for Beginners.',
+			},
+			{
+				name: 'Yoga for Kids',
+				description:
+					'Kids yoga for start ! In this short-but-sweet class, we’ll practice simple techniques to get our bodies moving and minds centered. Perfect for kids to practice on their own, or for parents and kids to connect to their inner child together.',
+			},
+		];
+
+		for (let i = 0; i < styles.length; i++) {
+			const s = new Style({
+				name: styles[i].name,
+				description: styles[i].description,
+			});
+
+			await s.save();
+		}
 	},
 };

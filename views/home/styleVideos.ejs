@@ -69,6 +69,13 @@
 		gap: 2em;
 	}
 
+	.empty {
+		width: 400px;
+		height: 200px;
+		background: black;
+		margin-bottom: 10px;
+	}
+
 	.styleVideos .sv video {
 		width: 100%;
 	}
@@ -76,6 +83,13 @@
 	.title {
 		color: grey;
 		margin: 5px 0;
+	}
+
+	@media (max-width: 800px) {
+		.latest-video {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 </style>
 
@@ -86,7 +100,6 @@
 		(s.name == title) { %>
 		<br />
 		<p id="description"><%= s.description %></p>
-		<% } %> <% }) %> <% } %>
 		<br />
 		<button
 			class="w-btn"
@@ -97,11 +110,9 @@
 		</button>
 	</div>
 	<div class="video-thumbnail">
-		<img
-			src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
-			alt=""
-		/>
+		<img src="/images/<%= s.image %>" alt="" />
 	</div>
+	<% } %> <% }) %> <% } %>
 </div>
 
 <br />
@@ -112,7 +123,7 @@
 		<% videos.forEach(e => { %>
 		<div class="sv">
 			<% if (user == undefined) { %>
-			<video src="/video.mkv" controlsList="nodownload"></video>
+			<div class="empty"></div>
 			<% } else { %>
 			<video controls controlsList="nodownload">
 				<source

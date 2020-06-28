@@ -16,21 +16,36 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(250px, 380px));
 		gap: 3em;
+		grid-auto-flow: dense;
 	}
 
 	.styleVideos .sv img {
 		width: 100%;
+		height: 300px;
 		cursor: pointer;
 		transition: 0.4s ease-out;
+		border-radius: 5px;
 	}
 
 	.styleVideos .sv img:hover {
 		opacity: 0.9;
+		transform: scale(0.9);
 	}
 
 	.styleVideos .sv p {
 		color: grey;
 		font-size: 14px;
+	}
+
+	.style-name {
+		margin-top: 10px;
+		display: inline-block;
+	}
+
+	@media (max-width: 800px) {
+		section .styleVideos {
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		}
 	}
 </style>
 
@@ -40,22 +55,16 @@
 		<% videosArray.forEach(e => { %>
 		<div class="sv">
 			<a href="/yogaStyle/<%= e.name %>">
-				<img
-					src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
-					alt=""
-				/>
+				<img src="/images/<%= e.name %>.jpeg" />
 			</a>
-			<a href="/yogaStyle/<%= e.name %>"><%= e.name %></a>
+			<a class="style-name" href="/yogaStyle/<%= e.name %>"><%= e.name %></a>
 			<p><%= e.styles.length %> videos</p>
 		</div>
 		<% }) %>
 
 		<div class="sv">
 			<a href="/yogaStyle/all">
-				<img
-					src="/images/yoga-exercises-gate1-jill-WachterReverse-Diabetes-760x506.jpg"
-					alt=""
-				/>
+				<img src="/images/All Videos.jpeg" alt="" />
 			</a>
 			<a href="/yogaStyle/all">All Videos</a>
 			<% total = 0 %> <% videosArray.forEach(e => { %> <% total +=

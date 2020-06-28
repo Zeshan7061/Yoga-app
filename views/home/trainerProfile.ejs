@@ -67,6 +67,13 @@
 		margin-top: 3em;
 	}
 
+	.empty {
+		width: 300px;
+		height: 200px;
+		background: black;
+		margin-bottom: 10px;
+	}
+
 	.videos .video {
 		margin-bottom: 2em;
 	}
@@ -109,11 +116,7 @@
 		<% trainer.videos.forEach(video => { %>
 		<div class="video">
 			<% if (user == undefined) { %>
-			<video>
-				<source src="/video.mkv" type="video/mp4" />
-				<source src="/video.mkv" type="video/ogg" />
-				<source src="/video.mkv" type="video/webm" />
-			</video>
+			<div class="empty"></div>
 			<% } else { %>
 			<video controls controlsList="nodownload">
 				<source

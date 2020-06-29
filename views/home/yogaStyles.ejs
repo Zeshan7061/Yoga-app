@@ -55,7 +55,11 @@
 		<% videosArray.forEach(e => { %>
 		<div class="sv">
 			<a href="/yogaStyle/<%= e.name %>">
+				<% if (e.name == 'SY7 FLOW') { %>
+				<img src="/images/SY7 FLOW.jpeg" />
+				<% } else { %>
 				<img src="/images/<%= e.name %>.jpeg" />
+				<% } %>
 			</a>
 			<a class="style-name" href="/yogaStyle/<%= e.name %>"><%= e.name %></a>
 			<p><%= e.styles.length %> videos</p>

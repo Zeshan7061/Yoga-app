@@ -9,7 +9,7 @@
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
-		margin: 0;
+		margin: 2em 0;
 		padding: 2em 0;
 	}
 
@@ -51,8 +51,7 @@
 	}
 
 	.video-thumbnail img {
-		width: 70%;
-		border: 10px solid white;
+		width: 100%;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 	}
 
@@ -92,6 +91,30 @@
 	}
 	nav {
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	@media (max-width: 800px) {
+		.latest-video {
+			flex-direction: column;
+		}
+
+		.latest-video > div {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.latest-video .video-thumbnail img {
+			width: 100%;
+			border: none;
+		}
+
+		.empty {
+			width: 260px;
+			height: 150px;
+			background: black;
+			margin-bottom: 10px;
+		}
 	}
 </style>
 

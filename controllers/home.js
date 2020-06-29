@@ -666,7 +666,7 @@ module.exports = {
 	styleVideos: async (req, res) => {
 		if (req.params.style == 'all') {
 			Video.find().then((videos) => {
-				res.render('home/styleVideos', {
+				res.render('home/allVideos', {
 					videos,
 					title: 'All Videos',
 				});

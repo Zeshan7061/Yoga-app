@@ -5,7 +5,8 @@ const User = require('../models/User');
 const Trainer = require('../models/Trainer');
 const assert = require('assert');
 const { dateDifference } = require('../helpers/helper');
-const stripe = require('stripe')('sk_test_3DZ6KTMhZBauyttWpWGOGUhN00m48c75zE');
+const keys = require('../config/keys');
+const stripe = require('stripe')(keys.stripeSecretKey);
 const Message = require('../models/Message');
 const Video = require('../models/Video');
 const randomString = require('randomstring');
@@ -244,29 +245,6 @@ module.exports = {
 	subscriptionPage: (req, res) => {
 		res.render('home/checkout');
 	},
-
-	/* payCharges: (req, res) => {
-		const stripe = require('stripe')(
-			'sk_test_3DZ6KTMhZBauyttWpWGOGUhN00m48c75zE'
-		);
-
-		const token = req.body;
-		console.log(token);
-
-		(async () => {
-			const charge = await stripe.charges.create({
-				amount: req.body.duration,
-				currency: 'usd',
-				source: 'tok_amex',
-				description: 'My First Test Charge (created for API docs)',
-			});
-
-			if (charge.status == 'succeeded') {
-				console.log(charge);
-				res.send('Success');
-			}
-		})();
-	}, */
 
 	yogaVideo: (req, res) => {
 		res.render('home/video');

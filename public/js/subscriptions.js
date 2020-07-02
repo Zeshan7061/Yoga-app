@@ -11,14 +11,12 @@ $(document).ready(() => {
 	readMore.addEventListener('click', (e) => {
 		e.preventDefault();
 
-		console.log(siteInfo.style.height);
-
 		if (siteInfo.style.height == '' || siteInfo.style.height == '70px')
 			siteInfo.style.height = '220px';
 		else if (siteInfo.style.height == '220px') siteInfo.style.height = '70px';
 	});
 
-	const stripe = Stripe('pk_test_cEXNadDQNqp5JS18q7iIlAUG00AxGmzxXG');
+	const stripe = Stripe('pk_live_s7kRicWHwJkIujrgQtbxkYcU0046cnTPOd');
 	const elements = stripe.elements();
 	const form = $('#payment-form');
 	const style = {

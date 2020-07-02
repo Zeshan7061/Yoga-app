@@ -47,9 +47,6 @@ router.all('/*', (req, res, next) => {
 
 router.route('/').get(home);
 
-//router.get('/charge', payCharges);
-//router.post('/charge', payCharges);
-
 router.get('/subscription', subscriptionPage);
 
 router.route('/register/:url?').get(signUpPage).post(signUp);

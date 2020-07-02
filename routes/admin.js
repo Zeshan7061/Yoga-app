@@ -98,6 +98,6 @@ router.get('/queries', customerQueries);
 
 router.get('/delete/:id', removeQuery);
 
-router.get('/addStyles', addStyles);
+//router.get('/addStyles', addStyles);
 
 module.exports = router;

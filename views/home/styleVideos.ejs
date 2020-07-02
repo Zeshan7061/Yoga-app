@@ -101,11 +101,7 @@
 		<br />
 		<p id="description"><%= s.description %></p>
 		<br />
-		<button
-			class="w-btn"
-			onclick="return false"
-			onmousedown="scrollToVideos('styleVid')"
-		>
+		<button class="w-btn" onclick="scrollToVideos('styleVid')">
 			Watch Now
 		</button>
 	</div>
@@ -148,25 +144,9 @@
 
 <script>
 	function scrollToVideos(el) {
-		var scrollY = 0;
-		var distance = 40;
-		var speed = 24;
-
-		const currentY = window.pageYOffset;
-		const targetY = document.getElementById(el).offsetTop - 200;
-		const bodyHeight = document.body.offsetHeight;
-		const yPos = currentY + window.innerHeight;
-		const animator = setTimeout("scrollToVideos('" + el + "')", 20);
-
-		if (yPos > bodyHeight) {
-			clearTimeout(animator);
-		} else {
-			if (currentY < targetY - distance) {
-				scrollY = currentY + distance;
-				window.scroll(0, scrollY);
-			} else {
-				clearTimeout(animator);
-			}
-		}
+		scroll({
+			top: document.getElementById(el).offsetTop - 100,
+			behavior: 'smooth',
+		});
 	}
 </script>

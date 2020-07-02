@@ -5,8 +5,7 @@ const User = require('../models/User');
 const Trainer = require('../models/Trainer');
 const assert = require('assert');
 const { dateDifference } = require('../helpers/helper');
-const keys = require('../config/keys');
-const stripe = require('stripe')(keys.stripeSecretKey);
+const stripe = require('stripe')('sk_test_ZnxrEPwVjRfQSYPydcqsz9nf00o6uNe0mk');
 const Message = require('../models/Message');
 const Video = require('../models/Video');
 const randomString = require('randomstring');
@@ -652,14 +651,14 @@ module.exports = {
 		} else {
 			const styles = await Style.find();
 
-			Video.find({
+			const videos = await Video.find({
 				'video.style': req.params.style,
-			}).then((videos) => {
-				res.render('home/styleVideos', {
-					videos,
-					styles,
-					title: videos[0].video.style,
-				});
+			});
+
+			res.render('home/styleVideos', {
+				videos,
+				styles,
+				title: videos[0].video.style,
 			});
 		}
 	},
